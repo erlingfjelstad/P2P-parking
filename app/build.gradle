@@ -1,0 +1,91 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: "kotlin-kapt"
+
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "eu.vincinity2020.p2p_parking"
+        minSdkVersion 23
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+androidExtensions {
+    experimental = true
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "com.android.support:appcompat-v7:${libs.design}"
+    implementation "com.android.support:design:${libs.design}"
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    // Android architecture
+    implementation "android.arch.persistence.room:runtime:${libs.archcomponent}"
+    kapt "android.arch.persistence.room:compiler:${libs.archcomponent}"
+    implementation "android.arch.persistence.room:runtime:${libs.archcomponent}"
+    implementation "android.arch.persistence.room:rxjava2:${libs.archcomponent}"
+    implementation "android.arch.lifecycle:runtime:${libs.archcomponent}"
+    // lifecycle
+    implementation "android.arch.lifecycle:extensions:${libs.archcomponent}"
+    testImplementation "android.arch.core:core-testing:${libs.archcomponent}"
+    // Room Rx support
+    implementation "android.arch.persistence.room:rxjava2:${libs.archcomponent}"
+    // ReactiveX
+    implementation "io.reactivex.rxjava2:rxjava:${libs.rxjava}"
+    implementation "io.reactivex.rxjava2:rxandroid:${libs.rxandroid}"
+    // Dagger2
+    implementation "com.google.dagger:dagger:${libs.dagger}"
+    kapt "com.google.dagger:dagger-compiler:${libs.dagger}"
+
+    // Jake Wharton
+
+    implementation "com.jakewharton:butterknife:${libs.butterknife}"
+    kapt "com.jakewharton:butterknife-compiler:${libs.butterknife}"
+
+    // Android
+    implementation "com.android.support.constraint:constraint-layout:${libs.constraint}"
+    implementation "com.android.support:recyclerview-v7:${libs.recyclerview}"
+
+    // square
+    implementation("com.squareup.retrofit2:retrofit:${libs.retrofit}") {
+        exclude module: 'okhttp'
+    }
+    implementation "com.squareup.retrofit2:converter-gson:${libs.retrofit}"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:${libs.retrofit}"
+    implementation "com.squareup.okhttp3:logging-interceptor:${libs.logginginterceptor}"
+
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.8.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+
+    // open street map
+
+    implementation "org.osmdroid:osmdroid-android:${libs.openstreetmap}"
+    api("com.github.MKergall:osmbonuspack:6.5.2") {
+        exclude module: 'support-v4'
+    }
+
+}

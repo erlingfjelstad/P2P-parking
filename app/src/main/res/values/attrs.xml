@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ParkingSpotCardView">
+        <attr name="dismissable" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="ProfileRow">
+        <attr name="imageStart" format="reference" />
+        <attr name="text" format="string" />
+    </declare-styleable>
+</resources>

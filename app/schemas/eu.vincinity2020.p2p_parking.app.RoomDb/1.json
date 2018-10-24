@@ -1,0 +1,119 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "607068063727bd3615ac364b063b58e7",
+    "entities": [
+      {
+        "tableName": "Car",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`carId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `licencePlate` TEXT NOT NULL, `isDefault` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "carId",
+            "columnName": "carId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "licencePlate",
+            "columnName": "licencePlate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isDefault",
+            "columnName": "isDefault",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "carId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "licencePlate",
+            "unique": true,
+            "columnNames": [
+              "licencePlate"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `licencePlate` ON `${TABLE_NAME}` (`licencePlate`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Trip",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `carId` INTEGER NOT NULL, `fromDate` INTEGER NOT NULL, `toDate` INTEGER NOT NULL, `parkingSpotName` TEXT NOT NULL, FOREIGN KEY(`carId`) REFERENCES `Car`(`carId`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "carId",
+            "columnName": "carId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fromDate",
+            "columnName": "fromDate",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "toDate",
+            "columnName": "toDate",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "parkingSpotName",
+            "columnName": "parkingSpotName",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "carId",
+            "unique": false,
+            "columnNames": [
+              "carId"
+            ],
+            "createSql": "CREATE  INDEX `carId` ON `${TABLE_NAME}` (`carId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Car",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "carId"
+            ],
+            "referencedColumns": [
+              "carId"
+            ]
+          }
+        ]
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"607068063727bd3615ac364b063b58e7\")"
+    ]
+  }
+}

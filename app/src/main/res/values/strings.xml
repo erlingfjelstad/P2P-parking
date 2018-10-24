@@ -1,0 +1,77 @@
+<resources>
+    <string name="app_name">p2p-parking</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_invalid_input">The input provided is invalid</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="action_register_user">Register</string>
+    <string name="activity_register_user">Register user</string>
+    <string name="prompt_first_name">First name</string>
+    <string name="prompt_surname">Surname</string>
+    <string name="prompt_date_of_birth">Press to select date of birth</string>
+    <string name="activity_map">Parking spots</string>
+    <string name="search_hint">Where are you going?</string>
+    <string name="activity_search">Search</string>
+    <string name="activity_choose_parking_spot">Choose parking spot</string>
+    <string name="activity_book_parking_spot">Book</string>
+    <string name="prompt_from_date">From</string>
+    <string name="prompt_to_date">To</string>
+    <string name="book_parking_spot">Book</string>
+    <string name="activity_reciept">Receipt</string>
+    <string name="title_reciept">Successfully booked</string>
+    <string name="content_reciept">You have successfully booked %s from %s to %s</string>
+    <string name="ok">OK</string>
+    <string name="search_empty_state">No results found</string>
+    <string name="activity_login">Log in</string>
+
+    <string name="bottom_navigation_map">Map</string>
+    <string name="bottom_navigation_favorites">Favorites</string>
+    <string name="bottom_navigation_profile">Profile</string>
+    <string name="profile">My profile</string>
+    <string name="my_cars">My cars</string>
+    <string name="edit_profile">Edit profile</string>
+    <string name="activity_my_cars">My cars</string>
+    <string name="prompt_registration_number">Registration number</string>
+    <string name="car_added">Car added!</string>
+    <string name="car_defaulted">Car defaulted</string>
+    <string name="bottom_navigation_trips">Trips</string>
+
+    <!--Months and days -->
+    <string name="january">January</string>
+    <string name="february">February</string>
+    <string name="march">March</string>
+    <string name="april">April</string>
+    <string name="may">May</string>
+    <string name="june">June</string>
+    <string name="july">July</string>
+    <string name="august">August</string>
+    <string name="september">September</string>
+    <string name="oktober">Oktober</string>
+    <string name="november">November</string>
+    <string name="december">December</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
+    <string name="morning">Morning</string>
+    <string name="after_noon">After noon</string>
+
+    <string-array name="genders">
+        <item>Choose gender</item>
+        <item>Male</item>
+        <item>Female</item>
+        <item>Other</item>
+    </string-array>
+</resources>
