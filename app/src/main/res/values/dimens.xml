@@ -6,4 +6,7 @@
     <dimen name="form_field_margin">8dp</dimen>
     <dimen name="form_field_margin_double">16dp</dimen>
     <dimen name="activity_vertical_margin_double">32dp</dimen>
+    <dimen name="default_corner_radius">5dp</dimen>
+    <dimen name="dp10">10dp</dimen>
+    <dimen name="dp5">5dp</dimen>
 </resources>

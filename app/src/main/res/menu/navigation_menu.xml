@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:ignore="MissingDefaultResource">
+
+    <item
+        android:id="@+id/menu_home"
+        android:enabled="true"
+        android:title="@string/home"
+        android:visible="true"
+        android:icon="@drawable/nav_home"
+        app:showAsAction="ifRoom|withText" />
+
+    <item
+        android:id="@+id/menu_view_profile"
+        android:enabled="true"
+        android:title="@string/view_profile"
+        android:visible="true"
+        android:icon="@drawable/nav_profile"
+        app:showAsAction="ifRoom|withText" />
+
+    <item
+        android:id="@+id/menu_my_locations"
+        android:enabled="true"
+        android:title="@string/my_location"
+        android:visible="true"
+        android:icon="@drawable/nav_saved_locations"
+        app:showAsAction="ifRoom|withText" />
+
+    <item
+        android:id="@+id/menu_registered_vehicles"
+        android:enabled="true"
+        android:title="@string/registered_vehicles"
+        android:visible="true"
+        android:icon="@drawable/nav_saved_vehicles"
+        app:showAsAction="ifRoom|withText" />
+
+    <item
+        android:id="@+id/menu_my_bookings"
+        android:enabled="true"
+        android:visible="true"
+        android:title="@string/my_bookings"
+        android:icon="@drawable/nav_my_bookings"
+        app:showAsAction="ifRoom|withText" />
+
+    <item
+        android:id="@+id/menu_log_out"
+        android:enabled="true"
+        android:visible="true"
+        android:icon="@drawable/nav_logout"
+        android:title="@string/logout"
+        app:showAsAction="ifRoom|withText" />
+
+
+</menu>

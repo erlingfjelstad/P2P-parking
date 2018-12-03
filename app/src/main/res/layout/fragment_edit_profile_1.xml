@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bg">
+
+    <FrameLayout
+        android:id="@+id/containerToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include  layout="@layout/layout_toolbar"/>
+    </FrameLayout>
+    <TextView
+        android:id="@+id/tvProfile1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Userinfo 1"
+        android:gravity="center_horizontal"
+        android:padding="5dp"
+        android:background="@color/button_blue_dark"
+        app:layout_constraintEnd_toStartOf="@+id/tvProfile2"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/containerToolbar" />
+
+    <TextView
+        android:id="@+id/tvProfile2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Userinfo 2"
+        android:gravity="center_horizontal"
+        android:background="@color/button_blue_light"
+        android:padding="5dp"
+        app:layout_constraintEnd_toStartOf="@+id/tvProfile3"
+        app:layout_constraintStart_toEndOf="@+id/tvProfile1"
+        app:layout_constraintTop_toBottomOf="@id/containerToolbar" />
+
+    <TextView
+        android:id="@+id/tvProfile3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Userinfo 3"
+        android:gravity="center_horizontal"
+        android:background="@color/button_blue_light"
+        android:padding="5dp"
+        app:layout_constraintStart_toEndOf="@+id/tvProfile2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/containerToolbar" />
+
+
+
+    <android.support.constraint.Barrier
+        android:id="@+id/barrierTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="tvProfile1,tvProfile2,tvProfile3" />
+
+
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/BlueButtonDark"
+        android:text="@string/cancel"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <Button
+        android:id="@+id/btnUpdateInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/BlueButtonDark"
+        android:layout_marginBottom="@dimen/button_vertical_margin"
+        android:layout_marginStart="@dimen/activity_vertical_margin"
+        android:layout_marginEnd="@dimen/activity_vertical_margin"
+        android:text="@string/update_your_info"
+        app:layout_constraintBottom_toTopOf="@id/btnCancel"/>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        app:layout_constraintTop_toBottomOf="@id/barrierTop"
+        app:layout_constraintBottom_toTopOf="@id/btnUpdateInfo">
+
+
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/layoutEtEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hintEnabled="false"
+            android:layout_marginStart="@dimen/activity_vertical_margin"
+            android:layout_marginEnd="@dimen/activity_vertical_margin"
+            android:background="@drawable/blue_border_white_box"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/form_field_margin">
+
+            <EditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/prompt_email"
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:singleLine="true"
+                />
+
+        </android.support.design.widget.TextInputLayout>
+
+   <!--     <android.support.design.widget.TextInputLayout
+            android:id="@+id/layoutEtUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/blue_border_white_box"
+            app:layout_constraintTop_toTopOf="parent"
+            app:hintEnabled="false"
+            android:layout_marginBottom="@dimen/form_field_margin">
+
+            <EditText
+                android:id="@+id/etUsername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/prompt_username"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:maxLines="1"
+                android:enabled="false"
+                android:clickable="false"
+                android:focusableInTouchMode="false"
+                android:singleLine="true"
+                />
+
+        </android.support.design.widget.TextInputLayout>
+-->
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/layoutEtFName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toStartOf="@id/layoutEtLName"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="@dimen/activity_vertical_margin"
+            android:background="@drawable/blue_border_white_box"
+            app:layout_constraintTop_toBottomOf="@id/layoutEtEmail"
+            android:layout_marginTop="@dimen/form_field_margin">
+
+            <EditText
+                android:id="@+id/etFirstName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/prompt_first_name"
+                android:imeOptions="actionNext"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+                android:singleLine="true"
+                />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/layoutEtLName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="@dimen/activity_vertical_margin"
+            android:layout_marginEnd="@dimen/activity_vertical_margin"
+            app:layout_constraintStart_toEndOf="@id/layoutEtFName"
+            android:background="@drawable/blue_border_white_box"
+            app:layout_constraintTop_toBottomOf="@id/layoutEtEmail"
+            android:layout_marginTop="@dimen/form_field_margin">
+
+            <EditText
+                android:id="@+id/etLastName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/prompt_last_name"
+                android:imeOptions="actionNext"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+                android:singleLine="true"
+                />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/layoutEtPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hintEnabled="false"
+            android:layout_marginStart="@dimen/activity_vertical_margin"
+            android:layout_marginEnd="@dimen/activity_vertical_margin"
+            android:background="@drawable/blue_border_white_box"
+            app:layout_constraintTop_toBottomOf="@id/layoutEtLName"
+            android:layout_marginTop="@dimen/form_field_margin">
+
+            <EditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/prompt_password"
+                android:imeOptions="actionNext"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:singleLine="true"
+                />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/layoutEtRepeatPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hintEnabled="false"
+            android:layout_marginStart="@dimen/activity_vertical_margin"
+            android:layout_marginEnd="@dimen/activity_vertical_margin"
+            android:background="@drawable/blue_border_white_box"
+            app:layout_constraintTop_toBottomOf="@id/layoutEtPassword"
+            android:layout_marginTop="@dimen/form_field_margin">
+
+            <EditText
+                android:id="@+id/etRepeatPass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/prompt_repeat_password"
+                android:imeOptions="actionNext"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:singleLine="true"
+                />
+
+        </android.support.design.widget.TextInputLayout>
+
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/layoutEtMobile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hintEnabled="false"
+            android:layout_marginStart="@dimen/activity_vertical_margin"
+            android:layout_marginEnd="@dimen/activity_vertical_margin"
+            android:background="@drawable/blue_border_white_box"
+            app:layout_constraintTop_toBottomOf="@id/layoutEtRepeatPass"
+            android:layout_marginTop="@dimen/form_field_margin">
+
+            <EditText
+                android:id="@+id/etMobile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/prompt_contact_number"
+                android:imeOptions="actionGo"
+                android:inputType="phone"
+                android:maxLines="1"
+                android:singleLine="true"
+                />
+
+        </android.support.design.widget.TextInputLayout>
+
+
+
+    </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>

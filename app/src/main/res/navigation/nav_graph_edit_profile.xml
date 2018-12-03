@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph_edit_profile"
+    app:startDestination="@id/mapFragment">
+
+    <fragment
+        android:id="@+id/addLocationFragment"
+        android:name="eu.vincinity2020.p2p_parking.ui.mylocations.addlocation.AddLocationFragment"
+        android:label="AddLocationFragment" />
+    <fragment
+        android:id="@+id/myLocationListFragment"
+        android:name="eu.vincinity2020.p2p_parking.ui.mylocations.locationlist.MyLocationListFragment"
+        android:label="MyLocationListFragment" >
+        <action
+            android:id="@+id/action_myLocationListFragment_to_addLocationFragment"
+            app:destination="@id/addLocationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="eu.vincinity2020.p2p_parking.ui.map.MapFragment"
+        android:label="MapFragment" />
+</navigation>

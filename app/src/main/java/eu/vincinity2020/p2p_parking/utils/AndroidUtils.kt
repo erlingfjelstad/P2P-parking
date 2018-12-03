@@ -10,7 +10,7 @@ class AndroidUtils {
                            fragment: Fragment,
                            viewId: Int,
                            tag: String) {
-            fragmentManager.beginTransaction().replace(viewId, fragment, tag).commit()
+            fragmentManager.beginTransaction().replace(viewId, fragment, tag).addToBackStack(tag).commit()
         }
     }
 

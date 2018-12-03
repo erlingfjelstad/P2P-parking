@@ -4,13 +4,13 @@ import android.arch.persistence.room.Room
 import android.content.Context
 import dagger.Module
 import dagger.Provides
-import eu.vincinity2020.p2p_parking.common.ApplicationScope
-import eu.vincinity2020.p2p_parking.dao.CarDao
-import eu.vincinity2020.p2p_parking.dao.TripDao
-import eu.vincinity2020.p2p_parking.repositories.CarRepository
-import eu.vincinity2020.p2p_parking.repositories.CarRepositoryImpl
-import eu.vincinity2020.p2p_parking.repositories.TripRepository
-import eu.vincinity2020.p2p_parking.repositories.TripRepositoryImpl
+import eu.vincinity2020.p2p_parking.app.common.ApplicationScope
+import eu.vincinity2020.p2p_parking.data.dao.CarDao
+import eu.vincinity2020.p2p_parking.data.dao.TripDao
+import eu.vincinity2020.p2p_parking.data.repositories.CarRepository
+import eu.vincinity2020.p2p_parking.data.repositories.CarRepositoryImpl
+import eu.vincinity2020.p2p_parking.data.repositories.TripRepository
+import eu.vincinity2020.p2p_parking.data.repositories.TripRepositoryImpl
 
 @Module
 @ApplicationScope

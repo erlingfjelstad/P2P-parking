@@ -1,22 +1,26 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="NoActionBar.Launcher" parent="NoActionBar">
+    <style name="NoActionBar.Launcher" parent="AppTheme">
         <item name="android:windowBackground">@drawable/ic_launcher_foreground</item>
     </style>
 
-    <style name="NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="NoActionBar" parent="AppTheme">
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowTranslucentStatus">true</item>
     </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="BottomNavigation">
         <item name="android:background">@color/true_white</item>
@@ -27,5 +31,58 @@
         <item name="paddingEnd">@dimen/bottom_navigation_padding</item>
     </style>
 
+
+
+    <style name="ProfileTextBox" parent="Base.TextAppearance.AppCompat">
+
+        <item name="android:focusableInTouchMode">false</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:clickable">false</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:background">@drawable/white_round_box</item>
+    </style>
+
+    <style name="BlueButtonDark" parent="Widget.AppCompat.Button">
+
+        <item name="android:background">@color/button_blue_dark</item>
+        <item name="android:textColor">@color/true_white</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="BlueButtonLight" parent="Widget.AppCompat.Button">
+
+        <item name="android:background">@color/button_blue_light</item>
+        <item name="android:textColor">@color/true_white</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="DefaultTextView">
+
+    </style>
+
+
+    <style name="RegistrationInputText" parent="DefaultTextView">
+
+      <item name="android:maxLines">1</item>
+        <item name="android:paddingStart">@dimen/dp5</item>
+        <item name="android:paddingEnd">@dimen/dp5</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:imeOptions">actionNext</item>
+    </style>
+
+    <style name="ProfileTextBoxes" parent="DefaultTextView">
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:drawablePadding">@dimen/dp10</item>
+        <item name="android:paddingTop">@dimen/dp10</item>
+        <item name="android:paddingBottom">@dimen/dp10</item>
+        <item name="android:textColor">@color/true_white</item>
+        <item name="android:layout_marginStart">@dimen/dp10</item>
+        <item name="android:layout_marginEnd">@dimen/dp10</item>
+        <item name="android:layout_marginTop">@dimen/activity_vertical_margin</item>
+        <item name="android:background">@color/button_blue_dark</item>
+    </style>
     <dimen name="bottom_navigation_padding">4dp</dimen>
 </resources>

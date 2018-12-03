@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg">
+
+
+
+    <FrameLayout
+        android:id="@+id/containerToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include  layout="@layout/layout_toolbar"/>
+    </FrameLayout>
+    <Button
+        android:id="@+id/btnCancel"
+        style="@style/BlueButtonDark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/cancel"
+        android:layout_marginStart="@dimen/activity_vertical_margin"
+        android:layout_marginEnd="@dimen/activity_vertical_margin"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <Button
+        android:id="@+id/btnUpdateInfo"
+        style="@style/BlueButtonDark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/button_vertical_margin"
+        android:layout_marginStart="@dimen/activity_vertical_margin"
+        android:layout_marginEnd="@dimen/activity_vertical_margin"
+        android:text="@string/update_your_info"
+        app:layout_constraintBottom_toTopOf="@id/btnCancel" />
+
+
+
+
+    <TextView
+        android:id="@+id/tvProfile1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Userinfo 1"
+        android:gravity="center_horizontal"
+        android:padding="5dp"
+        android:background="@color/button_blue_light"
+        app:layout_constraintEnd_toStartOf="@+id/tvProfile2"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/containerToolbar" />
+
+    <TextView
+        android:id="@+id/tvProfile2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Userinfo 2"
+        android:gravity="center_horizontal"
+        android:background="@color/button_blue_dark"
+        android:padding="5dp"
+        app:layout_constraintEnd_toStartOf="@+id/tvProfile3"
+        app:layout_constraintStart_toEndOf="@+id/tvProfile1"
+        app:layout_constraintTop_toBottomOf="@id/containerToolbar" />
+
+    <TextView
+        android:id="@+id/tvProfile3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Userinfo 3"
+        android:gravity="center_horizontal"
+        android:background="@color/button_blue_light"
+        android:padding="5dp"
+        app:layout_constraintStart_toEndOf="@+id/tvProfile2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/containerToolbar" />
+
+
+
+    <android.support.constraint.Barrier
+        android:id="@+id/barrierTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="tvProfile1,tvProfile2,tvProfile3" />
+
+
+
+    <TextView
+        android:id="@+id/labelUserType"
+        style="@style/DefaultTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/button_blue_light"
+        android:gravity="center_horizontal"
+        android:padding="5dp"
+        android:text="@string/your_usertype"
+        android:layout_marginStart="@dimen/activity_vertical_margin"
+        android:layout_marginEnd="@dimen/activity_vertical_margin"
+        android:textColor="@color/button_blue_dark"
+        app:layout_constraintTop_toBottomOf="@id/barrierTop"
+        android:layout_marginTop="@dimen/activity_vertical_margin"/>
+
+    <TextView
+        android:id="@+id/tvDriver"
+        style="@style/ProfileTextBoxes"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawableTop="@drawable/ic_userrole_driver"
+        android:text="@string/driver"
+        app:layout_constraintEnd_toStartOf="@+id/tvOwner"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/labelUserType" />
+
+
+    <TextView
+        android:id="@+id/tvOwner"
+        style="@style/ProfileTextBoxes"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawableTop="@drawable/ic_userrole_owner"
+        android:text="@string/owner"
+        app:layout_constraintEnd_toStartOf="@+id/tvHealth"
+        app:layout_constraintStart_toEndOf="@+id/tvDriver"
+        app:layout_constraintTop_toBottomOf="@+id/labelUserType" />
+
+    <TextView
+        android:id="@+id/tvHealth"
+        style="@style/ProfileTextBoxes"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawableTop="@drawable/ic_userrole_medical"
+        android:text="@string/health"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvOwner"
+        app:layout_constraintTop_toBottomOf="@+id/labelUserType" />
+
+
+
+
+    <android.support.constraint.Barrier
+        android:id="@+id/barrier1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="tvDriver,tvOwner,tvHealth" />
+
+    <!--Parking preferences-->
+    <TextView
+        android:id="@+id/labelParkingPref"
+        style="@style/DefaultTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/button_blue_light"
+        android:gravity="center_horizontal"
+        android:padding="5dp"
+        android:layout_marginStart="@dimen/activity_vertical_margin"
+        android:layout_marginEnd="@dimen/activity_vertical_margin"
+        app:layout_constraintTop_toBottomOf="@id/barrier1"
+        android:layout_marginTop="@dimen/activity_vertical_margin_double"
+        android:text="@string/your_usertype"
+        android:textColor="@color/button_blue_dark" />
+
+
+
+    <TextView
+        android:id="@+id/tvNone"
+        style="@style/ProfileTextBoxes"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawableTop="@drawable/ic_parking_standard"
+        android:text="@string/normal"
+        app:layout_constraintEnd_toStartOf="@+id/tvElectrical"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/labelParkingPref" />
+
+
+    <TextView
+        android:id="@+id/tvElectrical"
+        style="@style/ProfileTextBoxes"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawableTop="@drawable/ic_parking_electrical"
+        android:text="@string/electrical"
+        app:layout_constraintEnd_toStartOf="@+id/tvHandicap"
+        app:layout_constraintStart_toEndOf="@+id/tvNone"
+        app:layout_constraintTop_toBottomOf="@+id/labelParkingPref" />
+
+    <TextView
+        android:id="@+id/tvHandicap"
+        style="@style/ProfileTextBoxes"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawableTop="@drawable/ic_parking_handicap"
+        android:text="@string/handicap"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvElectrical"
+        app:layout_constraintTop_toBottomOf="@+id/labelParkingPref" />
+
+
+</android.support.constraint.ConstraintLayout>

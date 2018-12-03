@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <FrameLayout
+        android:id="@+id/containerToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <include  layout="@layout/layout_toolbar"/>
+    </FrameLayout>
     <org.osmdroid.views.MapView
         android:id="@+id/map"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top|center" />
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/containerToolbar"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <eu.vincinity2020.p2p_parking.compoundviews.ParkingSpotCardView
+    <eu.vincinity2020.p2p_parking.utils.compoundviews.ParkingSpotCardView
         android:id="@+id/parking_spot_card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         app:dismissable="true"
@@ -33,6 +40,7 @@
         android:backgroundTint="@color/divider"
         app:cardCornerRadius="4dp"
         app:cardElevation="4dp"
+        app:layout_constraintTop_toBottomOf="@id/containerToolbar"
         app:cardPreventCornerOverlap="true">
 
         <EditText
@@ -50,4 +58,4 @@
     </android.support.design.card.MaterialCardView>
 
 
-</android.support.design.widget.CoordinatorLayout>
+</android.support.constraint.ConstraintLayout>

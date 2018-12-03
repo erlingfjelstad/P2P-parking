@@ -3,7 +3,9 @@
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
+    <string name="enter_your_email">Enter your email</string>
     <string name="prompt_password">Password</string>
+    <string name="enter_your_password">Enter your password</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
@@ -17,6 +19,10 @@
     <string name="activity_register_user">Register user</string>
     <string name="prompt_first_name">First name</string>
     <string name="prompt_surname">Surname</string>
+    <string name="prompt_last_name">Last name</string>
+
+    <string name="prompt_country">Country</string>
+    <string name="prompt_contact_number">Contact number</string>
     <string name="prompt_date_of_birth">Press to select date of birth</string>
     <string name="activity_map">Parking spots</string>
     <string name="search_hint">Where are you going?</string>
@@ -68,10 +74,49 @@
     <string name="morning">Morning</string>
     <string name="after_noon">After noon</string>
 
+
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <string name="fcm_message">p2p-parking update</string>
+    <string name="select_country">Select country</string>
+    <string name="click_here"><u>Click here</u></string>
+    <string name="cancel">Cancel</string>
+    <string name="update_your_info">Update your info</string>
+    <string name="prompt_repeat_password">Repeat password</string>
+    <string name="prompt_username">Username</string>
+    <string name="unable_to_connect_to_server">Unable to connect server</string>
+    <string name="your_usertype">Your usertype</string>
+    <string name="driver">Driver</string>
+    <string name="owner">Owner</string>
+    <string name="health">Health</string>
+    <string name="normal">Normal</string>
+    <string name="electrical">Electrical</string>
+    <string name="handicap">Handicap</string>
+    <string name="your_gender">Your gender</string>
+    <string name="disabilities">Disabilities</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="other">Other</string>
+    <string name="none">None</string>
+    <string name="wheelchair">Wheelchair</string>
+    <string name="handicap_parking_permission">Handicap parking permission</string>
+    <string name="i_have_a_valid_parking">I have a valid parking permission</string>
+    <string name="your_birthday">Your birthday</string>
+    <string name="home">Home</string>
+    <string name="view_profile">View profile</string>
+    <string name="logout">Logout</string>
+    <string name="registered_vehicles">Registered vehicles</string>
+    <string name="my_bookings">My bookings</string>
+    <string name="add_new_location">Add new location</string>
+    <string name="enter_location_description">Enter location description</string>
+
     <string-array name="genders">
-        <item>Choose gender</item>
         <item>Male</item>
         <item>Female</item>
         <item>Other</item>
+    </string-array>
+ <string-array name="user_roles">
+        <item>Driver</item>
+        <item>Owner</item>
+        <item>Medical</item>
     </string-array>
 </resources>

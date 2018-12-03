@@ -2,8 +2,13 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#EC651C</color>
     <color name="divider">#1FFFFFFF</color>
     <color name="true_white">#FFFFFF</color>
     <color name="true_black">#000000</color>
+
+    <color name="button_blue_dark">#4B77CA</color>
+    <color name="button_blue_light">#ADCCEA</color>
+    <color name="gray">#444444</color>
+    <color name="gray_light">#D3D3D3</color>
 </resources>

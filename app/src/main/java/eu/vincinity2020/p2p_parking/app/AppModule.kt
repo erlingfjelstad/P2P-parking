@@ -4,7 +4,8 @@ import android.app.Application
 import android.content.Context
 import dagger.Module
 import dagger.Provides
-import eu.vincinity2020.p2p_parking.common.ApplicationScope
+import eu.vincinity2020.p2p_parking.app.common.ApplicationScope
+import eu.vincinity2020.p2p_parking.app.network.NetworkModule
 
 @Module
 class AppModule(application: Application) {
