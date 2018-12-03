@@ -15,6 +15,7 @@ class App : Application() {
             return context.applicationContext as App
         }
 
+
     }
 
     override fun onCreate() {

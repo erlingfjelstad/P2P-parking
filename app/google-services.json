@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "974705718973",
+    "firebase_url": "https://p2p-park.firebaseio.com",
+    "project_id": "p2p-park",
+    "storage_bucket": "p2p-park.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:974705718973:android:8003bb1d3f2ceed9",
+        "android_client_info": {
+          "package_name": "eu.vincinity2020.p2p_parking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "974705718973-l81civ1832qh2j33h6mb5lm18vfcojoe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjWv6a9_Z4uiokIqdqZLeTzXVLVsAVLR0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

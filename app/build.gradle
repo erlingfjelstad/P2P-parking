@@ -10,7 +10,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "eu.vincinity2020.p2p_parking"
-        minSdkVersion 23
+        minSdkVersion 22
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -43,6 +43,9 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
+    // Navigation controller Dependencies
+    implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha07"
+    implementation "android.arch.navigation:navigation-ui-ktx:1.0.0-alpha07"
     // Android architecture
     implementation "android.arch.persistence.room:runtime:${libs.archcomponent}"
     kapt "android.arch.persistence.room:compiler:${libs.archcomponent}"
@@ -60,7 +63,8 @@ dependencies {
     // Dagger2
     implementation "com.google.dagger:dagger:${libs.dagger}"
     kapt "com.google.dagger:dagger-compiler:${libs.dagger}"
-
+    implementation "com.google.dagger:dagger-android:${libs.dagger}"
+    implementation "com.google.dagger:dagger-android-support:${libs.dagger}"
     // Jake Wharton
 
     implementation "com.jakewharton:butterknife:${libs.butterknife}"
@@ -81,6 +85,8 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.8.0'
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
 
+    implementation 'com.google.firebase:firebase-core:16.0.5'
+    implementation "com.google.firebase:firebase-messaging:17.3.4"
     // open street map
 
     implementation "org.osmdroid:osmdroid-android:${libs.openstreetmap}"
@@ -89,3 +95,5 @@ dependencies {
     }
 
 }
+apply plugin: 'com.google.gms.google-services'
+

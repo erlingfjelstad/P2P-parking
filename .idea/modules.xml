@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/P2P-parking.iml" filepath="$PROJECT_DIR$/P2P-parking.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/p2pparking.iml" filepath="$PROJECT_DIR$/p2pparking.iml" />
     </modules>
   </component>
 </project>
