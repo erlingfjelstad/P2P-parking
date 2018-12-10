@@ -104,27 +104,27 @@
         android:layout_marginTop="@dimen/activity_vertical_margin"/>
 
     <TextView
-        android:id="@+id/tvDriver"
+        android:id="@+id/tvCar"
         style="@style/ProfileTextBoxes"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:drawableTop="@drawable/ic_userrole_driver"
         android:text="@string/driver"
-        app:layout_constraintEnd_toStartOf="@+id/tvOwner"
+        app:layout_constraintEnd_toStartOf="@+id/tvVan"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/labelUserType" />
 
 
     <TextView
-        android:id="@+id/tvOwner"
+        android:id="@+id/tvVan"
         style="@style/ProfileTextBoxes"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:drawableTop="@drawable/ic_userrole_owner"
         android:text="@string/owner"
         app:layout_constraintEnd_toStartOf="@+id/tvHealth"
-        app:layout_constraintStart_toEndOf="@+id/tvDriver"
+        app:layout_constraintStart_toEndOf="@+id/tvCar"
         app:layout_constraintTop_toBottomOf="@+id/labelUserType" />
 
     <TextView
@@ -135,7 +135,7 @@
         android:drawableTop="@drawable/ic_userrole_medical"
         android:text="@string/health"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvOwner"
+        app:layout_constraintStart_toEndOf="@+id/tvVan"
         app:layout_constraintTop_toBottomOf="@+id/labelUserType" />
 
 
@@ -146,7 +146,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
-        app:constraint_referenced_ids="tvDriver,tvOwner,tvHealth" />
+        app:constraint_referenced_ids="tvCar,tvVan,tvHealth" />
 
     <!--Parking preferences-->
     <TextView
@@ -167,38 +167,38 @@
 
 
     <TextView
-        android:id="@+id/tvNone"
+        android:id="@+id/tvHandicap"
         style="@style/ProfileTextBoxes"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:drawableTop="@drawable/ic_parking_standard"
         android:text="@string/normal"
-        app:layout_constraintEnd_toStartOf="@+id/tvElectrical"
+        app:layout_constraintEnd_toStartOf="@+id/tvBike"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/labelParkingPref" />
 
 
     <TextView
-        android:id="@+id/tvElectrical"
+        android:id="@+id/tvBike"
         style="@style/ProfileTextBoxes"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:drawableTop="@drawable/ic_parking_electrical"
         android:text="@string/electrical"
-        app:layout_constraintEnd_toStartOf="@+id/tvHandicap"
-        app:layout_constraintStart_toEndOf="@+id/tvNone"
+        app:layout_constraintEnd_toStartOf="@+id/tvBlueLight"
+        app:layout_constraintStart_toEndOf="@+id/tvHandicap"
         app:layout_constraintTop_toBottomOf="@+id/labelParkingPref" />
 
     <TextView
-        android:id="@+id/tvHandicap"
+        android:id="@+id/tvBlueLight"
         style="@style/ProfileTextBoxes"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:drawableTop="@drawable/ic_parking_handicap"
         android:text="@string/handicap"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvElectrical"
+        app:layout_constraintStart_toEndOf="@+id/tvBike"
         app:layout_constraintTop_toBottomOf="@+id/labelParkingPref" />
 
 

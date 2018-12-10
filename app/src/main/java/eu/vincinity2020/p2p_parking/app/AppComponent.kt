@@ -17,6 +17,8 @@ import eu.vincinity2020.p2p_parking.ui.profile.edit.part3.EditProfile3Component
 import eu.vincinity2020.p2p_parking.ui.profile.view.ViewProfileComponent
 import eu.vincinity2020.p2p_parking.ui.search.SearchComponent
 import eu.vincinity2020.p2p_parking.ui.trip.TripComponent
+import eu.vincinity2020.p2p_parking.ui.vehicle.addvehicle.AddVehicleComponent
+import eu.vincinity2020.p2p_parking.ui.vehicle.vehiclelist.VehicleListComponent
 
 @Component(modules = [AppModule::class, DbModule::class, NetworkModule::class])
 interface AppComponent/*: AndroidInjector<App>*/ {
@@ -48,6 +50,13 @@ interface AppComponent/*: AndroidInjector<App>*/ {
     fun bookParkingSpotComponentBuilder(): BookParkingSpotComponent.Builder
 
     fun viewBookingsComponentBuilder(): ViewBookingComponent.Builder
+
+
+    fun addVehicleComponentBuilder(): AddVehicleComponent.Builder
+
+    fun viewVehiclesComponentBuilder(): VehicleListComponent.Builder
+
+
 
     fun tripComponentBuilder(): TripComponent.Builder
 

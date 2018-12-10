@@ -116,7 +116,7 @@
                 android:textColor="@color/button_blue_dark" />
 
             <TextView
-                android:id="@+id/tvDriver"
+                android:id="@+id/tvCar"
                 style="@style/ProfileTextBoxes"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -136,7 +136,7 @@
                 android:drawableTop="@drawable/ic_gender_female"
                 android:text="@string/female"
                 app:layout_constraintEnd_toStartOf="@+id/tvOther"
-                app:layout_constraintStart_toEndOf="@+id/tvDriver"
+                app:layout_constraintStart_toEndOf="@+id/tvCar"
                 app:layout_constraintTop_toBottomOf="@+id/labelUserGender" />
 
             <TextView
@@ -156,7 +156,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:barrierDirection="bottom"
-                app:constraint_referenced_ids="tvDriver,tvFemale,tvOther" />
+                app:constraint_referenced_ids="tvCar,tvFemale,tvOther" />
 
             <!--Parking preferences-->
             <TextView
@@ -174,7 +174,7 @@
 
 
             <TextView
-                android:id="@+id/tvNone"
+                android:id="@+id/tvHandicap"
                 style="@style/ProfileTextBoxes"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -194,7 +194,7 @@
                 android:drawableTop="@drawable/ic_disability_wheelchair"
                 android:text="@string/wheelchair"
                 app:layout_constraintEnd_toStartOf="@+id/tvDisabilityOther"
-                app:layout_constraintStart_toEndOf="@+id/tvNone"
+                app:layout_constraintStart_toEndOf="@+id/tvHandicap"
                 app:layout_constraintTop_toBottomOf="@+id/labelDisabilities" />
 
             <TextView
@@ -215,7 +215,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_vertical_margin_double"
                 app:barrierDirection="bottom"
-                app:constraint_referenced_ids="tvDisabilityOther,tvWheelchair,tvNone" />
+                app:constraint_referenced_ids="tvDisabilityOther,tvWheelchair,tvHandicap" />
 
 
             <TextView
