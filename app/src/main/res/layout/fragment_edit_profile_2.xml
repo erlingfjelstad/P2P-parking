@@ -27,7 +27,7 @@
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <Button
-        android:id="@+id/btnUpdateInfo"
+        android:id="@+id/btnRegisterVehicle"
         style="@style/BlueButtonDark"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

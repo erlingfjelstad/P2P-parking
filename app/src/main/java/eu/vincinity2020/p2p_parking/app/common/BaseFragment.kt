@@ -3,6 +3,7 @@ package eu.vincinity2020.p2p_parking.app.common
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.View
+import butterknife.ButterKnife
 import eu.vincinity2020.p2p_parking.ui.navigation.NavigationActivity
 import eu.vincinity2020.p2p_parking.utils.toolbar.FragmentToolbar
 import eu.vincinity2020.p2p_parking.utils.toolbar.ToolbarManager
@@ -19,6 +20,8 @@ abstract class BaseFragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        ButterKnife.bind(this, view)
 
         val  mActivity =  activity as NavigationActivity
 

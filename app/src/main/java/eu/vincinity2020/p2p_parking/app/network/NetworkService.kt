@@ -52,4 +52,9 @@ interface NetworkService {
     fun saveMyLocation(@Body locationObject: JsonObject): Observable<JsonObject>
 
 
+
+
+    @GET("/vehicleType/list")
+    fun getVehicleTypeList(): Observable<JsonObject>                  //Returns Vehicle Type listing
+
 }

@@ -14,6 +14,7 @@ import io.reactivex.disposables.CompositeDisposable
 class AddVehiclePresenterImpl(private val networkService: NetworkService) :AddVehiclePresenter{
 
 
+
     lateinit var v:AddVehicleMvpView
 
     //    var searchView: SearchView? = null            //init views here
@@ -26,6 +27,35 @@ class AddVehiclePresenterImpl(private val networkService: NetworkService) :AddVe
 
     override fun detach() {
     }
+
+
+
+    override fun getVehicleTypes(userId: Long) {
+
+        val dishCategory = networkService.getVehicleTypeList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doFinally { v.onLoadFinish() }
+
+
+                .subscribeWith(object : NetworkResponse<JsonObject>(v) {
+                    override fun onSuccess(response: JsonObject) {
+                        if (!response.get("error").asBoolean) {
+                            val userData = Gson().fromJson<User>(response.getAsJsonObject("data"), User::class.java)
+                            v.updateBookingList(userData)
+                        }
+                        else
+                        {
+
+                        }
+                    }
+
+
+                })
+        compositeDisposable.add(dishCategory)
+    }
+
+
 
 
     override fun getAllBookingList(userId: Long) {

@@ -16,6 +16,7 @@ import eu.vincinity2020.p2p_parking.ui.map.MapFragment
 import eu.vincinity2020.p2p_parking.ui.mylocations.locationlist.MyLocationListFragment
 import eu.vincinity2020.p2p_parking.ui.profile.view.ViewProfileFragment
 import eu.vincinity2020.p2p_parking.ui.trip.TripFragment
+import eu.vincinity2020.p2p_parking.ui.vehicle.vehiclelist.VehicleListFragment
 import eu.vincinity2020.p2p_parking.utils.AndroidUtils
 import kotlinx.android.synthetic.main.activity_navigation.*
 
@@ -43,6 +44,11 @@ class NavigationActivity : BaseActivity(), NavigationView.OnNavigationItemSelect
         const val LOCATION_LIST_FRAGMENT = "LocationListFrag"
         const val ADD_LOCATION_FRAGMENT = "AddLocationFrag"
         const val VIEW_LOCATION_FRAGMENT = "ViewLocationFrag"
+
+
+        //Vehicles fragment tags
+        const val ADD_VEHICLE_FRAGMENT = "AddVehicleFragment"
+        const val VEHICLE_LIST_FRAGMENT = "VehicleListFrag"
 
 
 
@@ -118,8 +124,8 @@ class NavigationActivity : BaseActivity(), NavigationView.OnNavigationItemSelect
                 MapFragment()
             }
             R.id.menu_registered_vehicles-> {
-                selectedFragmentTag = TRIP_FRAGMENT
-                TripFragment()
+                selectedFragmentTag = VEHICLE_LIST_FRAGMENT
+                VehicleListFragment()
             }
             R.id.menu_my_locations -> {
                 selectedFragmentTag = LOCATION_LIST_FRAGMENT
