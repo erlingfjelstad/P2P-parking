@@ -9,8 +9,12 @@ class AndroidUtils {
         fun attachFragment(fragmentManager: FragmentManager,
                            fragment: Fragment,
                            viewId: Int,
-                           tag: String) {
-            fragmentManager.beginTransaction().replace(viewId, fragment, tag).addToBackStack(tag).commit()
+                           tag: String,
+                           addToStack: Boolean) {
+           var transaction= fragmentManager.beginTransaction().replace(viewId, fragment, tag);
+            if (addToStack)
+                transaction.addToBackStack(tag)
+            transaction.commit()
         }
     }
 

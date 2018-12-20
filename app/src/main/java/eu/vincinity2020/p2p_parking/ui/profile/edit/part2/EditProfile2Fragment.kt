@@ -97,7 +97,7 @@ class EditProfile2Fragment : BaseFragment(), EditProfile2MvpView{
     fun onProfile1Clicked() {
         (activity as NavigationActivity ).selectedFragmentTag = EDIT_PROFILE_1
         AndroidUtils.attachFragment((activity as NavigationActivity).supportFragmentManager, EditProfile1Fragment(),
-                R.id.fragment_container, (activity as NavigationActivity).selectedFragmentTag)
+                R.id.fragment_container, (activity as NavigationActivity).selectedFragmentTag, true)
     }
 
 //    @OnClick(R.id.tvProfile2)
@@ -113,7 +113,7 @@ class EditProfile2Fragment : BaseFragment(), EditProfile2MvpView{
 
         (activity as NavigationActivity).selectedFragmentTag = EDIT_PROFILE_3
         AndroidUtils.attachFragment((activity as NavigationActivity).supportFragmentManager, EditProfile3Fragment(),
-                R.id.fragment_container, (activity as NavigationActivity).selectedFragmentTag)
+                R.id.fragment_container, (activity as NavigationActivity).selectedFragmentTag, false)
 
     }
 

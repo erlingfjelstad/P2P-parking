@@ -1,35 +1,35 @@
 package eu.vincinity2020.p2p_parking.ui.vehicle.vehiclelist
 
 import android.content.Context
-import android.support.v7.widget.AppCompatTextView
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
 import eu.vincinity2020.p2p_parking.R
 import eu.vincinity2020.p2p_parking.data.entities.Vehicles
-import eu.vincinity2020.p2p_parking.utils.DateUtils
-import java.util.*
 
 class MyVehiclesAdapter(private val context: Context,
-                        private val recentTripList: List<Vehicles>)
+                        private val vehicleList: List<Vehicles>)
     : RecyclerView.Adapter<MyVehiclesAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, p1: Int): ViewHolder {
         return ViewHolder(LayoutInflater
                 .from(context)
-                .inflate(R.layout.view_recent_trip, viewGroup, false))
+                .inflate(R.layout.item_vehicle, viewGroup, false))
     }
 
     override fun getItemCount(): Int {
-        return recentTripList.size
+        return vehicleList.size
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.update(recentTripList[position])
+        viewHolder.update(vehicleList[position])
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -38,20 +38,69 @@ class MyVehiclesAdapter(private val context: Context,
             ButterKnife.bind(this, itemView)
         }
 
-        @BindView(R.id.text_view_title_recent_trip)
-        lateinit var titleTextView: AppCompatTextView
+        @BindView(R.id.tvBrand)
+        lateinit var tvBrand: TextView
 
-        @BindView(R.id.text_view_date_recent_trip)
-        lateinit var dateTextView: AppCompatTextView
+        @BindView(R.id.tvModel)
+        lateinit var tvModel: TextView
 
-        @BindView(R.id.text_view_parking_spot_name_recent_trip)
-        lateinit var parkingSpotTextView: AppCompatTextView
+        @BindView(R.id.tvRegNo)
+        lateinit var tvRegNo: TextView
+
+        @BindView(R.id.tvDescription)
+        lateinit var tvDescription: TextView
+
+         @BindView(R.id.tvWidth)
+        lateinit var tvWidth: TextView
+
+         @BindView(R.id.tvHeight)
+        lateinit var tvHeight: TextView
+
+         @BindView(R.id.tvWeight)
+        lateinit var tvWeight: TextView
+
+         @BindView(R.id.tvLength)
+        lateinit var tvLength: TextView
+
+         @BindView(R.id.ivVehicleType)
+        lateinit var ivVehicleType: ImageView
+
+
+
 
         fun update(vehicle: Vehicles) {
 
-            titleTextView.text = vehicle.mobile
+            tvBrand.text = vehicle.brand
 
-            parkingSpotTextView.text = vehicle.email
+            tvModel.text = vehicle.model
+
+            tvRegNo.text = vehicle.regno
+
+            tvDescription.text = vehicle.description
+
+            tvWidth.text = vehicle.width
+
+            tvHeight.text = vehicle.height
+
+            tvWeight .text = vehicle.weight
+
+            tvLength.text = vehicle.length
+
+            if (vehicle.vehicleType.id == 1)
+                ivVehicleType.setImageDrawable  (ContextCompat.getDrawable(itemView.context, R.drawable.ic_parking_standard))
+            else if (vehicle.vehicleType.id == 2)
+                ivVehicleType.setImageDrawable  (ContextCompat.getDrawable(itemView.context, R.drawable.ic_van))
+            else if (vehicle.vehicleType.id == 3)
+                ivVehicleType.setImageDrawable  (ContextCompat.getDrawable(itemView.context, R.drawable.ic_parking_electrical))
+            else if (vehicle.vehicleType.id == 4)
+                ivVehicleType.setImageDrawable  (ContextCompat.getDrawable(itemView.context, R.drawable.ic_parking_handicap))
+            else if (vehicle.vehicleType.id == 5)
+                ivVehicleType.setImageDrawable  (ContextCompat.getDrawable(itemView.context, R.drawable.ic_motorcycle))
+            else if (vehicle.vehicleType.id == 6)
+                ivVehicleType.setImageDrawable  (ContextCompat.getDrawable(itemView.context, R.drawable.ic_emergency))
+
+
+
 
         }
     }

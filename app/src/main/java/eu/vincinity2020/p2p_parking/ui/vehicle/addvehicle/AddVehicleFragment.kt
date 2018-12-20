@@ -2,7 +2,6 @@ package eu.vincinity2020.p2p_parking.ui.vehicle.addvehicle
 
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,20 +11,20 @@ import eu.vincinity2020.p2p_parking.R
 import eu.vincinity2020.p2p_parking.app.App
 import eu.vincinity2020.p2p_parking.app.common.BaseFragment
 import eu.vincinity2020.p2p_parking.data.entities.Trip
-import eu.vincinity2020.p2p_parking.data.entities.User
+import eu.vincinity2020.p2p_parking.data.entities.VehicleTypes
 import eu.vincinity2020.p2p_parking.utils.toolbar.FragmentToolbar
 import kotlinx.android.synthetic.main.fragment_add_vehicle.*
-import kotlinx.android.synthetic.main.fragment_my_bookings.*
-import kotlinx.android.synthetic.main.fragment_recent_trips.*
-import kotlinx.android.synthetic.main.notification_template_lines_media.view.*
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
 class AddVehicleFragment : BaseFragment(), AddVehicleMvpView {
 
+
     @Inject
     lateinit var presenter: AddVehiclePresenter
+
+    lateinit var vehicleType : VehicleTypes
 
     override fun builder(): FragmentToolbar = FragmentToolbar.Builder()
             .withId(R.id.toolBarL)
@@ -58,37 +57,67 @@ class AddVehicleFragment : BaseFragment(), AddVehicleMvpView {
                 .build()
                 .inject(this)
 
+
         presenter.attach(this)
-        presenter.getAllBookingList(34)
+        if (context != null ) {
+            presenter.getVehicleTypes(App.get(context!!).getUser()!!.id)
+            scrollContainer.visibility = View.GONE
+            progress.visibility = View.VISIBLE
+        }
     }
 
 
     override fun onUnknownError(errorMessage: String) {
+        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+        scrollContainer.visibility = View.VISIBLE
+        progress.visibility = View.GONE
     }
 
     override fun onTimeout() {
+        Toast.makeText(context, resources.getString(R.string.unable_to_connect_to_server), Toast.LENGTH_SHORT).show()
+        scrollContainer.visibility = View.VISIBLE
+        progress.visibility = View.GONE
     }
 
     override fun onNetworkError() {
+        Toast.makeText(context, resources.getString(R.string.unable_to_connect_to_server), Toast.LENGTH_SHORT).show()
+        scrollContainer.visibility = View.VISIBLE
+        progress.visibility = View.GONE
     }
 
     override fun onLoadFinish() {
+        scrollContainer.visibility = View.VISIBLE
+        progress.visibility = View.GONE
     }
 
-    override fun updateBookingList(user: User) {
+    override fun onVehicleAdded(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        scrollContainer.visibility = View.VISIBLE
+        progress.visibility = View.GONE
+        activity!!.onBackPressed()
     }
 
 
-    @OnClick(R.id.tvCar)
+    override fun updateVehicleTypes(vehicleTypes: ArrayList<VehicleTypes>) {
+
+    }
+
+
+
+    @OnClick(R.id.tvMale)
     fun onCarSelected() {
+        unselectView()
+        tvMale.setBackgroundColor(ContextCompat.getColor(context!!, R.color.true_black))
         Toast.makeText(activity, "car clicked", Toast.LENGTH_SHORT).show()
+        vehicleType = VehicleTypes(1, "car",null)
     }
 
-    @OnClick(R.id.tvVan)
+    @OnClick(R.id.tvOwner)
     fun onVanSelected() {
         unselectView()
-        tvVan.setBackgroundColor(ContextCompat.getColor(context!!, R.color.true_black))
+        tvOwner.setBackgroundColor(ContextCompat.getColor(context!!, R.color.true_black))
         Toast.makeText(activity, "Van clicked", Toast.LENGTH_SHORT).show()
+        vehicleType = VehicleTypes(2, "Van",null)
     }
 
 
@@ -96,43 +125,84 @@ class AddVehicleFragment : BaseFragment(), AddVehicleMvpView {
     fun onElectricalSelected() {
         unselectView()
         tvElectrical.setBackgroundColor(ContextCompat.getColor(context!!, R.color.true_black))
-        Toast.makeText(activity, "Van clicked", Toast.LENGTH_SHORT).show()
+        Toast.makeText(activity, "EV clicked", Toast.LENGTH_SHORT).show()
+        vehicleType = VehicleTypes(3, "EV",null)
+    }
+
+
+
+    @OnClick(R.id.tvNormal)
+    fun onHandicapSelected() {
+        unselectView()
+        tvNormal.setBackgroundColor(ContextCompat.getColor(context!!, R.color.true_black))
+        Toast.makeText(activity, "Handicap clicked", Toast.LENGTH_SHORT).show()
+        vehicleType = VehicleTypes(4, "Handicap",null)
+
+    }
+
+
+    @OnClick(R.id.tvElectrical)
+    fun onBikeSelected() {
+        unselectView()
+        tvElectrical.setBackgroundColor(ContextCompat.getColor(context!!, R.color.true_black))
+        Toast.makeText(activity, "Bike clicked", Toast.LENGTH_SHORT).show()
+        vehicleType = VehicleTypes(5, "Bike",null)
+
     }
 
 
 
     @OnClick(R.id.tvHandicap)
-    fun onHandicapSelected() {
-        unselectView()
-        tvHandicap.setBackgroundColor(ContextCompat.getColor(context!!, R.color.true_black))
-        Toast.makeText(activity, "Van clicked", Toast.LENGTH_SHORT).show()
-    }
-
-
-    @OnClick(R.id.tvBike)
-    fun onBikeSelected() {
-        unselectView()
-        tvBike.setBackgroundColor(ContextCompat.getColor(context!!, R.color.true_black))
-        Toast.makeText(activity, "Van clicked", Toast.LENGTH_SHORT).show()
-    }
-
-
-
-    @OnClick(R.id.tvBlueLight)
     fun onBlueLightSelected() {
         unselectView()
-        tvBlueLight.setBackgroundColor(ContextCompat.getColor(context!!, R.color.true_black))
-        Toast.makeText(activity, "Van clicked", Toast.LENGTH_SHORT).show()
+        tvHandicap.setBackgroundColor(ContextCompat.getColor(context!!, R.color.true_black))
+        Toast.makeText(activity, "Ambulance clicked", Toast.LENGTH_SHORT).show()
+        vehicleType = VehicleTypes(6, "Ambulance",null)
+
     }
 
+
+    @OnClick(R.id.btnCancel)
+    fun onCancelClicked()
+    {
+        activity!!.onBackPressed()
+    }
 
     @OnClick(R.id.btnRegisterVehicle)
     fun validateAndSaveVehicle()
     {
-        if (layoutEtDescription.text.text.trim() == "")
+        if (layoutEtDescription.editText?.text?.trim() == "")
         {
             layoutEtDescription.error = "Please enter vehicle description."
+            layoutEtDescription.isErrorEnabled = true
+            layoutEtDescription.requestFocus()
+        } else if (layoutEtBrand.editText?.text?.trim() == "")
+        {
+            layoutEtBrand.error = "Please enter vehicle brand."
+            layoutEtBrand.isErrorEnabled = true
+            layoutEtBrand.requestFocus()
         }
+
+    else if (layoutEtName.editText?.text?.trim() == "")
+        {
+            layoutEtName.error = "Please enter model name."
+            layoutEtName.isErrorEnabled = true
+            layoutEtName.requestFocus()
+        }
+         else if (layoutEtRegNo.editText?.text?.trim() == "")
+        {
+            layoutEtRegNo.error = "Please enter vehicle registration number."
+            layoutEtRegNo.isErrorEnabled = true
+            layoutEtRegNo.requestFocus()
+        }
+        else{
+
+            presenter.registerNewVehicle(App.get(context!!).getUser()!!.email, App.get(context!!).getUser()!!.password,34,
+                    etBrand.text.toString(), etName.text.toString(), etDescription.text.toString(), etRegNo.text.toString(), etMfgYr.text.toString(),
+                    vehicleType, etHeight.text.toString(), etWidth.text.toString(), etLength.text.toString(), etWeight.text.toString(), spFuel.selectedItem as String)
+        }
+
+
     }
 
 
@@ -140,12 +210,12 @@ class AddVehicleFragment : BaseFragment(), AddVehicleMvpView {
 
     fun unselectView()
     {
-        tvCar.setBackgroundColor(ContextCompat.getColor(context!!, R.color.button_blue_dark));
-        tvVan.setBackgroundColor(ContextCompat.getColor(context!!, R.color.button_blue_dark));
+        tvMale.setBackgroundColor(ContextCompat.getColor(context!!, R.color.button_blue_dark));
+        tvOwner.setBackgroundColor(ContextCompat.getColor(context!!, R.color.button_blue_dark));
+        tvElectrical.setBackgroundColor(ContextCompat.getColor(context!!, R.color.button_blue_dark));
+        tvNormal.setBackgroundColor(ContextCompat.getColor(context!!, R.color.button_blue_dark));
         tvElectrical.setBackgroundColor(ContextCompat.getColor(context!!, R.color.button_blue_dark));
         tvHandicap.setBackgroundColor(ContextCompat.getColor(context!!, R.color.button_blue_dark));
-        tvBike.setBackgroundColor(ContextCompat.getColor(context!!, R.color.button_blue_dark));
-        tvBlueLight.setBackgroundColor(ContextCompat.getColor(context!!, R.color.button_blue_dark));
     }
 
 }

@@ -2,14 +2,18 @@ package eu.vincinity2020.p2p_parking.ui.vehicle.vehiclelist
 
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import com.google.gson.reflect.TypeToken
 import eu.vincinity2020.p2p_parking.app.common.MvpView
 import eu.vincinity2020.p2p_parking.app.network.NetworkResponse
 import eu.vincinity2020.p2p_parking.app.network.NetworkService
+import eu.vincinity2020.p2p_parking.data.entities.ParkingSpot
 import eu.vincinity2020.p2p_parking.data.entities.User
 import eu.vincinity2020.p2p_parking.data.entities.Vehicles
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import okhttp3.Credentials
+import java.util.ArrayList
 
 
 class VehicleListPresenterImpl(private val networkService: NetworkService) :VehicleListPresenter{
@@ -29,9 +33,9 @@ class VehicleListPresenterImpl(private val networkService: NetworkService) :Vehi
     }
 
 
-    override fun getAllVehicleList(userId: Long) {
+    override fun getVehicles(userId: Long, email:String, password: String) {
 
-        val dishCategory = networkService.getUser(userId.toString())
+        val dishCategory = networkService.getVehicles(Credentials.basic(email, password),userId.toString())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doFinally { v.onLoadFinish() }
@@ -40,11 +44,16 @@ class VehicleListPresenterImpl(private val networkService: NetworkService) :Vehi
                 .subscribeWith(object : NetworkResponse<JsonObject>(v) {
                     override fun onSuccess(response: JsonObject) {
                         if (!response.get("error").asBoolean) {
-                            val userData = Gson().fromJson<Vehicles>(response.getAsJsonObject("data"), Vehicles::class.java)
-                            v.updateVehicleList(userData)
+
+                            val listType = object : TypeToken<ArrayList<Vehicles>>() {}.type
+                            val allVehicles = Gson().fromJson<Any>(response.getAsJsonArray("data"), listType) as ArrayList<Vehicles>
+
+                            v.updateVehicleList(allVehicles)
                         }
                         else
                         {
+                            if (response.has("message"))
+                                v.onUnknownError(response.get("message").asString)
 
                         }
                     }
@@ -53,5 +62,6 @@ class VehicleListPresenterImpl(private val networkService: NetworkService) :Vehi
                 })
         compositeDisposable.add(dishCategory)
     }
+
 
 }

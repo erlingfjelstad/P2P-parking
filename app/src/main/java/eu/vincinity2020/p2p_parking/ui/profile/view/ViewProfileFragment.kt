@@ -28,10 +28,10 @@ class ViewProfileFragment : BaseFragment(), ViewProfileMvpView {
 
 
     override fun updateUserProfileInfo(user: User) {
-        tvFirstName.setText(user.firstName)
-        tvLastName.setText(user.lastName)
-        tvEmail.setText(user.email)
-        tvCountry.setText(user.country.country)
+        etFirstName.setText(user.firstName)
+        etLastName.setText(user.lastName)
+        etEmail.setText(user.email)
+        etCountry.setText(user.country.country)
     }
 
     override fun builder(): FragmentToolbar = FragmentToolbar.Builder()
@@ -93,7 +93,7 @@ class ViewProfileFragment : BaseFragment(), ViewProfileMvpView {
     fun onEditProfileClicked() {
         (activity as NavigationActivity).selectedFragmentTag = NavigationActivity.EDIT_PROFILE_1
         AndroidUtils.attachFragment((activity as NavigationActivity).supportFragmentManager, EditProfile1Fragment(),
-                R.id.fragment_container, (activity as NavigationActivity).selectedFragmentTag)    }
+                R.id.fragment_container, (activity as NavigationActivity).selectedFragmentTag, true)    }
 
 
     override fun onUnknownError(errorMessage: String) {

@@ -60,11 +60,19 @@ class AddLocationFragment : BaseFragment(), AddLocationMvpView {
             {
                val lat =  marker.position.latitude.toString()
                val lng =  marker.position.longitude.toString()
-               val desc =  etDescription.text.toString()
-                presenter.saveLocation(lat, lng, desc)
-                progress.visibility = View.VISIBLE
-
-
+                if (lat == "0.0" && lng == "0.0")
+                {
+                   Toast.makeText(context, "Please select a valid location", Toast.LENGTH_SHORT).show()
+                }
+                else {
+                    val desc = etDescription.text.toString()
+                    presenter.saveLocation(lat, lng, desc, App.get(context!!).getUser()!!.email, App.get(context!!).getUser()!!.password)
+                    progress.visibility = View.VISIBLE
+                    map.visibility = View.GONE
+                }
+            }
+            else {
+                Toast.makeText(context, "Enter description", Toast.LENGTH_SHORT ).show()
             }
         }
     }
@@ -124,27 +132,32 @@ class AddLocationFragment : BaseFragment(), AddLocationMvpView {
     override fun onUnknownError(errorMessage: String) {
         (activity as BaseActivity).showToast(resources.getString(R.string.unable_to_connect_to_server))
         progress.visibility = View.GONE
+        map.visibility = View.VISIBLE
 
     }
 
     override fun onTimeout() {
         (activity as BaseActivity).showToast(resources.getString(R.string.unable_to_connect_to_server))
         progress.visibility = View.GONE
+        map.visibility = View.VISIBLE
 
     }
 
     override fun onNetworkError() {
         (activity as BaseActivity).showToast(resources.getString(R.string.unable_to_connect_to_server))
         progress.visibility = View.GONE
+        map.visibility = View.VISIBLE
 
     }
 
     override fun onLoadFinish() {
         progress.visibility = View.GONE
+        map.visibility = View.VISIBLE
     }
 
     override fun updateLocations(user: User) {
         progress.visibility = View.GONE
+        map.visibility = View.VISIBLE
     }
 
 }

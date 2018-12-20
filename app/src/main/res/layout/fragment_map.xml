@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/bg">
 
     <FrameLayout
         android:id="@+id/containerToolbar"
@@ -11,24 +12,74 @@
         android:layout_height="wrap_content">
     <include  layout="@layout/layout_toolbar"/>
     </FrameLayout>
+
+    <TextView
+        android:id="@+id/tvMapView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Map view"
+        android:gravity="center_horizontal"
+        android:padding="5dp"
+        style="@style/DefaultTextView"
+        android:background="@color/button_blue_dark"
+        app:layout_constraintEnd_toStartOf="@+id/tvListView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/containerToolbar" />
+
+    <TextView
+        android:id="@+id/tvListView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="List view"
+        android:gravity="center_horizontal"
+        style="@style/DefaultTextView"
+        android:background="@color/button_blue_light"
+        android:padding="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvMapView"
+        app:layout_constraintTop_toBottomOf="@id/containerToolbar" />
+    <android.support.constraint.Barrier
+        android:id="@+id/barrier1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="tvListView, tvMapView"/>
+
     <org.osmdroid.views.MapView
         android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/containerToolbar"
+        app:layout_constraintTop_toBottomOf="@id/barrier1"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <eu.vincinity2020.p2p_parking.utils.compoundviews.ParkingSpotCardView
-        android:id="@+id/parking_spot_card_view"
-        android:layout_width="match_parent"
+    <ProgressBar
+        android:id="@+id/progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        app:dismissable="true"
-        android:layout_marginStart="8dp"
+        android:layout_gravity="center_horizontal"
         android:visibility="gone"
-        tools:visibility="visible" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvSensors"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/barrier1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:paddingTop="@dimen/activity_vertical_margin_double"
+        android:layout_marginTop="@dimen/activity_vertical_margin_double"
+        android:visibility="gone"/>
+
+
+
+
 
     <android.support.design.card.MaterialCardView
         android:layout_width="match_parent"
@@ -40,7 +91,7 @@
         android:backgroundTint="@color/divider"
         app:cardCornerRadius="4dp"
         app:cardElevation="4dp"
-        app:layout_constraintTop_toBottomOf="@id/containerToolbar"
+        app:layout_constraintTop_toBottomOf="@id/barrier1"
         app:cardPreventCornerOverlap="true">
 
         <EditText

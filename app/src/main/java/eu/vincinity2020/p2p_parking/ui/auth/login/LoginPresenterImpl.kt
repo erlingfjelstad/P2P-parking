@@ -16,12 +16,12 @@ class LoginPresenterImpl(private val networkService: NetworkService) : LoginPres
 
 
 
-    override fun saveFcmToken(token: String)
+    override fun saveFcmToken(token: String, email: String, password: String)
          {
              val tokenJson = JsonObject()
              tokenJson.addProperty("", token)
 
-            disposable.add(networkService.saveFcmToken(tokenJson)
+            disposable.add(networkService.saveFcmToken(Credentials.basic(email, password), tokenJson)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .doFinally { loginView?.onLoadFinish() }

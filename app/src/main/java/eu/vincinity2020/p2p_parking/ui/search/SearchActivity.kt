@@ -1,5 +1,6 @@
 package eu.vincinity2020.p2p_parking.ui.search
 
+import android.app.Activity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
@@ -19,6 +20,7 @@ class SearchActivity : BaseActivity(), SearchView, SearchAdapter.OnSearchItemCli
     lateinit var searchPresenter: SearchPresenter
 
     lateinit var adapter: SearchAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,10 +68,15 @@ class SearchActivity : BaseActivity(), SearchView, SearchAdapter.OnSearchItemCli
     }
 
     override fun onClick(searchResult: SearchResult) {
-        val intent = ChooseParkingSpotActivity
-                .getLaunchIntent(this,
-                        GeoPoint(searchResult.latitude, searchResult.longitude))
-        startActivity(intent)
+//        val intent = ChooseParkingSpotActivity
+//                .getLaunchIntent(this,
+//                        GeoPoint(searchResult.latitude, searchResult.longitude))
+//        startActivity(intent)
+
+        intent.putExtra("lat", searchResult.latitude)
+        intent.putExtra("lon", searchResult.longitude)
+        setResult(Activity.RESULT_OK, intent)
+        finish()
     }
 
     override fun afterTextChanged(editable: Editable?) {

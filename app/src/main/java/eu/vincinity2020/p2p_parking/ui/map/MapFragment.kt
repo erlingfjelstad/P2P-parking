@@ -3,38 +3,46 @@ package eu.vincinity2020.p2p_parking.ui.map
 import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.support.design.widget.BottomSheetDialog
+import android.support.v4.content.ContextCompat
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import butterknife.BindView
+import android.widget.Toast
 import butterknife.ButterKnife
 import butterknife.OnClick
-import butterknife.Optional
-import dagger.android.AndroidInjection
-import dagger.android.support.AndroidSupportInjection
 import eu.vincinity2020.p2p_parking.R
 import eu.vincinity2020.p2p_parking.app.App
-import eu.vincinity2020.p2p_parking.app.DaggerAppComponent
-import eu.vincinity2020.p2p_parking.ui.book.BookParkingSpotActivity
+import eu.vincinity2020.p2p_parking.app.common.AppConstants
+
 import eu.vincinity2020.p2p_parking.app.common.BaseFragment
-import eu.vincinity2020.p2p_parking.app.network.NetworkService
-import eu.vincinity2020.p2p_parking.utils.compoundviews.ParkingSpotCardView
+
 import eu.vincinity2020.p2p_parking.data.entities.ParkingSpot
 import eu.vincinity2020.p2p_parking.ui.search.SearchActivity
-import eu.vincinity2020.p2p_parking.ui.search.SearchModule
+import eu.vincinity2020.p2p_parking.utils.DateUtils
 import eu.vincinity2020.p2p_parking.utils.toolbar.FragmentToolbar
+import kotlinx.android.synthetic.main.book_parking_layout.view.*
 import kotlinx.android.synthetic.main.fragment_map.*
-import kotlinx.android.synthetic.main.view_parking_spot_card.*
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
+import java.util.*
 import javax.inject.Inject
 
 class MapFragment : BaseFragment(), eu.vincinity2020.p2p_parking.ui.map.MapMvpView,
-        Marker.OnMarkerClickListener {
+        Marker.OnMarkerClickListener, ParkingSpotAdapter.OnParkingSpotClickedListener {
 
+
+    override fun onCloseButtonClicked() {
+
+    }
+
+    override fun onParkingSpotClicked(parkingSpot: ParkingSpot) {
+
+    }
 
 
     override fun builder(): FragmentToolbar = FragmentToolbar.Builder()
@@ -48,25 +56,19 @@ class MapFragment : BaseFragment(), eu.vincinity2020.p2p_parking.ui.map.MapMvpVi
         parkingSpots.clear()
         parkingSpots.addAll(marker)
         addParkingSpotsToMap()
+        rvSensors.adapter?.notifyDataSetChanged()
     }
 
 
-    private val parkingSpots = ArrayList<ParkingSpot>(3)
-
-    @BindView(R.id.map)
-    lateinit var map: MapView
+    private val parkingSpots = ArrayList<ParkingSpot>()
 
 
+    var isOnActivityCalled= false;
     @Inject
     lateinit var presenter: MapPresenter
 
 
-    @BindView(R.id.parking_spot_card_view)
-    lateinit var parkingSpotCardView: ParkingSpotCardView
 
-    private var selectedParkingSpotUid: String? = null
-
-    private var selectedParkingSpotName: String? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,8 +84,6 @@ class MapFragment : BaseFragment(), eu.vincinity2020.p2p_parking.ui.map.MapMvpVi
                 .build()
                 .inject(this)
 
-
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -97,9 +97,15 @@ class MapFragment : BaseFragment(), eu.vincinity2020.p2p_parking.ui.map.MapMvpVi
 
         initSearchView()
         initMap()
-        presenter.attach(this)
 
-        presenter.getNearbyParking("a")
+        rvSensors.layoutManager = LinearLayoutManager(view.context)
+        rvSensors.adapter = ParkingSpotAdapter(parkingSpots, view.context, this)
+
+        presenter.attach(this)
+        if (context != null && App.get(context!!).getUser() != null) {
+            presenter.getDefaultParkingSensors(App.get(context!!).getUser()!!.email, App.get(context!!).getUser()!!.password)
+        }
+
     }
 
 
@@ -112,6 +118,19 @@ class MapFragment : BaseFragment(), eu.vincinity2020.p2p_parking.ui.map.MapMvpVi
                 .build()
                 .inject(this)
         map.onResume()
+
+        presenter.attach(this)
+        if (isOnActivityCalled) {
+
+            if (arguments != null && arguments!!.containsKey("lat")) {
+                presenter.getNearbyParkingSensors(App.get(context!!).getUser()!!.email, App.get(context!!).getUser()!!.password,
+                        arguments!!.getDouble("lat"), arguments!!.getDouble("lon"))
+                val startPoint = GeoPoint(arguments!!.getDouble("lat"), arguments!!.getDouble("lon"))
+                map.controller.setCenter(startPoint)
+                progress.visibility = View.VISIBLE
+
+            }
+        }
     }
 
     override fun onPause() {
@@ -120,12 +139,11 @@ class MapFragment : BaseFragment(), eu.vincinity2020.p2p_parking.ui.map.MapMvpVi
     }
 
 
-
     private fun initSearchView() {
         search_view_map.clearFocus()
         search_view_map.setOnClickListener {
             val intent = Intent(requireContext(), SearchActivity::class.java)
-            startActivity(intent)
+            startActivityForResult(intent, AppConstants.SEARCHACTIVITYCODE)
         }
     }
 
@@ -140,6 +158,7 @@ class MapFragment : BaseFragment(), eu.vincinity2020.p2p_parking.ui.map.MapMvpVi
         mapController.setCenter(startPoint)
 
 //        addParkingSpotsToMap()
+
     }
 
 
@@ -151,6 +170,7 @@ class MapFragment : BaseFragment(), eu.vincinity2020.p2p_parking.ui.map.MapMvpVi
             marker.position = GeoPoint(parkingSpot.lat, parkingSpot.lon)
             marker.title = parkingSpot.status
             marker.id = parkingSpot.sensorId.toString()
+            marker.snippet = parkingSpot.oid
             marker.icon = parkingIcon
             marker.setOnMarkerClickListener(this)
 
@@ -158,42 +178,113 @@ class MapFragment : BaseFragment(), eu.vincinity2020.p2p_parking.ui.map.MapMvpVi
         }
     }
 
-    override fun onMarkerClick(marker: Marker?, mapView: MapView?): Boolean {
-        parkingSpotCardView.visibility = View.VISIBLE
-        selectedParkingSpotUid = marker?.id
-        selectedParkingSpotName = marker?.title
+    override fun onMarkerClick(marker: Marker, mapView: MapView?): Boolean {
+//        parkingSpotCardView.visibility = View.VISIBLE
 
-        text_view_parking_spot_name.text = selectedParkingSpotName
+
+
+        val selectedParkingSpot = ParkingSpot(marker.id.toLong(), marker.title, marker.snippet, marker.position.latitude, marker.position.longitude)
+
+
+        /**
+         * showing bottom sheet dialog
+         */
+        var view = layoutInflater.inflate(R.layout.book_parking_layout, null);
+
+        view.text_view_parking_spot_name.text = marker?.title
+        view.startTime.setIs24HourView(true)
+        view.endTime.setIs24HourView(true)
+
+        var dialog = BottomSheetDialog(context!!)
+        dialog.setContentView(view)
+        dialog.show()
+
+
+        var endTime = Calendar.getInstance()
+        var startTime = Calendar.getInstance()
+
+        view.endTime.setOnTimeChangedListener { timePicker, hourOfDay, minute ->
+            endTime.set(Calendar.HOUR_OF_DAY, hourOfDay)
+            endTime.set(Calendar.MINUTE, minute)
+        }
+
+        view.startTime.setOnTimeChangedListener { timePicker, hourOfDay, minute ->
+            startTime.set(Calendar.HOUR_OF_DAY, hourOfDay)
+            startTime.set(Calendar.MINUTE, minute)
+        }
+
+        view.button_register_parking_spot.setOnClickListener {
+            if (view.layoutTimings.visibility == View.VISIBLE) {
+                if (endTime.get(Calendar.HOUR_OF_DAY) > startTime.get(Calendar.HOUR_OF_DAY) ||
+                        (endTime.get(Calendar.HOUR_OF_DAY) == startTime.get(Calendar.HOUR_OF_DAY) && endTime.get(Calendar.MINUTE) > startTime.get(Calendar.MINUTE))) {
+                    //valid time selected
+
+                    val format = "yyyy-MM-dd'T'HH:mm:ss"
+                    presenter.createNewBooking(App.get(requireContext()).getUser()!!, selectedParkingSpot,
+                            DateUtils.formatDateTime(startTime, format), DateUtils.formatDateTime(endTime, format))
+                } else
+                    Toast.makeText(context, "End time must be grater then start time.", Toast.LENGTH_SHORT).show()
+
+
+            } else
+                view.layoutTimings.visibility = View.VISIBLE
+        }
+
+
         return true
     }
 
-//    @OnClick(R.id.button_register_parking_spot)
-//    fun onRegisterParkingSpotClicked() {
-//        val parkingSpot = parkingSpots.find { parkingSpot ->
-//            return@find parkingSpot.sensorId == selectedParkingSpotUid?.toLong()
-//        }
-//        val intent = BookParkingSpotActivity.getLaunchIntent(requireContext(), parkingSpot, null)
-//        startActivity(intent)
-//    }
 
-    @Optional
-    @OnClick(R.id.image_button_close)
-    fun onCloseParkingSpotClicked() {
-        parkingSpotCardView.visibility = View.GONE
+    @OnClick(R.id.tvMapView)
+    fun showMap() {
+        tvMapView.setBackgroundColor(ContextCompat.getColor(context!!, R.color.button_blue_dark))
+        tvListView.setBackgroundColor(ContextCompat.getColor(context!!, R.color.button_blue_light))
+        map.visibility = View.VISIBLE
+        rvSensors.visibility = View.GONE
+    }
+
+
+    @OnClick(R.id.tvListView)
+    fun showList() {
+        tvMapView.setBackgroundColor(ContextCompat.getColor(context!!, R.color.button_blue_light))
+        tvListView.setBackgroundColor(ContextCompat.getColor(context!!, R.color.button_blue_dark))
+        map.visibility = View.GONE
+        rvSensors.visibility = View.VISIBLE
     }
 
 
     override fun onUnknownError(errorMessage: String) {
-
+        Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+        progress.visibility =View.GONE
     }
 
     override fun onTimeout() {
+        Toast.makeText(requireContext(), resources.getString(R.string.unable_to_connect_to_server), Toast.LENGTH_SHORT).show()
+        progress.visibility =View.GONE
     }
 
     override fun onNetworkError() {
+        Toast.makeText(requireContext(), resources.getString(R.string.unable_to_connect_to_server), Toast.LENGTH_SHORT).show()
+        progress.visibility =View.GONE
     }
 
 
     override fun onLoadFinish() {
+        progress.visibility =View.GONE
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == AppConstants.SEARCHACTIVITYCODE && data != null) {
+
+            if (data.hasExtra("lat") && data.hasExtra("lon")) {
+                isOnActivityCalled = true
+                val latLongBundle = Bundle()
+                latLongBundle.putDouble("lat", data.getDoubleExtra("lat", 0.0))
+                latLongBundle.putDouble("lon", data.getDoubleExtra("lon", 0.0))
+                arguments = latLongBundle
+            }
+
+        }
     }
 }

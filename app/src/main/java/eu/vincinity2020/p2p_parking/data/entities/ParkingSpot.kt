@@ -7,5 +7,5 @@ import kotlinx.android.parcel.Parcelize
 
 @Entity
 @Parcelize
-class ParkingSpot(val sensorId: Long, val status: String,
+class ParkingSpot(val sensorId: Long, val status: String, val oid: String,
                   val lat: Double, val lon: Double) : Parcelable

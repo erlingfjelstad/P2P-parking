@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import butterknife.OnClick
 import eu.vincinity2020.p2p_parking.R
 import eu.vincinity2020.p2p_parking.app.App
@@ -29,6 +30,8 @@ class VehicleListFragment : BaseFragment(), VehicleListMvpView {
     @Inject
     lateinit var presenter: VehicleListPresenter
 
+    val vehicles: ArrayList<Vehicles> = ArrayList()
+
     override fun builder(): FragmentToolbar = FragmentToolbar.Builder()
             .withId(R.id.toolBarL)
             .withHamburger()
@@ -42,26 +45,27 @@ class VehicleListFragment : BaseFragment(), VehicleListMvpView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         rvVehicles.layoutManager = LinearLayoutManager(view.context)
-        val list: ArrayList<Vehicles> = ArrayList()
-        for (i in 1..5) {
-            val trip1 = Vehicles(i.toLong(), "Name_1", "lastname_1", "asd@mailinator.com", "9138724362")
-            list.add(trip1)
+        rvVehicles.adapter = MyVehiclesAdapter(view.context, vehicles)
 
-        }
-        rvVehicles.adapter = MyVehiclesAdapter(view.context, list)
     }
 
     override fun onResume() {
         super.onResume()
+        val appVar=
         App.get(requireContext())
-                .appComponent()
+
+                appVar.appComponent()
                 .viewVehiclesComponentBuilder()
                 .viewVehiclesModule(VehicleListModule())
                 .build()
                 .inject(this)
 
         presenter.attach(this)
-        presenter.getAllVehicleList(34)
+
+        progress.visibility = View.VISIBLE
+        presenter.getVehicles(appVar.getUser()!!.id, appVar.getUser()!!.email, appVar.getUser()!!.password)
+
+
     }
 
     override fun onPause() {
@@ -69,19 +73,30 @@ class VehicleListFragment : BaseFragment(), VehicleListMvpView {
     }
 
     override fun onUnknownError(errorMessage: String) {
+        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+        progress.visibility = View.GONE
+
     }
 
     override fun onTimeout() {
+        Toast.makeText(context, resources.getString(R.string.unable_to_connect_to_server), Toast.LENGTH_SHORT).show()
+        progress.visibility = View.GONE
     }
 
     override fun onNetworkError() {
+        Toast.makeText(context, resources.getString(R.string.unable_to_connect_to_server), Toast.LENGTH_SHORT).show()
+        progress.visibility = View.GONE
     }
 
     override fun onLoadFinish() {
+        progress.visibility = View.GONE
     }
 
-    override fun updateVehicleList(vehicle: Vehicles) {
-
+    override fun updateVehicleList(allVehicles: ArrayList<Vehicles>) {
+        vehicles.clear()
+        vehicles.addAll(allVehicles)
+        rvVehicles.adapter?.notifyDataSetChanged()
+        progress.visibility = View.GONE
     }
 
 
@@ -89,7 +104,7 @@ class VehicleListFragment : BaseFragment(), VehicleListMvpView {
     fun openAddVehicleFragment() {
         (activity as NavigationActivity).selectedFragmentTag = NavigationActivity.ADD_VEHICLE_FRAGMENT
         AndroidUtils.attachFragment((activity as NavigationActivity).supportFragmentManager, AddVehicleFragment(),
-                R.id.fragment_container, (activity as NavigationActivity).selectedFragmentTag)
+                R.id.fragment_container, (activity as NavigationActivity).selectedFragmentTag, true)
     }
 
 }

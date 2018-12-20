@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bg">
 
     <FrameLayout
         android:id="@+id/containerToolbar"
@@ -13,119 +13,465 @@
         <include  layout="@layout/layout_toolbar"/>
     </FrameLayout>
 
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/cardUserDetails"
+    <Button
+        android:id="@+id/btnCancel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="5dp"
-        app:cardPreventCornerOverlap="true"
-        app:cardUseCompatPadding="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/containerToolbar">
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp">
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/layoutTvFName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/tvFirstName"
-                    style="@style/ProfileTextBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/prompt_first_name" />
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/layoutTvLName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layoutTvFName">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/tvLastName"
-                    style="@style/ProfileTextBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/prompt_last_name" />
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/layoutTvEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layoutTvLName">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/tvEmail"
-                    style="@style/ProfileTextBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/prompt_email" />
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/layoutTvMobile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layoutTvEmail">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/tvMobile"
-                    style="@style/ProfileTextBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/prompt_contact_number" />
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/layoutTvCountry"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layoutTvMobile">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/tvCountry"
-                    style="@style/ProfileTextBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/prompt_country" />
-            </android.support.design.widget.TextInputLayout>
-        </android.support.constraint.ConstraintLayout>
-    </android.support.v7.widget.CardView>
-
+        style="@style/BlueButtonDark"
+        android:text="@string/cancel"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <Button
         android:id="@+id/btnEditProfile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/button_vertical_margin"
-        app:layout_constraintTop_toBottomOf="@id/cardUserDetails"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
         style="@style/BlueButtonDark"
-        android:text="@string/edit_profile" />
+        android:layout_marginBottom="@dimen/button_vertical_margin"
+        android:layout_marginStart="@dimen/activity_vertical_margin"
+        android:layout_marginEnd="@dimen/activity_vertical_margin"
+        android:text="@string/edit_profile"
+        app:layout_constraintBottom_toTopOf="@id/btnCancel"/>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        app:layout_constraintTop_toBottomOf="@id/containerToolbar"
+        app:layout_constraintBottom_toTopOf="@id/btnEditProfile">
+
+
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/layoutEtEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hintEnabled="false"
+                android:layout_marginStart="@dimen/activity_vertical_margin"
+                android:layout_marginEnd="@dimen/activity_vertical_margin"
+                android:background="@drawable/blue_border_white_box"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="@dimen/form_field_margin">
+
+                <EditText
+                    android:id="@+id/etEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_email"
+                    android:imeOptions="actionNext"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:enabled="false"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <!--     <android.support.design.widget.TextInputLayout
+                     android:id="@+id/layoutEtUsername"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:background="@drawable/blue_border_white_box"
+                     app:layout_constraintTop_toTopOf="parent"
+                     app:hintEnabled="false"
+                     android:layout_marginBottom="@dimen/form_field_margin">
+
+                     <EditText
+                         android:id="@+id/etUsername"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:hint="@string/prompt_username"
+                         android:imeOptions="actionNext"
+                         android:inputType="text"
+                         android:maxLines="1"
+                         android:enabled="false"
+                         android:clickable="false"
+                         android:focusableInTouchMode="false"
+                         android:singleLine="true"
+                         />
+
+                 </android.support.design.widget.TextInputLayout>
+         -->
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/layoutEtFName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:hintEnabled="false"
+                app:layout_constraintEnd_toStartOf="@id/layoutEtLName"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="@dimen/activity_vertical_margin"
+                android:background="@drawable/blue_border_white_box"
+                app:layout_constraintTop_toBottomOf="@id/layoutEtEmail"
+                android:layout_marginTop="@dimen/form_field_margin">
+
+                <EditText
+                    android:id="@+id/etFirstName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_first_name"
+                    android:imeOptions="actionNext"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:enabled="false"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/layoutEtLName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:hintEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="@dimen/activity_vertical_margin"
+                android:layout_marginEnd="@dimen/activity_vertical_margin"
+                app:layout_constraintStart_toEndOf="@id/layoutEtFName"
+                android:background="@drawable/blue_border_white_box"
+                app:layout_constraintTop_toBottomOf="@id/layoutEtEmail"
+                android:layout_marginTop="@dimen/form_field_margin">
+
+                <EditText
+                    android:id="@+id/etLastName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_last_name"
+                    android:imeOptions="actionNext"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:enabled="false"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/layoutEtMobile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hintEnabled="false"
+                android:layout_marginStart="@dimen/activity_vertical_margin"
+                android:layout_marginEnd="@dimen/activity_vertical_margin"
+                android:background="@drawable/blue_border_white_box"
+                app:layout_constraintTop_toBottomOf="@id/layoutEtLName"
+                android:layout_marginTop="@dimen/form_field_margin">
+
+                <EditText
+                    android:id="@+id/etMobile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_contact_number"
+                    android:imeOptions="actionGo"
+                    android:inputType="phone"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:enabled="false"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+
+
+
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/layoutEtCountry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hintEnabled="false"
+                android:layout_marginStart="@dimen/activity_vertical_margin"
+                android:layout_marginEnd="@dimen/activity_vertical_margin"
+                android:background="@drawable/blue_border_white_box"
+                app:layout_constraintTop_toBottomOf="@id/layoutEtMobile"
+                android:layout_marginTop="@dimen/form_field_margin">
+
+                <EditText
+                    android:id="@+id/etCountry"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_country"
+                    android:imeOptions="actionGo"
+                    android:inputType="phone"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:enabled="false"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <TextView
+                android:id="@+id/labelUserType"
+                style="@style/DefaultTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/button_blue_light"
+                android:gravity="center_horizontal"
+                android:padding="5dp"
+                android:text="@string/your_usertype"
+                android:layout_marginStart="@dimen/activity_vertical_margin"
+                android:layout_marginEnd="@dimen/activity_vertical_margin"
+                android:textColor="@color/button_blue_dark"
+                app:layout_constraintTop_toBottomOf="@id/layoutEtCountry"
+                android:layout_marginTop="@dimen/activity_vertical_margin"/>
+
+            <TextView
+                android:id="@+id/tvDriver"
+                style="@style/ProfileTextBoxes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_userrole_driver"
+                android:text="@string/driver"
+                app:layout_constraintEnd_toStartOf="@+id/tvOwner"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/labelUserType" />
+
+
+            <TextView
+                android:id="@+id/tvOwner"
+                style="@style/ProfileTextBoxes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_userrole_owner"
+                android:text="@string/owner"
+                app:layout_constraintEnd_toStartOf="@+id/tvHealth"
+                app:layout_constraintStart_toEndOf="@+id/tvDriver"
+                app:layout_constraintTop_toBottomOf="@+id/labelUserType" />
+
+            <TextView
+                android:id="@+id/tvHealth"
+                style="@style/ProfileTextBoxes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_userrole_medical"
+                android:text="@string/health"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tvOwner"
+                app:layout_constraintTop_toBottomOf="@+id/labelUserType" />
+
+
+            <android.support.constraint.Barrier
+                android:id="@+id/barrier1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="tvMale,tvOwner,tvHealth" />
+
+            <!--Parking preferences-->
+            <TextView
+                android:id="@+id/labelParkingPref"
+                style="@style/DefaultTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/button_blue_light"
+                android:gravity="center_horizontal"
+                android:padding="5dp"
+                android:layout_marginStart="@dimen/activity_vertical_margin"
+                android:layout_marginEnd="@dimen/activity_vertical_margin"
+                app:layout_constraintTop_toBottomOf="@id/barrier1"
+                android:layout_marginTop="@dimen/activity_vertical_margin_double"
+                android:text="@string/parking_preferences"
+                android:textColor="@color/button_blue_dark" />
+
+
+
+            <TextView
+                android:id="@+id/tvNormal"
+                style="@style/ProfileTextBoxes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_parking_standard"
+                android:text="@string/normal"
+                app:layout_constraintEnd_toStartOf="@+id/tvElectrical"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/labelParkingPref" />
+
+
+            <TextView
+                android:id="@+id/tvElectrical"
+                style="@style/ProfileTextBoxes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_parking_electrical"
+                android:text="@string/electrical"
+                app:layout_constraintEnd_toStartOf="@+id/tvHandicap"
+                app:layout_constraintStart_toEndOf="@+id/tvNormal"
+                app:layout_constraintTop_toBottomOf="@+id/labelParkingPref" />
+
+            <TextView
+                android:id="@+id/tvHandicap"
+                style="@style/ProfileTextBoxes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_parking_handicap"
+                android:text="@string/handicap"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tvElectrical"
+                app:layout_constraintTop_toBottomOf="@+id/labelParkingPref" />
+
+
+
+
+
+            <android.support.constraint.Barrier
+                android:id="@+id/barrier2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="tvNormal,tvElectrical,tvHandicap" />
+
+
+
+
+            <TextView
+                android:id="@+id/labelUserGender"
+                style="@style/DefaultTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/button_blue_light"
+                android:gravity="center_horizontal"
+                android:padding="5dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:text="@string/your_gender"
+                android:textColor="@color/button_blue_dark"
+                app:layout_constraintTop_toBottomOf="@id/barrier2"/>
+
+            <TextView
+                android:id="@+id/tvMale"
+                style="@style/ProfileTextBoxes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_gender_male"
+                android:text="@string/male"
+                app:layout_constraintEnd_toStartOf="@+id/tvFemale"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/labelUserGender" />
+
+
+            <TextView
+                android:id="@+id/tvFemale"
+                style="@style/ProfileTextBoxes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_gender_female"
+                android:text="@string/female"
+                app:layout_constraintEnd_toStartOf="@+id/tvOther"
+                app:layout_constraintStart_toEndOf="@+id/tvMale"
+                app:layout_constraintTop_toBottomOf="@+id/labelUserGender" />
+
+            <TextView
+                android:id="@+id/tvOther"
+                style="@style/ProfileTextBoxes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_gender_other"
+                android:text="@string/other"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tvFemale"
+                app:layout_constraintTop_toBottomOf="@+id/labelUserGender" />
+
+
+            <android.support.constraint.Barrier
+                android:id="@+id/barrier3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="tvMale,tvFemale,tvOther" />
+
+            <!--Parking preferences-->
+            <TextView
+                android:id="@+id/labelDisabilities"
+                style="@style/DefaultTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin_double"
+                android:background="@color/button_blue_light"
+                android:gravity="center_horizontal"
+                android:padding="5dp"
+                android:text="@string/disabilities"
+                android:textColor="@color/button_blue_dark"
+                app:layout_constraintTop_toBottomOf="@id/barrier3" />
+
+
+            <TextView
+                android:id="@+id/tvNone"
+                style="@style/ProfileTextBoxes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_disability_none"
+                android:text="@string/none"
+                app:layout_constraintEnd_toStartOf="@+id/tvWheelchair"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/labelDisabilities" />
+
+
+            <TextView
+                android:id="@+id/tvWheelchair"
+                style="@style/ProfileTextBoxes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_disability_wheelchair"
+                android:text="@string/wheelchair"
+                app:layout_constraintEnd_toStartOf="@+id/tvDisabilityOther"
+                app:layout_constraintStart_toEndOf="@+id/tvNone"
+                app:layout_constraintTop_toBottomOf="@+id/labelDisabilities" />
+
+            <TextView
+                android:id="@+id/tvDisabilityOther"
+                style="@style/ProfileTextBoxes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_disability_other"
+                android:text="@string/other"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tvWheelchair"
+                app:layout_constraintTop_toBottomOf="@+id/labelDisabilities" />
+
+
+            <android.support.constraint.Barrier
+                android:id="@+id/barrier4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin_double"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="tvDisabilityOther,tvWheelchair,tvNone" />
+
+
+            <TextView
+                android:id="@+id/labelYourBirthday"
+                style="@style/DefaultTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin_double"
+                android:background="@color/button_blue_light"
+                android:gravity="center_horizontal"
+                android:padding="5dp"
+                android:text="@string/your_birthday"
+                android:textColor="@color/button_blue_dark"
+                app:layout_constraintTop_toBottomOf="@id/barrier4" />
+
+
+            <TextView
+                android:id="@+id/tvBirthday"
+                style="@style/ProfileTextBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:text="DD/MM/YYYY"
+                app:layout_constraintTop_toBottomOf="@id/labelYourBirthday" />
+
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
 
 </android.support.constraint.ConstraintLayout>

@@ -9,6 +9,7 @@ import eu.vincinity2020.p2p_parking.data.entities.User
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import okhttp3.Credentials
 
 
 class AddLocationPresenterImpl(private val networkService: NetworkService) :AddLocationPresenter{
@@ -28,12 +29,12 @@ class AddLocationPresenterImpl(private val networkService: NetworkService) :AddL
     }
 
 
-    override fun saveLocation(lat: String, lon : String, desc: String) {
+    override fun saveLocation(lat: String, lon : String, desc: String, email: String, password: String) {
         val serverGson =  JsonObject()
         serverGson.addProperty("lat", lat)
         serverGson.addProperty("lon", lon)
         serverGson.addProperty("description", desc)
-        val dishCategory = networkService.saveMyLocation(serverGson)
+        val dishCategory = networkService.saveMyLocation(Credentials.basic(email, password), serverGson)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doFinally { v.onLoadFinish() }

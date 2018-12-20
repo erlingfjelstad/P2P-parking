@@ -63,6 +63,7 @@
     </style>
 
 
+
     <style name="RegistrationInputText" parent="DefaultTextView">
 
       <item name="android:maxLines">1</item>

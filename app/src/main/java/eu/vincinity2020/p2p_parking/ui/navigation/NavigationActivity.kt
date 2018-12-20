@@ -66,7 +66,7 @@ class NavigationActivity : BaseActivity(), NavigationView.OnNavigationItemSelect
         if (savedInstanceState == null) {
             fragment = MapFragment()
             AndroidUtils.attachFragment(supportFragmentManager, fragment,
-                    R.id.fragment_container, MAP_FRAGMENT)
+                    R.id.fragment_container, MAP_FRAGMENT, false)
         } else {
             fragment = when (selectedFragmentTag) {
                 MAP_FRAGMENT -> {
@@ -90,10 +90,10 @@ class NavigationActivity : BaseActivity(), NavigationView.OnNavigationItemSelect
 
             if (retainedFragment != null) {
                 AndroidUtils.attachFragment(supportFragmentManager, retainedFragment,
-                        R.id.fragment_container, selectedFragmentTag)
+                        R.id.fragment_container, selectedFragmentTag, false)
             } else {
                 AndroidUtils.attachFragment(supportFragmentManager, fragment,
-                        R.id.fragment_container, selectedFragmentTag)
+                        R.id.fragment_container, selectedFragmentTag, false)
             }
 
         }
@@ -156,7 +156,7 @@ class NavigationActivity : BaseActivity(), NavigationView.OnNavigationItemSelect
 
         fragment?.let {
             AndroidUtils.attachFragment(supportFragmentManager, it,
-                    R.id.fragment_container, selectedFragmentTag)
+                    R.id.fragment_container, selectedFragmentTag, false)
         }
         return true
     }

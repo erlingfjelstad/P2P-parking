@@ -124,6 +124,12 @@
     <string name="register_vehicle">Register vehicle</string>
     <string name="brand">Brand</string>
     <string name="model_name">Model name</string>
+    <string name="mfg_year">Mfg year</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
+    <string name="start_time">Start time</string>
+    <string name="end_time">End time</string>
+    <string name="parking_preferences">Parking preferences</string>
 
     <string-array name="genders">
         <item>Male</item>
@@ -134,5 +140,15 @@
         <item>Driver</item>
         <item>Owner</item>
         <item>Medical</item>
+    </string-array>
+
+
+    <string-array name="vehicle_fuel">
+        <item>octane_95</item>
+        <item>octane_98</item>
+        <item>diesel</item>
+        <item>EV</item>
+        <item>Hydrogen</item>
+        <item>Unknown</item>
     </string-array>
 </resources>

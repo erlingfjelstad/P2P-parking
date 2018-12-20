@@ -6,7 +6,10 @@ class AppConstants {
         const val USER_LOGGED_IN = "userLoggedIn"
         const val FCM_TOKEN = "fcmToken"
         const val USER_EMAIL = "userEmail"
+        const val USER = "loggedUser"
+        const val IsLoggedOut = "loggedOut"
 
+        const val SEARCHACTIVITYCODE= 1001
     }
 
     enum class Arguments{

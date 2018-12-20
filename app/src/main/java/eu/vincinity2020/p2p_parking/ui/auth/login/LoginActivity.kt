@@ -7,14 +7,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.AutoCompleteTextView
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
+import com.crashlytics.android.Crashlytics
 import eu.vincinity2020.p2p_parking.R
 import eu.vincinity2020.p2p_parking.app.App
 import eu.vincinity2020.p2p_parking.app.common.AppConstants
@@ -61,6 +60,10 @@ class LoginActivity : BaseActivity(), LoginView {
 
         if (intent != null && intent.hasExtra("email"))
             etEmail.setText(intent.getStringExtra("email"))
+
+
+
+
     }
 
     override fun onResume() {
@@ -125,17 +128,16 @@ class LoginActivity : BaseActivity(), LoginView {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true)
+            App.get(this).hideKeyboard(etPassword)
             presenter.attemptLogin(emailStr, passwordStr)
         }
     }
 
     private fun isEmailValid(email: String): Boolean {
-        //TODO: Replace this with your own logic
         return email.contains("@")
     }
 
     private fun isPasswordValid(password: String): Boolean {
-        //TODO: Replace this with your own logic
         return password.length > 4
     }
 
@@ -195,7 +197,11 @@ class LoginActivity : BaseActivity(), LoginView {
     override fun onSuccessfulLogin(user: User) {
         App.get(this).setIsLoggedIn(true)
         App.get(this).setUserEmail(user.id)
-        presenter.saveFcmToken(getSharedPreferences(AppConstants.SHARED_PREFS, Context.MODE_PRIVATE).getString(AppConstants.FCM_TOKEN, "")!!)
+        user.password = etPassword.text.toString()
+        App.get(this).setUser(user)
+
+        presenter.saveFcmToken(getSharedPreferences(AppConstants.SHARED_PREFS, Context.MODE_PRIVATE).getString(AppConstants.FCM_TOKEN, "")!!,
+                user.email, user.password)
     }
 
     override fun onUnknownError(errorMessage: String) {

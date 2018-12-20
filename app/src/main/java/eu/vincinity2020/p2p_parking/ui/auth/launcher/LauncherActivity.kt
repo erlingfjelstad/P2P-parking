@@ -13,7 +13,15 @@ class LauncherActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        if (!App.get(this).isLoggedOut())
+        {
+            App.get(this).setIsLoggedIn(false)
+            App.get(this).setIsLoggedOut(true)
+        }
+
         val loggedIn = App.get(this).isLoggedIn()
+
+
 
         val intent = if (loggedIn) {
             Intent(this, NavigationActivity::class.java)

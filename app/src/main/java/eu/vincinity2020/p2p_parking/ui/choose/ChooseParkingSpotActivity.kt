@@ -64,9 +64,9 @@ class ChooseParkingSpotActivity : BaseActivity(), ParkingSpotAdapter.OnParkingSp
     }
 
     private fun setUpRecyclerView() {
-        val parkingSpot1 = ParkingSpot(1L, "Parkeringsplass #1", 69.648631, 18.955679)
-        val parkingSpot2 = ParkingSpot(2L, "Parkeringsplass #2", 69.649120, 18.953544)
-        val parkingSpot3 = ParkingSpot(3L, "Parkeringsplass #3", 69.648251, 18.959048)
+        val parkingSpot1 = ParkingSpot(1L, "Parkeringsplass #1", "sd",69.648631, 18.955679)
+        val parkingSpot2 = ParkingSpot(2L, "Parkeringsplass #2","sd", 69.649120, 18.953544)
+        val parkingSpot3 = ParkingSpot(3L, "Parkeringsplass #3","sd", 69.648251, 18.959048)
 
         parkingSpots.add(parkingSpot1)
         parkingSpots.add(parkingSpot2)

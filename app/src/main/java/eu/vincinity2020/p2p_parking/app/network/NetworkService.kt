@@ -18,7 +18,7 @@ interface NetworkService {
 
     @Headers("ContainType: application/json")
     @PUT("/user/update/deviceId")
-    fun saveFcmToken(@Body fcmToken: JsonObject) : Observable<JsonObject>           //Save FCM token of device on server
+    fun saveFcmToken(@Header("Authorization") basicAuth: String, @Body fcmToken: JsonObject) : Observable<JsonObject>           //Save FCM token of device on server
 
 
     @Headers("ContainType: application/json")
@@ -36,11 +36,17 @@ interface NetworkService {
     fun logout(): Observable<JsonObject>
 
     @GET("/sensor/list")
-    fun getParkingSites(): Observable<JsonObject>              //Without using user's location
+    fun getParkingSites(@Header("Authorization") basicAuth: String): Observable<JsonObject>              //Without using user's location
 
     @GET("sensor/nearBy")
-    fun getParkingSites(@Query("lat") latitude: String, @Query("lon") longitude: String,
-                        @Query("limit") limit: String): Observable<JsonObject>
+    fun getParkingSites(@Header("Authorization") basicAuth: String, @Query("lat") latitude: String,
+                        @Query("lon") longitude: String, @Query("limit") limit: String): Observable<JsonObject>
+
+
+
+    @Headers("ContainType: application/json")
+    @POST("/booking/bookSpace")
+    fun bookParkingSpace(@Header("Authorization") basicAuth: String, @Body bookDetails: JsonObject): Observable<JsonObject>
 
 
     @GET("/country/list")
@@ -49,12 +55,37 @@ interface NetworkService {
 
     @Headers("ContainType: application/json")
     @POST("/location/save")
-    fun saveMyLocation(@Body locationObject: JsonObject): Observable<JsonObject>
+    fun saveMyLocation(@Header("Authorization") basicAuth: String, @Body locationObject: JsonObject): Observable<JsonObject>
+
+
+    @Headers("ContainType: application/json")
+    @GET("location/list")
+    fun getSavedLocations(@Header("Authorization") basicAuth: String,
+                          @Query("userId") userId: String, @Query("limit") limit: String): Observable<JsonObject>                  //Returns all vehicles of this user
 
 
 
 
     @GET("/vehicleType/list")
     fun getVehicleTypeList(): Observable<JsonObject>                  //Returns Vehicle Type listing
+
+
+    @Headers("ContainType: application/json")
+    @PUT("/vehicle/saveDefaultVehicle")
+    fun updateDefaultVehicle(@Header("Authorization") basicAuth: String, @Body vehicleDetails: JsonObject): Observable<JsonObject>
+
+
+
+    @Headers("ContainType: application/json")
+    @GET("/vehicle/ownerVehicles/{ownerId}")
+    fun getVehicles(@Header("Authorization") basicAuth: String,@Path("ownerId") userId: String): Observable<JsonObject>                  //Returns all vehicles of this user
+
+
+
+
+    @Headers("ContainType: application/json")
+    @POST("/vehicle/addNewVehicle")
+    fun saveNewVehicle(@Header("Authorization") basicAuth: String, @Body vehicleObject: JsonObject): Observable<JsonObject>
+
 
 }
