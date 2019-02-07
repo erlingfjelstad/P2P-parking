@@ -130,6 +130,9 @@
     <string name="start_time">Start time</string>
     <string name="end_time">End time</string>
     <string name="parking_preferences">Parking preferences</string>
+    <string name="set_as_default_vehicle">Set as default vehicle</string>
+    <string name="booked_on">Booked on</string>
+    <string name="booking_type">Booking type</string>
 
     <string-array name="genders">
         <item>Male</item>

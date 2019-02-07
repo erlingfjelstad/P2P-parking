@@ -39,7 +39,7 @@ class RecentTripsFragment : BaseFragment(), TripView {
         recycler_view_recent_trips.layoutManager = LinearLayoutManager(view.context)
         val list: ArrayList<Trip> = ArrayList()
         for (i in 1..5) {
-            val trip1 = Trip(i.toLong(), Date(), Date(), "ParkingSpot # " + i)
+            val trip1 = Trip(i.toLong(), Date(), Date(), "ParkingSensor # " + i)
             list.add(trip1)
 
         }

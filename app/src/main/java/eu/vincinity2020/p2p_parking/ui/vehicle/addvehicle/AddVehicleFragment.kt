@@ -40,7 +40,7 @@ class AddVehicleFragment : BaseFragment(), AddVehicleMvpView {
         super.onViewCreated(view, savedInstanceState)
         val list: ArrayList<Trip> = ArrayList()
         for (i in 1..5) {
-            val trip1 = Trip(i.toLong(), Date(), Date(), "ParkingSpot # " + i)
+            val trip1 = Trip(i.toLong(), Date(), Date(), "ParkingSensor # " + i)
             list.add(trip1)
 
         }
@@ -88,6 +88,7 @@ class AddVehicleFragment : BaseFragment(), AddVehicleMvpView {
     override fun onLoadFinish() {
         scrollContainer.visibility = View.VISIBLE
         progress.visibility = View.GONE
+
     }
 
     override fun onVehicleAdded(message: String) {
@@ -197,7 +198,7 @@ class AddVehicleFragment : BaseFragment(), AddVehicleMvpView {
         }
         else{
 
-            presenter.registerNewVehicle(App.get(context!!).getUser()!!.email, App.get(context!!).getUser()!!.password,34,
+            presenter.registerNewVehicle(App.get(context!!).getUser()!!.email, App.get(context!!).getUser()!!.password, App.get(context!!).getUser()!!.id,
                     etBrand.text.toString(), etName.text.toString(), etDescription.text.toString(), etRegNo.text.toString(), etMfgYr.text.toString(),
                     vehicleType, etHeight.text.toString(), etWidth.text.toString(), etLength.text.toString(), etWeight.text.toString(), spFuel.selectedItem as String)
         }

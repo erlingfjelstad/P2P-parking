@@ -18,7 +18,7 @@ import eu.vincinity2020.p2p_parking.app.common.AppConstants
 
 import eu.vincinity2020.p2p_parking.app.common.BaseFragment
 
-import eu.vincinity2020.p2p_parking.data.entities.ParkingSpot
+import eu.vincinity2020.p2p_parking.data.entities.ParkingSensor
 import eu.vincinity2020.p2p_parking.ui.search.SearchActivity
 import eu.vincinity2020.p2p_parking.utils.DateUtils
 import eu.vincinity2020.p2p_parking.utils.toolbar.FragmentToolbar
@@ -36,11 +36,69 @@ class MapFragment : BaseFragment(), eu.vincinity2020.p2p_parking.ui.map.MapMvpVi
         Marker.OnMarkerClickListener, ParkingSpotAdapter.OnParkingSpotClickedListener {
 
 
+
+    private val parkingSpots = ArrayList<ParkingSensor>()
+
+
+    var isOnActivityCalled= false;
+    @Inject
+    lateinit var presenter: MapPresenter
+
+
+
+
+
+
+
     override fun onCloseButtonClicked() {
 
     }
 
-    override fun onParkingSpotClicked(parkingSpot: ParkingSpot) {
+    override fun onParkingSpotClicked(parkingSensor: ParkingSensor) {
+
+        /**
+         * showing bottom sheet dialog
+         */
+        var view = layoutInflater.inflate(R.layout.book_parking_layout, null);
+
+        view.text_view_parking_spot_name.text = parkingSensor.status
+        view.startTime.setIs24HourView(true)
+        view.endTime.setIs24HourView(true)
+
+        var dialog = BottomSheetDialog(context!!)
+        dialog.setContentView(view)
+        dialog.show()
+
+
+        var endTime = Calendar.getInstance()
+        var startTime = Calendar.getInstance()
+
+        view.endTime.setOnTimeChangedListener { timePicker, hourOfDay, minute ->
+            endTime.set(Calendar.HOUR_OF_DAY, hourOfDay)
+            endTime.set(Calendar.MINUTE, minute)
+        }
+
+        view.startTime.setOnTimeChangedListener { timePicker, hourOfDay, minute ->
+            startTime.set(Calendar.HOUR_OF_DAY, hourOfDay)
+            startTime.set(Calendar.MINUTE, minute)
+        }
+
+        view.button_register_parking_spot.setOnClickListener {
+            if (view.layoutTimings.visibility == View.VISIBLE) {
+                if (endTime.get(Calendar.HOUR_OF_DAY) > startTime.get(Calendar.HOUR_OF_DAY) ||
+                        (endTime.get(Calendar.HOUR_OF_DAY) == startTime.get(Calendar.HOUR_OF_DAY) && endTime.get(Calendar.MINUTE) > startTime.get(Calendar.MINUTE))) {
+                    //valid time selected
+
+                    val format = "yyyy-MM-dd'T'HH:mm:ss"
+                    presenter.createNewBooking(App.get(requireContext()).getUser()!!, parkingSensor,
+                            DateUtils.formatDateTime(startTime, format), DateUtils.formatDateTime(endTime, format))
+                } else
+                    Toast.makeText(context, "End time must be grater then start time.", Toast.LENGTH_SHORT).show()
+
+
+            } else
+                view.layoutTimings.visibility = View.VISIBLE
+        }
 
     }
 
@@ -52,20 +110,13 @@ class MapFragment : BaseFragment(), eu.vincinity2020.p2p_parking.ui.map.MapMvpVi
             .build()
 
 
-    override fun getMarkers(marker: ArrayList<ParkingSpot>) {
+    override fun getMarkers(marker: ArrayList<ParkingSensor>) {
         parkingSpots.clear()
         parkingSpots.addAll(marker)
         addParkingSpotsToMap()
         rvSensors.adapter?.notifyDataSetChanged()
     }
 
-
-    private val parkingSpots = ArrayList<ParkingSpot>()
-
-
-    var isOnActivityCalled= false;
-    @Inject
-    lateinit var presenter: MapPresenter
 
 
 
@@ -165,15 +216,15 @@ class MapFragment : BaseFragment(), eu.vincinity2020.p2p_parking.ui.map.MapMvpVi
     private fun addParkingSpotsToMap() {
         val parkingIcon = requireActivity().getDrawable(R.drawable.ic_local_parking_black_24dp)
 
-        parkingSpots.forEach { parkingSpot: ParkingSpot ->
+        parkingSpots.forEach { parkingSensor: ParkingSensor ->
             val marker = Marker(map)
-            marker.position = GeoPoint(parkingSpot.lat, parkingSpot.lon)
-            marker.title = parkingSpot.status
-            marker.id = parkingSpot.sensorId.toString()
-            marker.snippet = parkingSpot.oid
+            marker.position = GeoPoint(parkingSensor.lat, parkingSensor.lon)
+            marker.title = parkingSensor.status
+            marker.id = parkingSensor.sensorId.toString()
+            marker.snippet = parkingSensor.oid
             marker.icon = parkingIcon
             marker.setOnMarkerClickListener(this)
-
+            marker.relatedObject = parkingSensor
             map.overlays.add(marker)
         }
     }
@@ -181,58 +232,13 @@ class MapFragment : BaseFragment(), eu.vincinity2020.p2p_parking.ui.map.MapMvpVi
     override fun onMarkerClick(marker: Marker, mapView: MapView?): Boolean {
 //        parkingSpotCardView.visibility = View.VISIBLE
 
+        val selectedParkingSpot = marker.relatedObject as ParkingSensor//ParkingSensor(marker.id.toLong(), marker.title, marker.snippet, marker.position.latitude, marker.position.longitude)
 
-
-        val selectedParkingSpot = ParkingSpot(marker.id.toLong(), marker.title, marker.snippet, marker.position.latitude, marker.position.longitude)
-
-
-        /**
-         * showing bottom sheet dialog
-         */
-        var view = layoutInflater.inflate(R.layout.book_parking_layout, null);
-
-        view.text_view_parking_spot_name.text = marker?.title
-        view.startTime.setIs24HourView(true)
-        view.endTime.setIs24HourView(true)
-
-        var dialog = BottomSheetDialog(context!!)
-        dialog.setContentView(view)
-        dialog.show()
-
-
-        var endTime = Calendar.getInstance()
-        var startTime = Calendar.getInstance()
-
-        view.endTime.setOnTimeChangedListener { timePicker, hourOfDay, minute ->
-            endTime.set(Calendar.HOUR_OF_DAY, hourOfDay)
-            endTime.set(Calendar.MINUTE, minute)
-        }
-
-        view.startTime.setOnTimeChangedListener { timePicker, hourOfDay, minute ->
-            startTime.set(Calendar.HOUR_OF_DAY, hourOfDay)
-            startTime.set(Calendar.MINUTE, minute)
-        }
-
-        view.button_register_parking_spot.setOnClickListener {
-            if (view.layoutTimings.visibility == View.VISIBLE) {
-                if (endTime.get(Calendar.HOUR_OF_DAY) > startTime.get(Calendar.HOUR_OF_DAY) ||
-                        (endTime.get(Calendar.HOUR_OF_DAY) == startTime.get(Calendar.HOUR_OF_DAY) && endTime.get(Calendar.MINUTE) > startTime.get(Calendar.MINUTE))) {
-                    //valid time selected
-
-                    val format = "yyyy-MM-dd'T'HH:mm:ss"
-                    presenter.createNewBooking(App.get(requireContext()).getUser()!!, selectedParkingSpot,
-                            DateUtils.formatDateTime(startTime, format), DateUtils.formatDateTime(endTime, format))
-                } else
-                    Toast.makeText(context, "End time must be grater then start time.", Toast.LENGTH_SHORT).show()
-
-
-            } else
-                view.layoutTimings.visibility = View.VISIBLE
-        }
-
-
+        onParkingSpotClicked(selectedParkingSpot)
         return true
     }
+
+
 
 
     @OnClick(R.id.tvMapView)

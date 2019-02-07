@@ -1,14 +1,10 @@
 package eu.vincinity2020.p2p_parking.app.network
 
-import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import eu.vincinity2020.p2p_parking.data.dto.UserDTO
 import io.reactivex.Observable
-import io.reactivex.Single
-import retrofit2.Response
 import retrofit2.http.*
 
-interface NetworkService {
+interface   NetworkService {
 
 //    , @Query("email") email: String, @Query("password") password: String
     @GET("/user/login")
@@ -43,6 +39,11 @@ interface NetworkService {
                         @Query("lon") longitude: String, @Query("limit") limit: String): Observable<JsonObject>
 
 
+ @GET("/booking/list")
+    fun getParkingBookings(@Header("Authorization") basicAuth: String, @Query("limit") limit: String,
+                        @Query("userId") userId: String): Observable<JsonObject>
+
+
 
     @Headers("ContainType: application/json")
     @POST("/booking/bookSpace")
@@ -71,7 +72,7 @@ interface NetworkService {
 
 
     @Headers("ContainType: application/json")
-    @PUT("/vehicle/saveDefaultVehicle")
+    @PUT("/vehicle/saveAsDefaultVehicle")
     fun updateDefaultVehicle(@Header("Authorization") basicAuth: String, @Body vehicleDetails: JsonObject): Observable<JsonObject>
 
 

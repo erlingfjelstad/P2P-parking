@@ -11,7 +11,7 @@ import android.view.View
 import butterknife.BindView
 import butterknife.ButterKnife
 import eu.vincinity2020.p2p_parking.R
-import eu.vincinity2020.p2p_parking.data.entities.ParkingSpot
+import eu.vincinity2020.p2p_parking.data.entities.ParkingSensor
 import eu.vincinity2020.p2p_parking.ui.map.ParkingSpotAdapter
 
 class ParkingSpotCardView
@@ -55,9 +55,9 @@ class ParkingSpotCardView
 
     }
 
-    fun update(parkingSpot: ParkingSpot) {
-        parkingSpotNameTextView.text = parkingSpot.status
-        registerParkingSpotButton.setOnClickListener { onParkingSpotClickedListener?.onParkingSpotClicked(parkingSpot) }
+    fun update(parkingSensor: ParkingSensor) {
+        parkingSpotNameTextView.text = parkingSensor.status
+        registerParkingSpotButton.setOnClickListener { onParkingSpotClickedListener?.onParkingSpotClicked(parkingSensor) }
         closeImageButton.setOnClickListener { onParkingSpotClickedListener?.onCloseButtonClicked() }
     }
 

@@ -3,6 +3,7 @@ package eu.vincinity2020.p2p_parking.ui.profile.view
 import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,6 +33,20 @@ class ViewProfileFragment : BaseFragment(), ViewProfileMvpView {
         etLastName.setText(user.lastName)
         etEmail.setText(user.email)
         etCountry.setText(user.country.country)
+        etMobile.setText(user.phone)
+
+
+        when {
+            user.role.trim().toLowerCase() == "medical" -> tvHealth.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.true_black))
+            user.role.trim().toLowerCase() == "owner" -> tvOwner.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.true_black))
+            else -> tvOwner.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.true_black))
+        }
+
+        when {
+            user.gender.trim().toLowerCase() == "male" -> tvMale.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.true_black))
+            user.gender.trim().toLowerCase() == "female" -> tvFemale.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.true_black))
+            else -> tvOther.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.true_black))
+        }
     }
 
     override fun builder(): FragmentToolbar = FragmentToolbar.Builder()

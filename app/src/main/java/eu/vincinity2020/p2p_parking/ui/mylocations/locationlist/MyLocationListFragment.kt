@@ -1,6 +1,5 @@
 package eu.vincinity2020.p2p_parking.ui.mylocations.locationlist
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
@@ -8,27 +7,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.navigation.Navigation
 import butterknife.OnClick
 import eu.vincinity2020.p2p_parking.R
 import eu.vincinity2020.p2p_parking.app.App
 import eu.vincinity2020.p2p_parking.app.common.BaseFragment
 import eu.vincinity2020.p2p_parking.data.entities.MyLocation
-import eu.vincinity2020.p2p_parking.data.entities.ParkingSpot
-import eu.vincinity2020.p2p_parking.data.entities.Trip
-import eu.vincinity2020.p2p_parking.data.entities.User
 import eu.vincinity2020.p2p_parking.ui.mylocations.addlocation.AddLocationFragment
 import eu.vincinity2020.p2p_parking.ui.navigation.NavigationActivity
-import eu.vincinity2020.p2p_parking.ui.profile.edit.part3.EditProfile3Fragment
 import eu.vincinity2020.p2p_parking.utils.AndroidUtils
 import eu.vincinity2020.p2p_parking.utils.toolbar.FragmentToolbar
-import kotlinx.android.synthetic.main.fragment_my_bookings.*
 import kotlinx.android.synthetic.main.fragment_my_location_list.*
-import kotlinx.android.synthetic.main.fragment_recent_trips.*
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.overlay.Marker
-import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 

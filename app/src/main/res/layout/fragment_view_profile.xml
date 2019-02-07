@@ -262,7 +262,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:barrierDirection="bottom"
-                app:constraint_referenced_ids="tvMale,tvOwner,tvHealth" />
+                app:constraint_referenced_ids="tvDriver,tvOwner,tvHealth" />
 
             <!--Parking preferences-->
             <TextView
@@ -343,6 +343,8 @@
                 android:text="@string/your_gender"
                 android:textColor="@color/button_blue_dark"
                 app:layout_constraintTop_toBottomOf="@id/barrier2"/>
+
+
 
             <TextView
                 android:id="@+id/tvMale"

@@ -14,7 +14,7 @@ import butterknife.OnClick
 import eu.vincinity2020.p2p_parking.R
 import eu.vincinity2020.p2p_parking.app.App
 import eu.vincinity2020.p2p_parking.app.common.BaseActivity
-import eu.vincinity2020.p2p_parking.data.entities.ParkingSpot
+import eu.vincinity2020.p2p_parking.data.entities.ParkingSensor
 import eu.vincinity2020.p2p_parking.ui.reciept.RecieptActivity
 import kotlinx.android.synthetic.main.activity_book_parking_spot.*
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -37,17 +37,17 @@ class BookParkingSpotActivity :
     @BindDrawable(R.drawable.ic_place_black_24dp)
     lateinit var placeIcon: Drawable
 
-    private lateinit var parkingSpot: ParkingSpot
+    private lateinit var parkingSensor: ParkingSensor
 
     companion object {
-        private const val ARG_PARKING_SPOT = "arg:ParkingSpot"
+        private const val ARG_PARKING_SPOT = "arg:ParkingSensor"
         private const val ARG_GEO_POINT = "arg:GeoPoint"
         private const val ARG_BUNDLE = "ARG_BUNDLE"
 
-        fun getLaunchIntent(context: Context, parkingSpot: ParkingSpot?,
+        fun getLaunchIntent(context: Context, parkingSensor: ParkingSensor?,
                             geoPoint: GeoPoint?): Intent {
             val bundle = Bundle().apply {
-                putParcelable(ARG_PARKING_SPOT, parkingSpot)
+                putParcelable(ARG_PARKING_SPOT, parkingSensor)
                 putParcelable(ARG_GEO_POINT, geoPoint)
             }
 
@@ -65,10 +65,10 @@ class BookParkingSpotActivity :
         ButterKnife.bind(this)
         val bundle = intent.getBundleExtra(ARG_BUNDLE)
 
-        parkingSpot = bundle.getParcelable(ARG_PARKING_SPOT)
+        parkingSensor = bundle.getParcelable(ARG_PARKING_SPOT)
         val geoPoint = bundle.getParcelable<GeoPoint>(ARG_GEO_POINT)
-        initMap(parkingSpot)
-        addParkingSpotToMap(parkingSpot)
+        initMap(parkingSensor)
+        addParkingSpotToMap(parkingSensor)
         addDesitinationIconToMap(geoPoint)
 
         button_book_parking_spot.setOnClickListener {
@@ -87,7 +87,7 @@ class BookParkingSpotActivity :
         val fromDate = from_date_text_input_layout_register_user.editText?.tag as Date
         val toDate = to_date_text_input_layout_register_user.editText?.tag as Date
 
-        bookParkingSpotPresenter.bookParkingSpot(fromDate, toDate, parkingSpot.status)
+        bookParkingSpotPresenter.bookParkingSpot(fromDate, toDate, parkingSensor.status)
     }
 
     private fun addDesitinationIconToMap(geoPoint: GeoPoint?) {
@@ -101,27 +101,27 @@ class BookParkingSpotActivity :
         }
     }
 
-    private fun addParkingSpotToMap(parkingSpot: ParkingSpot) {
+    private fun addParkingSpotToMap(parkingSensor: ParkingSensor) {
         val parkingIcon = getDrawable(R.drawable.ic_local_parking_black_24dp)
 
 
         val marker = Marker(map)
-        marker.position = GeoPoint(parkingSpot.lat, parkingSpot.lon)
-        marker.title = parkingSpot.status
+        marker.position = GeoPoint(parkingSensor.lat, parkingSensor.lon)
+        marker.title = parkingSensor.status
         marker.icon = parkingIcon
         marker.setOnMarkerClickListener(null)
         map.overlays.add(marker)
 
     }
 
-    private fun initMap(parkingSpot: ParkingSpot) {
+    private fun initMap(parkingSensor: ParkingSensor) {
         map.setTileSource(TileSourceFactory.MAPNIK)
         map.setBuiltInZoomControls(false)
         map.setMultiTouchControls(true)
         val mapController = map.controller
 
         // hack to fix mapController.setCenter not working
-        val startPoint = GeoPoint(parkingSpot.lat + 0.005, parkingSpot.lon)
+        val startPoint = GeoPoint(parkingSensor.lat + 0.005, parkingSensor.lon)
         mapController.setCenter(startPoint)
         mapController.animateTo(startPoint)
         mapController.setZoom(15.0)
@@ -190,7 +190,7 @@ class BookParkingSpotActivity :
     }
 
     override fun onTripSuccessfullyBooked() {
-        val launchIntent = RecieptActivity.getLaunchIntent(this, parkingSpot,
+        val launchIntent = RecieptActivity.getLaunchIntent(this, parkingSensor,
                 from_date_text_input_layout_register_user.editText?.text.toString(),
                 to_date_text_input_layout_register_user.editText?.text.toString())
 

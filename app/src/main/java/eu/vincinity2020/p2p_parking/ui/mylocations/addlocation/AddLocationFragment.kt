@@ -15,7 +15,6 @@ import eu.vincinity2020.p2p_parking.data.entities.Trip
 import eu.vincinity2020.p2p_parking.data.entities.User
 import eu.vincinity2020.p2p_parking.utils.toolbar.FragmentToolbar
 import kotlinx.android.synthetic.main.fragment_add_location.*
-import kotlinx.android.synthetic.main.fragment_my_bookings.*
 import kotlinx.android.synthetic.main.fragment_recent_trips.*
 import org.osmdroid.events.MapEventsReceiver
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -49,7 +48,7 @@ class AddLocationFragment : BaseFragment(), AddLocationMvpView {
         super.onViewCreated(view, savedInstanceState)
         val list: ArrayList<Trip> = ArrayList()
         for (i in 1..5) {
-            val trip1 = Trip(i.toLong(), Date(), Date(), "ParkingSpot # " + i)
+            val trip1 = Trip(i.toLong(), Date(), Date(), "ParkingSensor # " + i)
             list.add(trip1)
 
         }

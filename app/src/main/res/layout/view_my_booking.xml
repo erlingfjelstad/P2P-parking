@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="@dimen/dp5"
+    app:cardElevation="@dimen/dp5"
+    app:cardUseCompatPadding="true"
+    app:cardPreventCornerOverlap="true">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp5">
+
+        <TextView
+            android:id="@+id/tvParking"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp5"
+            app:layout_constraintEnd_toStartOf="@id/labelBooked"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/labelBooked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tvDate"
+            android:layout_marginEnd="@dimen/dp5"
+            android:text="@string/booked_on"/>
+
+        <android.support.constraint.Barrier
+            android:id="@+id/barrier1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="labelBooked, tvDate, tvParking"
+            app:barrierDirection="bottom"/>
+
+        <!--<com.leondzn.simpleanalogclock.SimpleAnalogClock-->
+            <!--android:id="@+id/startTime"-->
+            <!--android:layout_width="60dp"-->
+            <!--android:layout_height="60dp"-->
+            <!--android:layout_marginTop="@dimen/dp5"-->
+            <!--app:layout_constraintTop_toBottomOf="@id/barrier1"-->
+            <!--app:hourTint="@color/colorPrimary"-->
+            <!--app:secondTint="@color/colorAccent" />-->
+
+        <TextView
+            android:id="@+id/labelStartTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/barrier1"
+            app:layout_constraintStart_toStartOf="@id/startTime"
+            app:layout_constraintEnd_toEndOf="@id/startTime"
+            android:text="@string/start_time"/>
+
+
+        <!--<com.leondzn.simpleanalogclock.SimpleAnalogClock-->
+            <!--android:id="@+id/endTime"-->
+            <!--android:layout_width="60dp"-->
+            <!--android:layout_height="60dp"-->
+            <!--android:layout_marginTop="@dimen/dp5"-->
+            <!--app:layout_constraintTop_toBottomOf="@id/barrier1"-->
+            <!--app:layout_constraintEnd_toEndOf="parent"-->
+            <!--app:hourTint="@color/colorPrimary"-->
+            <!--app:secondTint="@color/colorAccent" />-->
+
+        <TextView
+            android:id="@+id/labelEndTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/barrier1"
+            app:layout_constraintStart_toStartOf="@id/endTime"
+            app:layout_constraintEnd_toEndOf="@id/endTime"
+            android:text="@string/end_time"/>
+
+
+        <android.support.constraint.Barrier
+            android:id="@+id/barrier2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="labelStartTime,labelEndTime"
+            app:barrierDirection="bottom"/>
+
+        <TextView
+            android:id="@+id/labelBookingType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/barrier2"
+            android:text="@string/booking_type"/>
+
+        <TextView
+            android:id="@+id/tvBookingType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/labelBookingType"
+            android:layout_marginStart="@dimen/dp5"
+            app:layout_constraintTop_toBottomOf="@id/barrier2"
+            android:textStyle="bold"
+            android:textColor="@color/true_black"/>
+
+
+        <TextView
+            android:id="@+id/labelStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/barrier2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/booking_type"/>
+
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/labelStatus"
+            android:layout_marginStart="@dimen/dp5"
+            app:layout_constraintTop_toBottomOf="@id/barrier2"
+            android:textStyle="bold"
+            android:textColor="@color/true_black"/>
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.v7.widget.CardView>

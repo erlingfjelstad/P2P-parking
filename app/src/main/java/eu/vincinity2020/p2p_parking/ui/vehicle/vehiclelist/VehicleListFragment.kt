@@ -18,14 +18,14 @@ import eu.vincinity2020.p2p_parking.ui.profile.edit.part3.EditProfile3Fragment
 import eu.vincinity2020.p2p_parking.ui.vehicle.addvehicle.AddVehicleFragment
 import eu.vincinity2020.p2p_parking.utils.AndroidUtils
 import eu.vincinity2020.p2p_parking.utils.toolbar.FragmentToolbar
-import kotlinx.android.synthetic.main.fragment_my_bookings.*
 import kotlinx.android.synthetic.main.fragment_recent_trips.*
 import kotlinx.android.synthetic.main.fragment_view_vehicle_list.*
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
-class VehicleListFragment : BaseFragment(), VehicleListMvpView {
+class VehicleListFragment : BaseFragment(), VehicleListMvpView, MyVehiclesAdapter.ClickCallbacks {
+
 
     @Inject
     lateinit var presenter: VehicleListPresenter
@@ -45,7 +45,7 @@ class VehicleListFragment : BaseFragment(), VehicleListMvpView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         rvVehicles.layoutManager = LinearLayoutManager(view.context)
-        rvVehicles.adapter = MyVehiclesAdapter(view.context, vehicles)
+        rvVehicles.adapter = MyVehiclesAdapter(view.context, vehicles, this)
 
     }
 
@@ -107,4 +107,20 @@ class VehicleListFragment : BaseFragment(), VehicleListMvpView {
                 R.id.fragment_container, (activity as NavigationActivity).selectedFragmentTag, true)
     }
 
+
+    override fun onDefaultVehicleUpdated(position: Int) {
+        for ((index, value) in vehicles.withIndex()) {
+            if (value.isDefault)
+                vehicles[index].isDefault = false
+        }
+
+        vehicles[position].isDefault = true
+        rvVehicles.adapter?.notifyDataSetChanged()
+    }
+    override fun onSetDefaultClicked(position: Int) {
+
+        presenter.updateDefaultVehicle(App.get(context!!).getUser()!!.id, App.get(context!!).getUser()!!.email,
+                App.get(context!!).getUser()!!.password, vehicles[position], position)
+
+    }
 }

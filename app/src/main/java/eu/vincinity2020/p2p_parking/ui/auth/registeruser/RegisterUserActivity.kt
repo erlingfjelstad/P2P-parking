@@ -223,6 +223,7 @@ class RegisterUserActivity : BaseActivity(), RegisterView, DatePickerDialog.OnDa
         var error = false
         if (spCountry.selectedItem == null) {
             error = true
+            showToast("Please select country.")
         }
 
         return error

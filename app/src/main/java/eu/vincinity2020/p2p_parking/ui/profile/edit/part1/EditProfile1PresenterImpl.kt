@@ -2,16 +2,13 @@ package eu.vincinity2020.p2p_parking.ui.profile.edit.part1
 
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import com.google.gson.reflect.TypeToken
 import eu.vincinity2020.p2p_parking.app.common.MvpView
 import eu.vincinity2020.p2p_parking.app.network.NetworkResponse
 import eu.vincinity2020.p2p_parking.app.network.NetworkService
-import eu.vincinity2020.p2p_parking.data.entities.ParkingSpot
 import eu.vincinity2020.p2p_parking.data.entities.User
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import java.util.ArrayList
 
 
 class EditProfile1PresenterImpl(private val networkService: NetworkService) :EditProfile1Presenter{

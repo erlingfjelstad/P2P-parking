@@ -3,7 +3,6 @@
 
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg">
@@ -171,6 +170,7 @@
                 android:text="@string/disabilities"
                 android:textColor="@color/button_blue_dark"
                 app:layout_constraintTop_toBottomOf="@id/barrier1" />
+
 
 
             <TextView

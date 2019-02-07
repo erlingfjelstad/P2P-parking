@@ -1,23 +1,16 @@
 package eu.vincinity2020.p2p_parking.ui.map
 
-import android.arch.lifecycle.MutableLiveData
-import android.util.Log
 import com.google.gson.Gson
-import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
-import eu.vincinity2020.p2p_parking.app.network.OpenStreetMapService
 import eu.vincinity2020.p2p_parking.app.common.MvpView
 import eu.vincinity2020.p2p_parking.app.network.NetworkResponse
 import eu.vincinity2020.p2p_parking.app.network.NetworkService
-import eu.vincinity2020.p2p_parking.data.dto.Country
-import eu.vincinity2020.p2p_parking.data.entities.ParkingSpot
+import eu.vincinity2020.p2p_parking.data.entities.ParkingSensor
 import eu.vincinity2020.p2p_parking.data.entities.User
 import io.reactivex.schedulers.Schedulers
-import retrofit2.Response
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.observers.DisposableObserver
 import okhttp3.Credentials
 import java.util.ArrayList
 
@@ -50,8 +43,8 @@ class MapPresenterImpl(private val networkService: NetworkService) : MapPresente
                 .subscribeWith(object : NetworkResponse<JsonObject>(v) {
                     override fun onSuccess(response: JsonObject) {
                         if (!response.get("error").asBoolean) {
-                            val listType = object : TypeToken<ArrayList<ParkingSpot>>() {}.type
-                            val markers = Gson().fromJson<Any>(response.getAsJsonArray("data"), listType) as ArrayList<ParkingSpot>
+                            val listType = object : TypeToken<ArrayList<ParkingSensor>>() {}.type
+                            val markers = Gson().fromJson<Any>(response.getAsJsonArray("data"), listType) as ArrayList<ParkingSensor>
                             v.getMarkers(markers)
                         } else
                             if (response.has("message")) {
@@ -76,8 +69,8 @@ class MapPresenterImpl(private val networkService: NetworkService) : MapPresente
                 .subscribeWith(object : NetworkResponse<JsonObject>(v) {
                     override fun onSuccess(response: JsonObject) {
                         if (!response.get("error").asBoolean) {
-                            val listType = object : TypeToken<ArrayList<ParkingSpot>>() {}.type
-                            val markers = Gson().fromJson<Any>(response.getAsJsonArray("data"), listType) as ArrayList<ParkingSpot>
+                            val listType = object : TypeToken<ArrayList<ParkingSensor>>() {}.type
+                            val markers = Gson().fromJson<Any>(response.getAsJsonArray("data"), listType) as ArrayList<ParkingSensor>
                             v.getMarkers(markers)
                         } else
                             if (response.has("message")) {
@@ -90,15 +83,13 @@ class MapPresenterImpl(private val networkService: NetworkService) : MapPresente
         compositeDisposable.add(dishCategory)
     }
 
-
-
-    override fun createNewBooking(user: User, parkingSpot: ParkingSpot, fromTime: String, toTime: String) {
+    override fun createNewBooking(user: User, parkingSensor: ParkingSensor, fromTime: String, toTime: String) {
 
         val serverGson =  JsonObject()
         serverGson.addProperty("fromTime", fromTime)
         serverGson.addProperty("toTime", toTime)
         serverGson.add("user", Gson().toJsonTree(user))
-        serverGson.add("sensor", Gson().toJsonTree(parkingSpot))
+        serverGson.add("sensor", Gson().toJsonTree(parkingSensor))
 
 
         val dishCategory = networkService.bookParkingSpace(Credentials.basic(user.email, user.password), serverGson)
@@ -111,7 +102,7 @@ class MapPresenterImpl(private val networkService: NetworkService) : MapPresente
                     override fun onSuccess(response: JsonObject) {
                         if (!response.get("error").asBoolean) {
                             if (response.has("message")) {
-                                v.onUnknownError(response.get("message").asString)
+                                v.onUnknownError("Parking booked.")
                             }
                         } else
                             if (response.has("message")) {

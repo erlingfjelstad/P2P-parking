@@ -6,6 +6,7 @@ import android.support.annotation.MenuRes
 import android.support.annotation.StringRes
 import android.view.MenuItem
 
+
 class FragmentToolbar
 private constructor(@IdRes val resId: Int,
                     @StringRes val title: Int,

@@ -7,5 +7,7 @@ interface VehicleListMvpView : MvpView {
 
     fun updateVehicleList(allVehicles: ArrayList<Vehicles>)
     fun onLoadFinish()
+    fun onDefaultVehicleUpdated(position: Int)
+
 
 }

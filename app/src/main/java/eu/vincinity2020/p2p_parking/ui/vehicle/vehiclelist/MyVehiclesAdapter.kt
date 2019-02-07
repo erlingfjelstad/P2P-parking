@@ -2,6 +2,7 @@ package eu.vincinity2020.p2p_parking.ui.vehicle.vehiclelist
 
 import android.content.Context
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -12,16 +13,21 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import eu.vincinity2020.p2p_parking.R
 import eu.vincinity2020.p2p_parking.data.entities.Vehicles
+import android.widget.Toast
+
+import android.support.v7.widget.PopupMenu
+import android.view.MenuItem
+
 
 class MyVehiclesAdapter(private val context: Context,
-                        private val vehicleList: List<Vehicles>)
+                        private val vehicleList: List<Vehicles>, private val mCallbacks: ClickCallbacks )
     : RecyclerView.Adapter<MyVehiclesAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, p1: Int): ViewHolder {
         return ViewHolder(LayoutInflater
                 .from(context)
-                .inflate(R.layout.item_vehicle, viewGroup, false))
+                .inflate(R.layout.item_vehicle, viewGroup, false), mCallbacks )
     }
 
     override fun getItemCount(): Int {
@@ -32,10 +38,32 @@ class MyVehiclesAdapter(private val context: Context,
         viewHolder.update(vehicleList[position])
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View, mCallbacks: ClickCallbacks) : RecyclerView.ViewHolder(itemView) {
 
         init {
             ButterKnife.bind(this, itemView)
+            ivDefault.setOnClickListener {
+                //Creating the instance of PopupMenu
+                val popup = PopupMenu(itemView.context, ivDefault)
+                //Inflating the Popup using xml file
+                popup.menuInflater.inflate(R.menu.menu_default_vehicle, popup.menu)
+
+
+
+                popup.setOnMenuItemClickListener { item: MenuItem? ->
+
+                    when (item!!.itemId) {
+                        R.id.makeDefault -> {
+                            mCallbacks.onSetDefaultClicked(adapterPosition);
+                        }
+                    }
+
+                    true
+                }
+
+                popup.show()//showing popup menu
+
+            }
         }
 
         @BindView(R.id.tvBrand)
@@ -65,10 +93,22 @@ class MyVehiclesAdapter(private val context: Context,
          @BindView(R.id.ivVehicleType)
         lateinit var ivVehicleType: ImageView
 
+         @BindView(R.id.ivDefault)
+        lateinit var ivDefault: ImageView
+
+
+         @BindView(R.id.cardParent)
+        lateinit var cardParent: CardView
+
 
 
 
         fun update(vehicle: Vehicles) {
+
+            if (vehicle.isDefault)
+                cardParent.setCardBackgroundColor(ContextCompat.getColor(itemView.context, R.color.gray_light))
+            else
+                cardParent.setCardBackgroundColor(ContextCompat.getColor(itemView.context, R.color.true_white))
 
             tvBrand.text = vehicle.brand
 
@@ -104,4 +144,11 @@ class MyVehiclesAdapter(private val context: Context,
 
         }
     }
+
+
+    interface ClickCallbacks
+    {
+        fun onSetDefaultClicked(position: Int)
+    }
+
 }

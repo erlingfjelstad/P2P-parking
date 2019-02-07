@@ -5,7 +5,6 @@ import com.google.gson.JsonObject
 import eu.vincinity2020.p2p_parking.app.network.NetworkService
 import eu.vincinity2020.p2p_parking.app.common.MvpView
 import eu.vincinity2020.p2p_parking.app.network.NetworkResponse
-import eu.vincinity2020.p2p_parking.data.dto.UserDTO
 import eu.vincinity2020.p2p_parking.data.entities.User
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable

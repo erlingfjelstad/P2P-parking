@@ -4,6 +4,8 @@ import android.content.Context
 import eu.vincinity2020.p2p_parking.R
 import java.lang.StringBuilder
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class DateUtils {
@@ -131,6 +133,11 @@ class DateUtils {
         {
             val toFormat = SimpleDateFormat(expectedFormat)
             return  toFormat.format(calendar.time)
+        }
+
+        fun formatStringToDate(pattern: String, source: String) : Date
+        {
+            return SimpleDateFormat(pattern).parse(source)
         }
     }
 }

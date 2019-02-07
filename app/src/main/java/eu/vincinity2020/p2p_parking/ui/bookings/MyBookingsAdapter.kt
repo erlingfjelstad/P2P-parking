@@ -6,22 +6,25 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
+import com.leondzn.simpleanalogclock.SimpleAnalogClock
 import eu.vincinity2020.p2p_parking.R
-import eu.vincinity2020.p2p_parking.data.entities.Trip
+import eu.vincinity2020.p2p_parking.data.entities.Bookings
 import eu.vincinity2020.p2p_parking.utils.DateUtils
 import java.util.*
 
+
 class MyBookingsAdapter(private val context: Context,
-                        private val recentTripList: List<Trip>)
+                        private val recentTripList: List<Bookings>)
     : RecyclerView.Adapter<MyBookingsAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, p1: Int): ViewHolder {
         return ViewHolder(LayoutInflater
                 .from(context)
-                .inflate(R.layout.view_recent_trip, viewGroup, false))
+                .inflate(R.layout.view_my_booking, viewGroup, false))
     }
 
     override fun getItemCount(): Int {
@@ -38,40 +41,29 @@ class MyBookingsAdapter(private val context: Context,
             ButterKnife.bind(this, itemView)
         }
 
-        @BindView(R.id.text_view_title_recent_trip)
-        lateinit var titleTextView: AppCompatTextView
 
-        @BindView(R.id.text_view_date_recent_trip)
-        lateinit var dateTextView: AppCompatTextView
+        @BindView(R.id.startTime)
+        lateinit var startTime: SimpleAnalogClock
 
-        @BindView(R.id.text_view_parking_spot_name_recent_trip)
-        lateinit var parkingSpotTextView: AppCompatTextView
+        @BindView(R.id.endTime)
+        lateinit var endTime: SimpleAnalogClock
 
-        fun update(trip: Trip) {
-            val calendarFromDate = Calendar.getInstance()
-            calendarFromDate.time = trip.fromDate
+        @BindView(R.id.tvParking)
+        lateinit var tvParking: TextView
 
-            val calendarToDate = Calendar.getInstance()
-            calendarToDate.time = trip.toDate
 
-            if (DateUtils.isMoreThanOneDayAfter(calendarFromDate, calendarToDate)) {
-                val fromDate = DateUtils.getReadableDate(calendarFromDate, itemView.context)
-                val toDate = DateUtils.getReadableDate(calendarToDate, itemView.context)
+        fun update(trip: Bookings) {
+            var startHours = DateUtils.formatStringToDate("yyyy-MM-dd'T'HH:mm:ss", trip.fromTime)
+            val calendar = Calendar.getInstance()
+            calendar.time = (startHours)
+            startTime.setTime(calendar.get(Calendar.HOUR), calendar.get(Calendar.MINUTE), calendar.get(Calendar.SECOND))
 
-                dateTextView.text = String.format("%s - %s", fromDate, toDate)
+            var endHours = DateUtils.formatStringToDate("yyyy-MM-dd'T'HH:mm:ss", trip.toTime)
+            val calendar2 = Calendar.getInstance()
+            calendar2.time = (endHours)
+            endTime.setTime(calendar2.get(Calendar.HOUR), calendar2.get(Calendar.MINUTE), calendar2.get(Calendar.SECOND))
 
-                val fromDay = DateUtils.getReadableDay(calendarFromDate, itemView.context)
-                val toDay = DateUtils.getReadableDay(calendarToDate, itemView.context)
-
-                titleTextView.text = String.format("%s %s", fromDay, toDay)
-
-            } else {
-                dateTextView.text = DateUtils.getReadableDate(calendarFromDate, itemView.context)
-                titleTextView.text = DateUtils.getReadableDay(calendarFromDate, itemView.context)
-            }
-
-            parkingSpotTextView.text = trip.parkingSpotName
-
+            tvParking.setText(trip.parkingSensor.parkingLotName)
         }
     }
 }

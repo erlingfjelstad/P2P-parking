@@ -11,7 +11,7 @@ import android.support.v7.widget.RecyclerView
 import eu.vincinity2020.p2p_parking.R
 import eu.vincinity2020.p2p_parking.ui.book.BookParkingSpotActivity
 import eu.vincinity2020.p2p_parking.app.common.BaseActivity
-import eu.vincinity2020.p2p_parking.data.entities.ParkingSpot
+import eu.vincinity2020.p2p_parking.data.entities.ParkingSensor
 import eu.vincinity2020.p2p_parking.ui.map.ParkingSpotAdapter
 import kotlinx.android.synthetic.main.activity_choose_parking_spot.*
 import org.osmdroid.config.Configuration
@@ -47,7 +47,7 @@ class ChooseParkingSpotActivity : BaseActivity(), ParkingSpotAdapter.OnParkingSp
 
     lateinit var parkingSpotAdapter: ParkingSpotAdapter
 
-    private val parkingSpots: ArrayList<ParkingSpot> = ArrayList(3)
+    private val parkingSensors: ArrayList<ParkingSensor> = ArrayList(3)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val ctx = applicationContext
@@ -64,13 +64,6 @@ class ChooseParkingSpotActivity : BaseActivity(), ParkingSpotAdapter.OnParkingSp
     }
 
     private fun setUpRecyclerView() {
-        val parkingSpot1 = ParkingSpot(1L, "Parkeringsplass #1", "sd",69.648631, 18.955679)
-        val parkingSpot2 = ParkingSpot(2L, "Parkeringsplass #2","sd", 69.649120, 18.953544)
-        val parkingSpot3 = ParkingSpot(3L, "Parkeringsplass #3","sd", 69.648251, 18.959048)
-
-        parkingSpots.add(parkingSpot1)
-        parkingSpots.add(parkingSpot2)
-        parkingSpots.add(parkingSpot3)
 
 
         val pagerSnapHelper = PagerSnapHelper()
@@ -79,7 +72,7 @@ class ChooseParkingSpotActivity : BaseActivity(), ParkingSpotAdapter.OnParkingSp
 
 
         recyclerview_promoted_spots.layoutManager = linearLayoutManager
-        parkingSpotAdapter = ParkingSpotAdapter(parkingSpots, this, this)
+        parkingSpotAdapter = ParkingSpotAdapter(parkingSensors, this, this)
         recyclerview_promoted_spots.adapter = parkingSpotAdapter
         recyclerview_promoted_spots.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -118,10 +111,10 @@ class ChooseParkingSpotActivity : BaseActivity(), ParkingSpotAdapter.OnParkingSp
 
     private fun addParkingSpotsToMap() {
         val parkingIcon = getDrawable(R.drawable.ic_local_parking_black_24dp)
-        parkingSpots.forEach { parkingSpot: ParkingSpot ->
+        parkingSensors.forEach { parkingSensor: ParkingSensor ->
             val marker = Marker(map)
-            marker.position = GeoPoint(parkingSpot.lat, parkingSpot.lon)
-            marker.title = parkingSpot.status
+            marker.position = GeoPoint(parkingSensor.lat, parkingSensor.lon)
+            marker.title = parkingSensor.status
             marker.icon = parkingIcon
             marker.setOnMarkerClickListener(this)
 
@@ -150,8 +143,8 @@ class ChooseParkingSpotActivity : BaseActivity(), ParkingSpotAdapter.OnParkingSp
         map.onResume()
     }
 
-    override fun onParkingSpotClicked(parkingSpot: ParkingSpot) {
-        val launchIntent = BookParkingSpotActivity.getLaunchIntent(this, parkingSpot, geoPoint)
+    override fun onParkingSpotClicked(parkingSensor: ParkingSensor) {
+        val launchIntent = BookParkingSpotActivity.getLaunchIntent(this, parkingSensor, geoPoint)
         startActivity(launchIntent)
     }
 }

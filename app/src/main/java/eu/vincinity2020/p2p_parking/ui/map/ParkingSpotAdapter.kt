@@ -11,9 +11,9 @@ import android.view.ViewGroup
 import butterknife.BindView
 import butterknife.ButterKnife
 import eu.vincinity2020.p2p_parking.R
-import eu.vincinity2020.p2p_parking.data.entities.ParkingSpot
+import eu.vincinity2020.p2p_parking.data.entities.ParkingSensor
 
-class ParkingSpotAdapter(private val dataSet: ArrayList<ParkingSpot>, val context: Context,
+class ParkingSpotAdapter(private val dataSet: ArrayList<ParkingSensor>, val context: Context,
                          private val onParkingSpotClickedListener: OnParkingSpotClickedListener)
     : RecyclerView.Adapter<ParkingSpotAdapter.ViewHolder>() {
 
@@ -32,12 +32,12 @@ class ParkingSpotAdapter(private val dataSet: ArrayList<ParkingSpot>, val contex
         viewHolder.update(dataSet[position])
     }
 
-    fun getItemAtPosition(position: Int): ParkingSpot {
+    fun getItemAtPosition(position: Int): ParkingSensor {
         return dataSet[position]
     }
 
     interface OnParkingSpotClickedListener {
-        fun onParkingSpotClicked(parkingSpot: ParkingSpot)
+        fun onParkingSpotClicked(parkingSensor: ParkingSensor)
 
         fun onCloseButtonClicked()
     }
@@ -60,9 +60,9 @@ class ParkingSpotAdapter(private val dataSet: ArrayList<ParkingSpot>, val contex
         }
 
 
-        fun update(parkingSpot: ParkingSpot) {
-            parkingSpotNameTextView.text = parkingSpot.status
-            registerParkingSpotButton.setOnClickListener { onParkingSpotClickedListener.onParkingSpotClicked(parkingSpot) }
+        fun update(parkingSensor: ParkingSensor) {
+            parkingSpotNameTextView.text = parkingSensor.status
+            registerParkingSpotButton.setOnClickListener { onParkingSpotClickedListener.onParkingSpotClicked(parkingSensor) }
             closeImageButton.setOnClickListener { onParkingSpotClickedListener.onCloseButtonClicked() }
 
 

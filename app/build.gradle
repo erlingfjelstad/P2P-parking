@@ -43,6 +43,12 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "com.android.support:appcompat-v7:${libs.design}"
     implementation "com.android.support:design:${libs.design}"
+    implementation "com.android.support:support-v4:${libs.design}"
+
+//    implementation 'androidx.appcompat:appcompat:1.1.0-alpha01'
+//    implementation "com.google.android.material:material:1.1.0-alpha03"
+//    implementation "androidx.legacy:legacy-support-v4:1.0.0"
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
@@ -69,8 +75,8 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:${libs.dagger}"
     implementation "com.google.dagger:dagger-android:${libs.dagger}"
     implementation "com.google.dagger:dagger-android-support:${libs.dagger}"
-    // Jake Wharton
 
+    // Jake Wharton
     implementation "com.jakewharton:butterknife:${libs.butterknife}"
     kapt "com.jakewharton:butterknife-compiler:${libs.butterknife}"
 
@@ -92,12 +98,19 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:16.0.5'
     implementation "com.google.firebase:firebase-messaging:17.3.4"
     implementation "com.crashlytics.sdk.android:crashlytics:2.9.7"
+
     // open street map
 
     implementation "org.osmdroid:osmdroid-android:${libs.openstreetmap}"
     api("com.github.MKergall:osmbonuspack:6.5.2") {
         exclude module: 'support-v4'
     }
+//    implementation ("com.github.leondzn:simple-analog-clock:1.0.1")
+//            {
+//                exclude module: 'androidx.appcompat:appcompat'
+//
+//            }
+
 
 }
 apply plugin: 'com.google.gms.google-services'

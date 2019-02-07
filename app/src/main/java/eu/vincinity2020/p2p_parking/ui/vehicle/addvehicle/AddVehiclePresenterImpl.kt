@@ -1,5 +1,6 @@
 package eu.vincinity2020.p2p_parking.ui.vehicle.addvehicle
 
+import android.arch.lifecycle.MutableLiveData
 import android.util.Log
 import android.widget.Toast
 import com.google.gson.Gson
@@ -64,12 +65,15 @@ class AddVehiclePresenterImpl(private val networkService: NetworkService) : AddV
 
                 .subscribeWith(object : NetworkResponse<JsonObject>(v) {
                     override fun onSuccess(response: JsonObject) {
-                        if (!response.get("error").asBoolean) {
-                            if (response.get("message") != null)
-                                Log.e("Update add api", response.toString());
-                        } else {
+                        var apiResult ="Success"
+                        if (response.has("message"))
+                            apiResult= response.get("message").asString
+                        else if (response.has("error") && !response.get("error").asBoolean) {
+                            apiResult= "Success"
+                        } else
+                            apiResult= "Failed to add vehicle."
 
-                        }
+                        v.onVehicleAdded(apiResult)
                     }
 
 
