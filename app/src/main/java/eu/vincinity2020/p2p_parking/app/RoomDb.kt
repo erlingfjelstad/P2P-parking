@@ -1,8 +1,8 @@
 package eu.vincinity2020.p2p_parking.app
 
-import android.arch.persistence.room.Database
-import android.arch.persistence.room.RoomDatabase
-import android.arch.persistence.room.TypeConverters
+import androidx.room.Database
+import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import eu.vincinity2020.p2p_parking.app.common.DateTypeConverter
 import eu.vincinity2020.p2p_parking.data.dao.CarDao
 import eu.vincinity2020.p2p_parking.data.dao.TripDao

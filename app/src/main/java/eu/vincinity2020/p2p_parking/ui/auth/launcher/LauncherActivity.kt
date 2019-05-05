@@ -2,7 +2,7 @@ package eu.vincinity2020.p2p_parking.ui.auth.launcher
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import eu.vincinity2020.p2p_parking.app.App
 import eu.vincinity2020.p2p_parking.ui.auth.login.LoginActivity
 import eu.vincinity2020.p2p_parking.ui.navigation.NavigationActivity

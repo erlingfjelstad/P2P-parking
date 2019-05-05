@@ -2,11 +2,10 @@ package eu.vincinity2020.p2p_parking.ui.navigation
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.BottomNavigationView
-import android.support.design.widget.NavigationView
-import android.support.v4.app.Fragment
-import android.support.v4.view.GravityCompat
 import android.view.MenuItem
+import androidx.core.view.GravityCompat
+import androidx.fragment.app.Fragment
+import com.google.android.material.navigation.NavigationView
 import eu.vincinity2020.p2p_parking.R
 import eu.vincinity2020.p2p_parking.app.App
 import eu.vincinity2020.p2p_parking.app.common.BaseActivity
@@ -102,10 +101,11 @@ class NavigationActivity : BaseActivity(), NavigationView.OnNavigationItemSelect
      nav_view.setNavigationItemSelectedListener(this@NavigationActivity)
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
-        super.onSaveInstanceState(outState)
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
         outState?.putString(ARG_SELECTED_FRAGMENT, selectedFragmentTag)
+
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {

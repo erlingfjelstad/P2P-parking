@@ -1,10 +1,10 @@
 package eu.vincinity2020.p2p_parking.utils.toolbar
 
-import android.support.annotation.BoolRes
-import android.support.annotation.IdRes
-import android.support.annotation.MenuRes
-import android.support.annotation.StringRes
 import android.view.MenuItem
+import androidx.annotation.BoolRes
+import androidx.annotation.IdRes
+import androidx.annotation.MenuRes
+import androidx.annotation.StringRes
 
 
 class FragmentToolbar

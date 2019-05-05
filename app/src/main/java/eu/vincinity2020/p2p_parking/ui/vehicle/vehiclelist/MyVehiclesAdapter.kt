@@ -1,9 +1,6 @@
 package eu.vincinity2020.p2p_parking.ui.vehicle.vehiclelist
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.CardView
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,8 +12,11 @@ import eu.vincinity2020.p2p_parking.R
 import eu.vincinity2020.p2p_parking.data.entities.Vehicles
 import android.widget.Toast
 
-import android.support.v7.widget.PopupMenu
 import android.view.MenuItem
+import androidx.appcompat.widget.PopupMenu
+import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 
 
 class MyVehiclesAdapter(private val context: Context,

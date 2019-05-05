@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg">
-
 
 
     <FrameLayout
         android:id="@+id/containerToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <include  layout="@layout/layout_toolbar"/>
+
+        <include layout="@layout/layout_toolbar" />
     </FrameLayout>
+
     <Button
         android:id="@+id/btnCancel"
         style="@style/BlueButtonDark"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/cancel"
-        android:layout_marginStart="@dimen/activity_vertical_margin"
         android:layout_marginEnd="@dimen/activity_vertical_margin"
+        android:layout_marginStart="@dimen/activity_vertical_margin"
+        android:text="@string/cancel"
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <Button
@@ -30,8 +30,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/button_vertical_margin"
-        android:layout_marginStart="@dimen/activity_vertical_margin"
         android:layout_marginEnd="@dimen/activity_vertical_margin"
+        android:layout_marginStart="@dimen/activity_vertical_margin"
         android:text="@string/register_vehicle"
         app:layout_constraintBottom_toTopOf="@id/btnCancel" />
 
@@ -40,419 +40,400 @@
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_gravity="center_horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
         android:visibility="gone"
-        />
-<android.support.v4.widget.NestedScrollView
-    android:id="@+id/scrollContainer"
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_marginBottom="@dimen/dp10"
-    app:layout_constraintTop_toBottomOf="@id/containerToolbar"
-    app:layout_constraintBottom_toTopOf="@id/btnRegisterVehicle">
-
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <TextView
-        android:id="@+id/labelUserType"
-        style="@style/DefaultTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/button_blue_light"
-        android:gravity="center_horizontal"
-        android:padding="5dp"
-        android:text="@string/vehicle_info"
-        android:layout_marginStart="@dimen/activity_vertical_margin"
-        android:layout_marginEnd="@dimen/activity_vertical_margin"
-        android:textColor="@color/button_blue_dark"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="@dimen/activity_vertical_margin"/>
-
-    <TextView
-        android:id="@+id/tvMale"
-        style="@style/ProfileTextBoxes"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:drawableTop="@drawable/ic_parking_standard"
-        android:text="@string/car"
-        app:layout_constraintEnd_toStartOf="@+id/tvOwner"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintStart_toStartOf="parent"
-        android:background="@color/true_black"
-        app:layout_constraintTop_toBottomOf="@+id/labelUserType" />
-
-
-    <TextView
-        android:id="@+id/tvOwner"
-        style="@style/ProfileTextBoxes"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:drawableTop="@drawable/ic_userrole_owner"
-        android:text="@string/van"
-        app:layout_constraintEnd_toStartOf="@+id/tvElectrical"
-        app:layout_constraintStart_toEndOf="@+id/tvMale"
-        app:layout_constraintTop_toBottomOf="@+id/labelUserType" />
-
-    <TextView
-        android:id="@+id/tvElectrical"
-        style="@style/ProfileTextBoxes"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:drawableTop="@drawable/ic_parking_electrical"
-        android:text="@string/electrical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvOwner"
-        app:layout_constraintTop_toBottomOf="@+id/labelUserType" />
-
-
-
-
-    <android.support.constraint.Barrier
-        android:id="@+id/barrier1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:barrierDirection="bottom"
-        app:constraint_referenced_ids="tvMale,tvOwner,tvHealth" />
-
-    <TextView
-        android:id="@+id/tvNormal"
-        style="@style/ProfileTextBoxes"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:drawableTop="@drawable/ic_parking_handicap"
-        android:text="@string/handicap"
-        app:layout_constraintEnd_toStartOf="@+id/tvBike"
-        app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/barrier1" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-
-    <TextView
-        android:id="@+id/tvBike"
-        style="@style/ProfileTextBoxes"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:drawableTop="@drawable/ic_motorcycle"
-        android:text="@string/bike"
-        app:layout_constraintEnd_toStartOf="@+id/tvHandicap"
-        app:layout_constraintStart_toEndOf="@+id/tvNormal"
-        app:layout_constraintTop_toBottomOf="@+id/barrier1" />
-
-    <TextView
-        android:id="@+id/tvHandicap"
-        style="@style/ProfileTextBoxes"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:drawableTop="@drawable/ic_emergency"
-        android:text="@string/bluelight"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvBike"
-        app:layout_constraintTop_toBottomOf="@+id/barrier1" />
-
-
-
-    <android.support.constraint.Barrier
-        android:id="@+id/barrier2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:barrierDirection="bottom"
-        app:constraint_referenced_ids="tvNormal,tvElectrical,tvHandicap" />
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/layoutEtBrand"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:hintEnabled="false"
-            android:layout_marginStart="@dimen/activity_vertical_margin"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:layout_marginEnd="@dimen/form_field_margin"
-            android:background="@drawable/blue_border_white_box"
-            app:layout_constraintTop_toBottomOf="@id/barrier2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/layoutEtName">
-
-            <EditText
-                android:id="@+id/etBrand"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/brand"
-                android:imeOptions="actionNext"
-                android:inputType="text"
-                android:maxLines="1"
-                android:singleLine="true"
-                />
-
-        </android.support.design.widget.TextInputLayout>
-
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/layoutEtName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:hintEnabled="false"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:layout_marginStart="@dimen/form_field_margin"
-            android:layout_marginEnd="@dimen/activity_vertical_margin"
-            android:background="@drawable/blue_border_white_box"
-            app:layout_constraintTop_toBottomOf="@id/barrier2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/layoutEtBrand">
-
-            <EditText
-                android:id="@+id/etName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/model_name"
-                android:imeOptions="actionNext"
-                android:inputType="text"
-                android:maxLines="1"
-                android:singleLine="true"
-                />
-
-        </android.support.design.widget.TextInputLayout>
-
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/layoutEtRegNo"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/activity_vertical_margin"
-            android:layout_marginEnd="@dimen/form_field_margin"
-            android:layout_marginTop="@dimen/form_field_margin"
-            android:background="@drawable/blue_border_white_box"
-            app:layout_constraintTop_toBottomOf="@id/layoutEtBrand"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/layoutEtMfgYr"
-            app:hintEnabled="false">
-
-            <EditText
-                android:id="@+id/etRegNo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/reg_no"
-                android:imeOptions="actionNext"
-                android:inputType="textEmailAddress"
-                android:maxLines="1"
-                android:singleLine="true" />
-
-
-        </android.support.design.widget.TextInputLayout>
-
-
-
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/layoutEtMfgYr"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:hintEnabled="false"
-            android:layout_marginStart="@dimen/form_field_margin"
-            android:layout_marginEnd="@dimen/activity_vertical_margin"
-            android:layout_marginTop="@dimen/form_field_margin"
-            android:background="@drawable/blue_border_white_box"
-            app:layout_constraintTop_toBottomOf="@id/layoutEtBrand"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/layoutEtRegNo">
-
-            <EditText
-                android:id="@+id/etMfgYr"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/mfg_year"
-                android:imeOptions="actionNext"
-                android:inputType="text"
-                android:maxLines="1"
-                android:singleLine="true"
-                />
-
-        </android.support.design.widget.TextInputLayout>
-
-
-
-        <android.support.design.widget.TextInputLayout
-        android:id="@+id/layoutEtDescription"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollContainer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:hintEnabled="false"
-        android:layout_marginStart="@dimen/activity_vertical_margin"
-        android:layout_marginEnd="@dimen/activity_vertical_margin"
-        android:background="@drawable/blue_border_white_box"
-        app:layout_constraintTop_toBottomOf="@id/layoutEtRegNo"
-        android:layout_marginTop="@dimen/activity_vertical_margin">
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/dp10"
+        app:layout_constraintBottom_toTopOf="@id/btnRegisterVehicle"
+        app:layout_constraintTop_toBottomOf="@id/containerToolbar">
 
-        <EditText
-            android:id="@+id/etDescription"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/description"
-            android:imeOptions="actionNext"
-            android:inputType="textEmailAddress"
-            android:maxLines="1"
-            android:singleLine="true"
-            />
+            android:layout_height="wrap_content">
 
-    </android.support.design.widget.TextInputLayout>
-
-
-
-
-
-    <TextView
-        android:id="@+id/labelExtendedInfo"
-        style="@style/DefaultTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/button_blue_light"
-        android:gravity="center_horizontal"
-        android:padding="5dp"
-        android:text="@string/extended_vehicle_info"
-        android:layout_marginStart="@dimen/activity_vertical_margin"
-        android:layout_marginEnd="@dimen/activity_vertical_margin"
-        android:textColor="@color/button_blue_dark"
-        app:layout_constraintTop_toBottomOf="@id/layoutEtDescription"
-        android:layout_marginTop="@dimen/activity_vertical_margin"/>
-
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/layoutEtWidth"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/activity_vertical_margin"
-            android:layout_marginTop="@dimen/form_field_margin"
-            android:layout_marginEnd="@dimen/form_field_margin"
-            android:background="@drawable/blue_border_white_box"
-            app:hintEnabled="false"
-            app:layout_constraintEnd_toStartOf="@id/layoutEtHeight"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/labelExtendedInfo">
-
-            <EditText
-                android:id="@+id/etWidth"
+            <TextView
+                android:id="@+id/labelUserType"
+                style="@style/DefaultTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/width"
-                android:imeOptions="actionNext"
-                android:inputType="text"
-                android:maxLines="1"
-                android:singleLine="true" />
+                android:layout_marginEnd="@dimen/activity_vertical_margin"
+                android:layout_marginStart="@dimen/activity_vertical_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@color/button_blue_light"
+                android:gravity="center_horizontal"
+                android:padding="5dp"
+                android:text="@string/vehicle_info"
+                android:textColor="@color/button_blue_dark"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </android.support.design.widget.TextInputLayout>
+            <TextView
+                android:id="@+id/tvMale"
+                style="@style/ProfileTextBoxes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/true_black"
+                android:drawableTop="@drawable/ic_parking_standard"
+                android:text="@string/car"
+                app:layout_constraintEnd_toStartOf="@+id/tvOwner"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/labelUserType" />
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/layoutEtHeight"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:hintEnabled="false"
-            android:layout_marginTop="@dimen/form_field_margin"
-            android:layout_marginStart="@dimen/form_field_margin"
-            android:layout_marginEnd="@dimen/activity_vertical_margin"
-            android:background="@drawable/blue_border_white_box"
-            app:layout_constraintTop_toBottomOf="@id/labelExtendedInfo"
-            app:layout_constraintStart_toEndOf="@id/layoutEtWidth"
-            app:layout_constraintEnd_toEndOf="parent">
 
-            <EditText
-                android:id="@+id/etHeight"
+            <TextView
+                android:id="@+id/tvOwner"
+                style="@style/ProfileTextBoxes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_userrole_owner"
+                android:text="@string/van"
+                app:layout_constraintEnd_toStartOf="@+id/tvElectrical"
+                app:layout_constraintStart_toEndOf="@+id/tvMale"
+                app:layout_constraintTop_toBottomOf="@+id/labelUserType" />
+
+            <TextView
+                android:id="@+id/tvElectrical"
+                style="@style/ProfileTextBoxes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_parking_electrical"
+                android:text="@string/electrical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tvOwner"
+                app:layout_constraintTop_toBottomOf="@+id/labelUserType" />
+
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="tvMale,tvOwner,tvHealth" />
+
+            <TextView
+                android:id="@+id/tvNormal"
+                style="@style/ProfileTextBoxes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_parking_handicap"
+                android:text="@string/handicap"
+                app:layout_constraintEnd_toStartOf="@+id/tvBike"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/barrier1" />
+
+
+            <TextView
+                android:id="@+id/tvBike"
+                style="@style/ProfileTextBoxes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_motorcycle"
+                android:text="@string/bike"
+                app:layout_constraintEnd_toStartOf="@+id/tvHandicap"
+                app:layout_constraintStart_toEndOf="@+id/tvNormal"
+                app:layout_constraintTop_toBottomOf="@+id/barrier1" />
+
+            <TextView
+                android:id="@+id/tvHandicap"
+                style="@style/ProfileTextBoxes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_emergency"
+                android:text="@string/bluelight"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tvBike"
+                app:layout_constraintTop_toBottomOf="@+id/barrier1" />
+
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="tvNormal,tvElectrical,tvHandicap" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutEtBrand"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/form_field_margin"
+                android:layout_marginStart="@dimen/activity_vertical_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/blue_border_white_box"
+                app:hintEnabled="false"
+                app:layout_constraintEnd_toStartOf="@id/layoutEtName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/barrier2">
+
+                <EditText
+                    android:id="@+id/etBrand"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/brand"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutEtName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/activity_vertical_margin"
+                android:layout_marginStart="@dimen/form_field_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/blue_border_white_box"
+                app:hintEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/layoutEtBrand"
+                app:layout_constraintTop_toBottomOf="@id/barrier2">
+
+                <EditText
+                    android:id="@+id/etName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/model_name"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutEtRegNo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/form_field_margin"
+                android:layout_marginStart="@dimen/activity_vertical_margin"
+                android:layout_marginTop="@dimen/form_field_margin"
+                android:background="@drawable/blue_border_white_box"
+                app:hintEnabled="false"
+                app:layout_constraintEnd_toStartOf="@id/layoutEtMfgYr"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layoutEtBrand">
+
+                <EditText
+                    android:id="@+id/etRegNo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/reg_no"
+                    android:imeOptions="actionNext"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutEtMfgYr"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/activity_vertical_margin"
+                android:layout_marginStart="@dimen/form_field_margin"
+                android:layout_marginTop="@dimen/form_field_margin"
+                android:background="@drawable/blue_border_white_box"
+                app:hintEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/layoutEtRegNo"
+                app:layout_constraintTop_toBottomOf="@id/layoutEtBrand">
+
+                <EditText
+                    android:id="@+id/etMfgYr"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/mfg_year"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutEtDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/height"
-                android:imeOptions="actionNext"
-                android:inputType="text"
-                android:maxLines="1"
-                android:singleLine="true"
-                />
+                android:layout_marginEnd="@dimen/activity_vertical_margin"
+                android:layout_marginStart="@dimen/activity_vertical_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/blue_border_white_box"
+                app:hintEnabled="false"
+                app:layout_constraintTop_toBottomOf="@id/layoutEtRegNo">
 
-        </android.support.design.widget.TextInputLayout>
+                <EditText
+                    android:id="@+id/etDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/description"
+                    android:imeOptions="actionNext"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
 
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/layoutEtLength"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:hintEnabled="false"
-            android:layout_marginStart="@dimen/activity_vertical_margin"
-            android:layout_marginEnd="@dimen/form_field_margin"
-            android:background="@drawable/blue_border_white_box"
-            app:layout_constraintTop_toBottomOf="@id/layoutEtHeight"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/layoutEtWeight"
-            android:layout_marginTop="@dimen/form_field_margin">
-
-            <EditText
-                android:id="@+id/etLength"
+            <TextView
+                android:id="@+id/labelExtendedInfo"
+                style="@style/DefaultTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/length"
-                android:imeOptions="actionNext"
-                android:inputType="text"
-                android:maxLines="1"
-                android:singleLine="true"
-                />
+                android:layout_marginEnd="@dimen/activity_vertical_margin"
+                android:layout_marginStart="@dimen/activity_vertical_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@color/button_blue_light"
+                android:gravity="center_horizontal"
+                android:padding="5dp"
+                android:text="@string/extended_vehicle_info"
+                android:textColor="@color/button_blue_dark"
+                app:layout_constraintTop_toBottomOf="@id/layoutEtDescription" />
 
-        </android.support.design.widget.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutEtWidth"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/form_field_margin"
+                android:layout_marginStart="@dimen/activity_vertical_margin"
+                android:layout_marginTop="@dimen/form_field_margin"
+                android:background="@drawable/blue_border_white_box"
+                app:hintEnabled="false"
+                app:layout_constraintEnd_toStartOf="@id/layoutEtHeight"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/labelExtendedInfo">
+
+                <EditText
+                    android:id="@+id/etWidth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/width"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutEtHeight"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/activity_vertical_margin"
+                android:layout_marginStart="@dimen/form_field_margin"
+                android:layout_marginTop="@dimen/form_field_margin"
+                android:background="@drawable/blue_border_white_box"
+                app:hintEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/layoutEtWidth"
+                app:layout_constraintTop_toBottomOf="@id/labelExtendedInfo">
+
+                <EditText
+                    android:id="@+id/etHeight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/height"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/layoutEtWeight"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:hintEnabled="false"
-            android:layout_marginStart="@dimen/form_field_margin"
-            android:layout_marginEnd="@dimen/activity_vertical_margin"
-            android:background="@drawable/blue_border_white_box"
-            app:layout_constraintTop_toBottomOf="@id/layoutEtHeight"
-            app:layout_constraintStart_toEndOf="@id/layoutEtLength"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="@dimen/form_field_margin">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutEtLength"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/form_field_margin"
+                android:layout_marginStart="@dimen/activity_vertical_margin"
+                android:layout_marginTop="@dimen/form_field_margin"
+                android:background="@drawable/blue_border_white_box"
+                app:hintEnabled="false"
+                app:layout_constraintEnd_toStartOf="@id/layoutEtWeight"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layoutEtHeight">
 
-            <EditText
-                android:id="@+id/etWeight"
+                <EditText
+                    android:id="@+id/etLength"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/length"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutEtWeight"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/activity_vertical_margin"
+                android:layout_marginStart="@dimen/form_field_margin"
+                android:layout_marginTop="@dimen/form_field_margin"
+                android:background="@drawable/blue_border_white_box"
+                app:hintEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/layoutEtLength"
+                app:layout_constraintTop_toBottomOf="@id/layoutEtHeight">
+
+                <EditText
+                    android:id="@+id/etWeight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/weight"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/weight"
-                android:imeOptions="actionNext"
-                android:inputType="text"
-                android:maxLines="1"
-                android:singleLine="true"
-                />
-
-        </android.support.design.widget.TextInputLayout>
+                android:layout_marginEnd="@dimen/activity_vertical_margin"
+                android:layout_marginStart="@dimen/activity_vertical_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:orientation="vertical"
+                app:cardCornerRadius="@dimen/dp5"
+                app:layout_constraintTop_toBottomOf="@id/layoutEtWeight">
 
 
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/spFuel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/vehicle_fuel">
 
-         <android.support.v7.widget.CardView
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:orientation="vertical"
-             app:cardCornerRadius="@dimen/dp5"
-             android:layout_marginTop="@dimen/activity_vertical_margin"
-             android:layout_marginStart="@dimen/activity_vertical_margin"
-             android:layout_marginEnd="@dimen/activity_vertical_margin"
-             app:layout_constraintTop_toBottomOf="@id/layoutEtWeight">
+                </androidx.appcompat.widget.AppCompatSpinner>
+            </androidx.cardview.widget.CardView>
 
 
-             <android.support.v7.widget.AppCompatSpinner
-                 android:id="@+id/spFuel"
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
-                 android:entries="@array/vehicle_fuel">
-
-             </android.support.v7.widget.AppCompatSpinner>
-         </android.support.v7.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 
 
-
-
-    </android.support.constraint.ConstraintLayout>
-</android.support.v4.widget.NestedScrollView>
-
-
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

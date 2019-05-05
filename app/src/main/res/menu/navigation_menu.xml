@@ -10,7 +10,7 @@
         android:title="@string/home"
         android:visible="true"
         android:icon="@drawable/nav_home"
-        app:showAsAction="ifRoom|withText" />
+        android:showAsAction="ifRoom|withText" />
 
     <item
         android:id="@+id/menu_view_profile"
@@ -18,7 +18,7 @@
         android:title="@string/view_profile"
         android:visible="true"
         android:icon="@drawable/nav_profile"
-        app:showAsAction="ifRoom|withText" />
+        android:showAsAction="ifRoom|withText" />
 
     <item
         android:id="@+id/menu_my_locations"
@@ -26,7 +26,7 @@
         android:title="@string/my_location"
         android:visible="true"
         android:icon="@drawable/nav_saved_locations"
-        app:showAsAction="ifRoom|withText" />
+        android:showAsAction="ifRoom|withText" />
 
     <item
         android:id="@+id/menu_registered_vehicles"
@@ -34,7 +34,7 @@
         android:title="@string/registered_vehicles"
         android:visible="true"
         android:icon="@drawable/nav_saved_vehicles"
-        app:showAsAction="ifRoom|withText" />
+        android:showAsAction="ifRoom|withText" />
 
     <item
         android:id="@+id/menu_my_bookings"
@@ -42,7 +42,7 @@
         android:visible="true"
         android:title="@string/my_bookings"
         android:icon="@drawable/nav_my_bookings"
-        app:showAsAction="ifRoom|withText" />
+        android:showAsAction="ifRoom|withText" />
 
     <item
         android:id="@+id/menu_log_out"
@@ -50,7 +50,7 @@
         android:visible="true"
         android:icon="@drawable/nav_logout"
         android:title="@string/logout"
-        app:showAsAction="ifRoom|withText" />
+        android:showAsAction="ifRoom|withText" />
 
 
 </menu>

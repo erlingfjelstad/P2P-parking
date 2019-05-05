@@ -2,10 +2,10 @@ package eu.vincinity2020.p2p_parking.ui.search
 
 import android.app.Activity
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
 import eu.vincinity2020.p2p_parking.R
 import eu.vincinity2020.p2p_parking.app.App
 import eu.vincinity2020.p2p_parking.ui.choose.ChooseParkingSpotActivity

@@ -1,15 +1,15 @@
 package eu.vincinity2020.p2p_parking.ui.map
 
 import android.content.Context
-import android.support.design.button.MaterialButton
-import android.support.v7.widget.AppCompatImageButton
-import android.support.v7.widget.AppCompatTextView
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatImageButton
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.ButterKnife
+import com.google.android.material.button.MaterialButton
 import eu.vincinity2020.p2p_parking.R
 import eu.vincinity2020.p2p_parking.data.entities.ParkingSensor
 

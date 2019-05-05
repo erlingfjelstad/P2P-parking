@@ -1,6 +1,5 @@
 package eu.vincinity2020.p2p_parking.ui.vehicle.addvehicle
 
-import android.arch.lifecycle.MutableLiveData
 import android.util.Log
 import android.widget.Toast
 import com.google.gson.Gson

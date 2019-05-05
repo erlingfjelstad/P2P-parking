@@ -1,8 +1,9 @@
 package eu.vincinity2020.p2p_parking.ui.trip
 
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
+
 
 class TripPageAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
     companion object {

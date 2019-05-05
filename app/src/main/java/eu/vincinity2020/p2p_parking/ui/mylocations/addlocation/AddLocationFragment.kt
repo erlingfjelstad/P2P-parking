@@ -1,7 +1,6 @@
 package eu.vincinity2020.p2p_parking.ui.mylocations.addlocation
 
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View

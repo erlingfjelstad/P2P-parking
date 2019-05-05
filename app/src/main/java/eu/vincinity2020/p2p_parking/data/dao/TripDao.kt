@@ -1,6 +1,6 @@
 package eu.vincinity2020.p2p_parking.data.dao
 
-import android.arch.persistence.room.*
+import androidx.room.*
 import eu.vincinity2020.p2p_parking.data.entities.Trip
 import io.reactivex.Flowable
 

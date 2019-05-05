@@ -1,13 +1,13 @@
 package eu.vincinity2020.p2p_parking.ui.trip
 
 import android.os.Bundle
-import android.support.design.widget.TabLayout
-import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.viewpager.widget.ViewPager
 import butterknife.BindView
 import butterknife.ButterKnife
+import com.google.android.material.tabs.TabLayout
 import eu.vincinity2020.p2p_parking.R
 import eu.vincinity2020.p2p_parking.app.common.BaseFragment
 import eu.vincinity2020.p2p_parking.utils.toolbar.FragmentToolbar

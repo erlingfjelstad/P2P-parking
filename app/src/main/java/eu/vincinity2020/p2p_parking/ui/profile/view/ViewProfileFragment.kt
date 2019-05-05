@@ -3,10 +3,10 @@ package eu.vincinity2020.p2p_parking.ui.profile.view
 import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import butterknife.ButterKnife
 import butterknife.OnClick
 

@@ -5,9 +5,9 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.PagerSnapHelper
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
+import androidx.recyclerview.widget.RecyclerView
 import eu.vincinity2020.p2p_parking.R
 import eu.vincinity2020.p2p_parking.ui.book.BookParkingSpotActivity
 import eu.vincinity2020.p2p_parking.app.common.BaseActivity

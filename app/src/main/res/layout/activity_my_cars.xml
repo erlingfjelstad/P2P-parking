@@ -8,17 +8,17 @@
     android:padding="@dimen/activity_vertical_margin">
 
 
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text="Her kan det stå noe om hvorfor du må legge inn reg nummer" />
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/registration_number_textinputlayout_my_cars"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.design.widget.TextInputEditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/registration_number_edittext_my_cars"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,9 +30,9 @@
             android:singleLine="true" />
 
         <!-- I cannot use dimens for maxLength. Default in Norway is 7. -->
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <android.support.v7.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button_confirm_my_cars"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
         android:imeOptions="actionDone"
         android:text="@string/action_register_user" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_my_cars"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

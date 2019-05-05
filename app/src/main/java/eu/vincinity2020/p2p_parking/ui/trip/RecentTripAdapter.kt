@@ -1,11 +1,11 @@
 package eu.vincinity2020.p2p_parking.ui.trip
 
 import android.content.Context
-import android.support.v7.widget.AppCompatTextView
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.ButterKnife
 import eu.vincinity2020.p2p_parking.R

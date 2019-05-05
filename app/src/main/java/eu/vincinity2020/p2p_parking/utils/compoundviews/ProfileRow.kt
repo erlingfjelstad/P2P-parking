@@ -1,12 +1,12 @@
 package eu.vincinity2020.p2p_parking.utils.compoundviews
 
 import android.content.Context
-import android.support.constraint.ConstraintLayout
-import android.support.v7.content.res.AppCompatResources
-import android.support.v7.widget.AppCompatImageView
-import android.support.v7.widget.AppCompatTextView
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import butterknife.BindView
 import butterknife.ButterKnife
 import eu.vincinity2020.p2p_parking.R

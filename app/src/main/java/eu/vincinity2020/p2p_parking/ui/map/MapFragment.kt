@@ -3,15 +3,15 @@ package eu.vincinity2020.p2p_parking.ui.map
 import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.support.design.widget.BottomSheetDialog
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import butterknife.ButterKnife
 import butterknife.OnClick
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import eu.vincinity2020.p2p_parking.R
 import eu.vincinity2020.p2p_parking.app.App
 import eu.vincinity2020.p2p_parking.app.common.AppConstants
@@ -43,12 +43,6 @@ class MapFragment : BaseFragment(), eu.vincinity2020.p2p_parking.ui.map.MapMvpVi
     var isOnActivityCalled= false;
     @Inject
     lateinit var presenter: MapPresenter
-
-
-
-
-
-
 
     override fun onCloseButtonClicked() {
 

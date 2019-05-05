@@ -5,10 +5,7 @@ import android.animation.AnimatorListenerAdapter
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
-import android.support.design.widget.TextInputEditText
-import android.support.design.widget.TextInputLayout
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
@@ -19,18 +16,18 @@ import butterknife.BindString
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.JsonObject
 import eu.vincinity2020.p2p_parking.R
 import eu.vincinity2020.p2p_parking.app.App
 import eu.vincinity2020.p2p_parking.app.common.AppConstants
 import eu.vincinity2020.p2p_parking.app.common.BaseActivity
 import eu.vincinity2020.p2p_parking.data.dto.Country
-import eu.vincinity2020.p2p_parking.data.entities.User
 import eu.vincinity2020.p2p_parking.ui.auth.login.LoginActivity
 import kotlinx.android.synthetic.main.activity_register_user.*
 import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 class RegisterUserActivity : BaseActivity(), RegisterView, DatePickerDialog.OnDateSetListener {
 
@@ -49,7 +46,7 @@ class RegisterUserActivity : BaseActivity(), RegisterView, DatePickerDialog.OnDa
 
     @Inject
     lateinit var presenter: RegistrationPresenter
-    
+
     @BindView(R.id.dob_text_view_register_user)
     lateinit var dobTextView: TextInputEditText
 
@@ -113,9 +110,7 @@ class RegisterUserActivity : BaseActivity(), RegisterView, DatePickerDialog.OnDa
     }
 
     private fun validateForm() {
-        if (!validateEmail() && !validateFirstName() && !validateLastName() && !validateMobile() && !validateCountry())
-
-        {
+        if (!validateEmail() && !validateFirstName() && !validateLastName() && !validateMobile() && !validateCountry()) {
             showProgress(true)
             val token = getSharedPreferences(AppConstants.SHARED_PREFS, Context.MODE_PRIVATE).getString(AppConstants.FCM_TOKEN, "")
 
@@ -125,7 +120,6 @@ class RegisterUserActivity : BaseActivity(), RegisterView, DatePickerDialog.OnDa
         }
 
     }
-
 
 
     private fun validateEmail(): Boolean {
@@ -230,8 +224,6 @@ class RegisterUserActivity : BaseActivity(), RegisterView, DatePickerDialog.OnDa
     }
 
 
-
-
     private fun openDatePickerDialog() {
         val datePickerDialog = DatePickerDialog(this, this, 1970, 1, 1)
 
@@ -287,9 +279,9 @@ class RegisterUserActivity : BaseActivity(), RegisterView, DatePickerDialog.OnDa
     }
 
 
-    fun initCitySpinner(countries: ArrayList<Country>)
-    {
-        countries.add(Country(0,"Please select country", null, null ,null))
+    fun initCitySpinner(countries: ArrayList<Country>) {
+        countries.add(Country(0, "Please select country", null, null, null))
+        countries.add(Country(1, "Norway", null, null, null))
 
         val dataAdapter2 = object : ArrayAdapter<Country>(this, android.R.layout.simple_spinner_item, countries) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -299,26 +291,26 @@ class RegisterUserActivity : BaseActivity(), RegisterView, DatePickerDialog.OnDa
                 return view
             }
 
-//            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View? {
-//
-//                var v: View? = null
-//
-//                if (position == 0) {
-//                    val tv = TextView(context)
-//                    tv.height = 0
-//                    tv.visibility = View.GONE
-//                    v = tv
-//                } else {
-//
-//                    v = super.getDropDownView(position, null, parent)
-//                }
-//
-//                parent.isVerticalScrollBarEnabled = false
-//                return v
-//            }
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View? {
+
+                var v: View? = null
+
+                if (position == 0) {
+                    val tv = TextView(context)
+                    tv.height = 0
+                    tv.visibility = View.GONE
+                    v = tv
+                } else {
+
+                    v = super.getDropDownView(position, null, parent)
+                }
+
+                parent.isVerticalScrollBarEnabled = false
+                return v
+            }
         }
         dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spCountry.setAdapter(dataAdapter2)
+        spCountry.adapter = dataAdapter2
     }
 
 
@@ -334,14 +326,12 @@ class RegisterUserActivity : BaseActivity(), RegisterView, DatePickerDialog.OnDa
     }
 
     override fun onSuccessfulRegistration(response: JsonObject) {
-        if (response.has("message"))
-        {
+        if (response.has("message")) {
             Toast.makeText(this, response.get("message").asString, Toast.LENGTH_SHORT).show()
 
         }
 
-        if (!response.get("error").asBoolean)
-        {
+        if (!response.get("error").asBoolean) {
             val intent = Intent(this, LoginActivity::class.java)
             intent.putExtra("email", etEmail.text.toString())
             startActivity(intent)

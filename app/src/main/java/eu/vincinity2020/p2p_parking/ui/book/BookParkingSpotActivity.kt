@@ -7,10 +7,10 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.support.design.widget.TextInputEditText
 import butterknife.BindDrawable
 import butterknife.ButterKnife
 import butterknife.OnClick
+import com.google.android.material.textfield.TextInputEditText
 import eu.vincinity2020.p2p_parking.R
 import eu.vincinity2020.p2p_parking.app.App
 import eu.vincinity2020.p2p_parking.app.common.BaseActivity

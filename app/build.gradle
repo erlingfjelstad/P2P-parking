@@ -20,6 +20,11 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+        compileOptions {
+            sourceCompatibility 1.8
+            targetCompatibility 1.8
+        }
+
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
@@ -54,8 +59,8 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     // Navigation controller Dependencies
-    implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha07"
-    implementation "android.arch.navigation:navigation-ui-ktx:1.0.0-alpha07"
+    implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0"
+    implementation "android.arch.navigation:navigation-ui-ktx:1.0.0"
     // Android architecture
     implementation "android.arch.persistence.room:runtime:${libs.archcomponent}"
     kapt "android.arch.persistence.room:compiler:${libs.archcomponent}"
@@ -105,11 +110,11 @@ dependencies {
     api("com.github.MKergall:osmbonuspack:6.5.2") {
         exclude module: 'support-v4'
     }
-//    implementation ("com.github.leondzn:simple-analog-clock:1.0.1")
-//            {
-//                exclude module: 'androidx.appcompat:appcompat'
-//
-//            }
+    implementation ("com.github.leondzn:simple-analog-clock:1.0.1")
+            {
+                exclude module: 'androidx.appcompat:appcompat'
+
+            }
 
 
 }

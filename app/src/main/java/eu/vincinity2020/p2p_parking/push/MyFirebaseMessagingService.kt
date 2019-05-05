@@ -8,8 +8,8 @@ import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Build
 import android.preference.PreferenceManager
-import android.support.v4.app.NotificationCompat
 import android.util.Log
+import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import eu.vincinity2020.p2p_parking.R

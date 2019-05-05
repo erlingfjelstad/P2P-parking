@@ -1,11 +1,11 @@
 package eu.vincinity2020.p2p_parking.ui.vehicle.addvehicle
 
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import butterknife.OnClick
 import eu.vincinity2020.p2p_parking.R
 import eu.vincinity2020.p2p_parking.app.App

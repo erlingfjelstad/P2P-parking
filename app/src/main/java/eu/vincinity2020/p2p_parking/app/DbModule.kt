@@ -1,7 +1,7 @@
 package eu.vincinity2020.p2p_parking.app
 
-import android.arch.persistence.room.Room
 import android.content.Context
+import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import eu.vincinity2020.p2p_parking.app.common.ApplicationScope
