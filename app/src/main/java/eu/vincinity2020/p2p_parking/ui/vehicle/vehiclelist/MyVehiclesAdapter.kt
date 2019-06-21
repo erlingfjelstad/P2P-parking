@@ -10,7 +10,6 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import eu.vincinity2020.p2p_parking.R
 import eu.vincinity2020.p2p_parking.data.entities.Vehicles
-import android.widget.Toast
 
 import android.view.MenuItem
 import androidx.appcompat.widget.PopupMenu
@@ -108,7 +107,7 @@ class MyVehiclesAdapter(private val context: Context,
             if (vehicle.isDefault)
                 cardParent.setCardBackgroundColor(ContextCompat.getColor(itemView.context, R.color.gray_light))
             else
-                cardParent.setCardBackgroundColor(ContextCompat.getColor(itemView.context, R.color.true_white))
+                cardParent.setCardBackgroundColor(ContextCompat.getColor(itemView.context, R.color.colorWhite))
 
             tvBrand.text = vehicle.brand
 

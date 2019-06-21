@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">p2p-parking</string>
+    <string name="app_name">P2P parking</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -133,6 +133,10 @@
     <string name="set_as_default_vehicle">Set as default vehicle</string>
     <string name="booked_on">Booked on</string>
     <string name="booking_type">Booking type</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="prompt_mobile">Mobile (must be a valid number)</string>
+    <string name="label_tnc">I have read, understood and agree with the person and privacy policy</string>
+    <string name="register">Register</string>
 
     <string-array name="genders">
         <item>Male</item>

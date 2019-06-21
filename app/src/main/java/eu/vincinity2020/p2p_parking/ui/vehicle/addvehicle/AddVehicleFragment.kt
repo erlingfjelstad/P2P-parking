@@ -108,7 +108,7 @@ class AddVehicleFragment : BaseFragment(), AddVehicleMvpView {
     @OnClick(R.id.tvMale)
     fun onCarSelected() {
         unselectView()
-        tvMale.setBackgroundColor(ContextCompat.getColor(context!!, R.color.true_black))
+        tvMale.setBackgroundColor(ContextCompat.getColor(context!!, R.color.colorBlack))
         Toast.makeText(activity, "car clicked", Toast.LENGTH_SHORT).show()
         vehicleType = VehicleTypes(1, "car",null)
     }
@@ -116,7 +116,7 @@ class AddVehicleFragment : BaseFragment(), AddVehicleMvpView {
     @OnClick(R.id.tvOwner)
     fun onVanSelected() {
         unselectView()
-        tvOwner.setBackgroundColor(ContextCompat.getColor(context!!, R.color.true_black))
+        tvOwner.setBackgroundColor(ContextCompat.getColor(context!!, R.color.colorBlack))
         Toast.makeText(activity, "Van clicked", Toast.LENGTH_SHORT).show()
         vehicleType = VehicleTypes(2, "Van",null)
     }
@@ -125,7 +125,7 @@ class AddVehicleFragment : BaseFragment(), AddVehicleMvpView {
     @OnClick(R.id.tvElectrical)
     fun onElectricalSelected() {
         unselectView()
-        tvElectrical.setBackgroundColor(ContextCompat.getColor(context!!, R.color.true_black))
+        tvElectrical.setBackgroundColor(ContextCompat.getColor(context!!, R.color.colorBlack))
         Toast.makeText(activity, "EV clicked", Toast.LENGTH_SHORT).show()
         vehicleType = VehicleTypes(3, "EV",null)
     }
@@ -135,7 +135,7 @@ class AddVehicleFragment : BaseFragment(), AddVehicleMvpView {
     @OnClick(R.id.tvNormal)
     fun onHandicapSelected() {
         unselectView()
-        tvNormal.setBackgroundColor(ContextCompat.getColor(context!!, R.color.true_black))
+        tvNormal.setBackgroundColor(ContextCompat.getColor(context!!, R.color.colorBlack))
         Toast.makeText(activity, "Handicap clicked", Toast.LENGTH_SHORT).show()
         vehicleType = VehicleTypes(4, "Handicap",null)
 
@@ -145,7 +145,7 @@ class AddVehicleFragment : BaseFragment(), AddVehicleMvpView {
     @OnClick(R.id.tvElectrical)
     fun onBikeSelected() {
         unselectView()
-        tvElectrical.setBackgroundColor(ContextCompat.getColor(context!!, R.color.true_black))
+        tvElectrical.setBackgroundColor(ContextCompat.getColor(context!!, R.color.colorBlack))
         Toast.makeText(activity, "Bike clicked", Toast.LENGTH_SHORT).show()
         vehicleType = VehicleTypes(5, "Bike",null)
 
@@ -156,7 +156,7 @@ class AddVehicleFragment : BaseFragment(), AddVehicleMvpView {
     @OnClick(R.id.tvHandicap)
     fun onBlueLightSelected() {
         unselectView()
-        tvHandicap.setBackgroundColor(ContextCompat.getColor(context!!, R.color.true_black))
+        tvHandicap.setBackgroundColor(ContextCompat.getColor(context!!, R.color.colorBlack))
         Toast.makeText(activity, "Ambulance clicked", Toast.LENGTH_SHORT).show()
         vehicleType = VehicleTypes(6, "Ambulance",null)
 

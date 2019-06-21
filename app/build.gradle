@@ -18,6 +18,7 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+        vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         compileOptions {
@@ -105,8 +106,10 @@ dependencies {
     implementation "com.crashlytics.sdk.android:crashlytics:2.9.7"
 
     // open street map
-
     implementation "org.osmdroid:osmdroid-android:${libs.openstreetmap}"
+
+    //Anko
+    implementation "org.jetbrains.anko:anko:0.10.8"
     api("com.github.MKergall:osmbonuspack:6.5.2") {
         exclude module: 'support-v4'
     }

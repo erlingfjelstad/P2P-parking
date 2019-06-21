@@ -1,6 +1,5 @@
 package eu.vincinity2020.p2p_parking.ui.profile.view
 
-import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.view.LayoutInflater
@@ -37,15 +36,15 @@ class ViewProfileFragment : BaseFragment(), ViewProfileMvpView {
 
 
         when {
-            user.role.trim().toLowerCase() == "medical" -> tvHealth.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.true_black))
-            user.role.trim().toLowerCase() == "owner" -> tvOwner.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.true_black))
-            else -> tvOwner.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.true_black))
+            user.role.trim().toLowerCase() == "medical" -> tvHealth.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorBlack))
+            user.role.trim().toLowerCase() == "owner" -> tvOwner.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorBlack))
+            else -> tvOwner.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorBlack))
         }
 
         when {
-            user.gender.trim().toLowerCase() == "male" -> tvMale.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.true_black))
-            user.gender.trim().toLowerCase() == "female" -> tvFemale.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.true_black))
-            else -> tvOther.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.true_black))
+            user.gender.trim().toLowerCase() == "male" -> tvMale.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorBlack))
+            user.gender.trim().toLowerCase() == "female" -> tvFemale.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorBlack))
+            else -> tvOther.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorBlack))
         }
     }
 

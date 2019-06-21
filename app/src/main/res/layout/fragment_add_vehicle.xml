@@ -80,7 +80,7 @@
                 style="@style/ProfileTextBoxes"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@color/true_black"
+                android:background="@color/colorBlack"
                 android:drawableTop="@drawable/ic_parking_standard"
                 android:text="@string/car"
                 app:layout_constraintEnd_toStartOf="@+id/tvOwner"

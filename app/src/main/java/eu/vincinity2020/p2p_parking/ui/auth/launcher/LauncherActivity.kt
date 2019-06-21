@@ -30,6 +30,7 @@ class LauncherActivity : AppCompatActivity() {
         }
 
         startActivity(intent)
+        finish()
 
     }
 }

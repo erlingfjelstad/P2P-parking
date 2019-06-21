@@ -8,8 +8,10 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.widget.*
+import androidx.core.content.ContextCompat
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
@@ -22,6 +24,7 @@ import eu.vincinity2020.p2p_parking.data.entities.User
 import eu.vincinity2020.p2p_parking.ui.navigation.NavigationActivity
 import eu.vincinity2020.p2p_parking.ui.auth.registeruser.RegisterUserActivity
 import kotlinx.android.synthetic.main.activity_login.*
+import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
 /**
@@ -32,11 +35,12 @@ class LoginActivity : BaseActivity(), LoginView {
     @Inject
     lateinit var presenter: LoginPresenter
 
+    private lateinit var email:String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        ButterKnife.bind(this)
 
         App.get(this)
                 .appComponent()
@@ -46,7 +50,7 @@ class LoginActivity : BaseActivity(), LoginView {
                 .inject(this)
 
         // Set up the login form.
-        etPassword.setOnEditorActionListener(TextView.OnEditorActionListener { _, id, _ ->
+        /*etPassword.setOnEditorActionListener(TextView.OnEditorActionListener { _, id, _ ->
             if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
                 attemptLogin()
                 return@OnEditorActionListener true
@@ -62,8 +66,23 @@ class LoginActivity : BaseActivity(), LoginView {
             etEmail.setText(intent.getStringExtra("email"))
 
 
+*/
 
+        initViews()
+    }
 
+    private fun initViews() {
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.statusBarColor = ContextCompat.getColor(this,R.color.colorWhite)
+
+        btnLogin.setOnClickListener {
+
+        }
+
+        frlRegisterNewUser.setOnClickListener {
+            startActivity<RegisterUserActivity>()
+        }
     }
 
     override fun onResume() {
@@ -86,7 +105,7 @@ class LoginActivity : BaseActivity(), LoginView {
 
         // Reset errors.
 
-        etEmail.error = null
+        /*etEmail.error = null
         etPassword.error = null
 
         // Store values at the time of the login attempt.
@@ -130,7 +149,7 @@ class LoginActivity : BaseActivity(), LoginView {
             showProgress(true)
             App.get(this).hideKeyboard(etPassword)
             presenter.attemptLogin(emailStr, passwordStr)
-        }
+        }*/
     }
 
     private fun isEmailValid(email: String): Boolean {
@@ -146,7 +165,7 @@ class LoginActivity : BaseActivity(), LoginView {
      */
     private fun showProgress(show: Boolean) {
 
-        val shortAnimTime = resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
+        /*val shortAnimTime = resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
 
         login_form.visibility = if (show) View.GONE else View.VISIBLE
         login_form.animate()
@@ -166,13 +185,8 @@ class LoginActivity : BaseActivity(), LoginView {
                     override fun onAnimationEnd(animation: Animator) {
                         login_progress.visibility = if (show) View.VISIBLE else View.GONE
                     }
-                })
+                })*/
 
-    }
-
-    @OnClick(R.id.button_register_user)
-    fun onRegisterUserButtonClicked() {
-        startActivity(Intent(this, RegisterUserActivity::class.java))
     }
 
     override fun onLoadFinish() {
@@ -197,7 +211,7 @@ class LoginActivity : BaseActivity(), LoginView {
     override fun onSuccessfulLogin(user: User) {
         App.get(this).setIsLoggedIn(true)
         App.get(this).setUserEmail(user.id)
-        user.password = etPassword.text.toString()
+        //user.password = etPassword.text.toString()
         App.get(this).setUser(user)
 
         presenter.saveFcmToken(getSharedPreferences(AppConstants.SHARED_PREFS, Context.MODE_PRIVATE).getString(AppConstants.FCM_TOKEN, "")!!,
