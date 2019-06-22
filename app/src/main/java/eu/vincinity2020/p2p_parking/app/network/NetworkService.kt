@@ -1,26 +1,28 @@
 package eu.vincinity2020.p2p_parking.app.network
 
 import com.google.gson.JsonObject
+import eu.vincinity2020.p2p_parking.data.entities.LoginResponse
+import eu.vincinity2020.p2p_parking.data.entities.RegisterRequest
+import eu.vincinity2020.p2p_parking.data.entities.SaveFcmTokenRequest
 import io.reactivex.Observable
+import io.reactivex.Single
 import retrofit2.http.*
 
-interface   NetworkService {
+interface NetworkService {
 
-//    , @Query("email") email: String, @Query("password") password: String
+    //    , @Query("email") email: String, @Query("password") password: String
     @GET("/user/login")
-    fun loginUser(@Header("Authorization") basicAuth: String): Observable<JsonObject>
-
+    fun loginUser(@Header("Authorization") basicAuth: String): Single<LoginResponse?>
 
 
     @Headers("ContainType: application/json")
     @PUT("/user/update/deviceId")
-    fun saveFcmToken(@Header("Authorization") basicAuth: String, @Body fcmToken: JsonObject) : Observable<JsonObject>           //Save FCM token of device on server
+    fun saveFcmToken(@Header("Authorization") basicAuth: String, @Body request: SaveFcmTokenRequest): Observable<JsonObject>           //Save FCM token of device on server
 
 
     @Headers("ContainType: application/json")
     @POST("/user/register")
-    fun registerUser(@Body registerJson: JsonObject): Observable<JsonObject>
-
+    fun registerUser(@Body registerJson: RegisterRequest): Observable<JsonObject>
 
 
     @Headers("ContainType: application/json")
@@ -39,10 +41,9 @@ interface   NetworkService {
                         @Query("lon") longitude: String, @Query("limit") limit: String): Observable<JsonObject>
 
 
- @GET("/booking/list")
+    @GET("/booking/list")
     fun getParkingBookings(@Header("Authorization") basicAuth: String, @Query("limit") limit: String,
-                        @Query("userId") userId: String): Observable<JsonObject>
-
+                           @Query("userId") userId: String): Observable<JsonObject>
 
 
     @Headers("ContainType: application/json")
@@ -65,8 +66,6 @@ interface   NetworkService {
                           @Query("userId") userId: String, @Query("limit") limit: String): Observable<JsonObject>                  //Returns all vehicles of this user
 
 
-
-
     @GET("/vehicleType/list")
     fun getVehicleTypeList(): Observable<JsonObject>                  //Returns Vehicle Type listing
 
@@ -76,12 +75,9 @@ interface   NetworkService {
     fun updateDefaultVehicle(@Header("Authorization") basicAuth: String, @Body vehicleDetails: JsonObject): Observable<JsonObject>
 
 
-
     @Headers("ContainType: application/json")
     @GET("/vehicle/ownerVehicles/{ownerId}")
-    fun getVehicles(@Header("Authorization") basicAuth: String,@Path("ownerId") userId: String): Observable<JsonObject>                  //Returns all vehicles of this user
-
-
+    fun getVehicles(@Header("Authorization") basicAuth: String, @Path("ownerId") userId: String): Observable<JsonObject>                  //Returns all vehicles of this user
 
 
     @Headers("ContainType: application/json")

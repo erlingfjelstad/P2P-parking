@@ -110,6 +110,14 @@ dependencies {
 
     //Anko
     implementation "org.jetbrains.anko:anko:0.10.8"
+
+    //Material Dialog
+    implementation 'com.afollestad.material-dialogs:core:2.0.0-rc9'
+    implementation 'com.afollestad.material-dialogs:input:2.0.0-rc9'
+
+    //RxBinding
+    implementation 'com.jakewharton.rxbinding3:rxbinding-core:3.0.0-alpha2'
+
     api("com.github.MKergall:osmbonuspack:6.5.2") {
         exclude module: 'support-v4'
     }

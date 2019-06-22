@@ -5,6 +5,8 @@ import eu.vincinity2020.p2p_parking.data.entities.User
 
 interface LoginView : MvpView {
     fun onFcmTokenSaved()
-    fun onSuccessfulLogin(user: User)
     fun onLoadFinish()
+    fun showProgress()
+    fun hideProgress()
+    fun onLoginError(e: Throwable)
 }

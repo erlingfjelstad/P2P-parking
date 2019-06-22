@@ -1,28 +1,18 @@
 package eu.vincinity2020.p2p_parking.ui.auth.login
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.content.Context
+import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
+import android.util.Pair
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
-import android.view.inputmethod.EditorInfo
-import android.widget.*
 import androidx.core.content.ContextCompat
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
-import com.crashlytics.android.Crashlytics
 import eu.vincinity2020.p2p_parking.R
 import eu.vincinity2020.p2p_parking.app.App
-import eu.vincinity2020.p2p_parking.app.common.AppConstants
 import eu.vincinity2020.p2p_parking.app.common.BaseActivity
-import eu.vincinity2020.p2p_parking.data.entities.User
-import eu.vincinity2020.p2p_parking.ui.navigation.NavigationActivity
 import eu.vincinity2020.p2p_parking.ui.auth.registeruser.RegisterUserActivity
+import eu.vincinity2020.p2p_parking.ui.navigation.NavigationActivity
+import eu.vincinity2020.p2p_parking.utils.*
 import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.startActivity
 import javax.inject.Inject
@@ -30,43 +20,21 @@ import javax.inject.Inject
 /**
  * A login screen that offers login via email/password.
  */
-class LoginActivity : BaseActivity(), LoginView {
+class LoginActivity: BaseActivity(), LoginView {
 
     @Inject
     lateinit var presenter: LoginPresenter
 
-    private lateinit var email:String
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
-
         App.get(this)
                 .appComponent()
                 .loginComponentBuilder()
                 .loginModule(LoginModule())
                 .build()
                 .inject(this)
-
-        // Set up the login form.
-        /*etPassword.setOnEditorActionListener(TextView.OnEditorActionListener { _, id, _ ->
-            if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
-                attemptLogin()
-                return@OnEditorActionListener true
-            }
-            false
-        })
-
-        email_sign_in_button.setOnClickListener {
-            attemptLogin()
-        }
-
-        if (intent != null && intent.hasExtra("email"))
-            etEmail.setText(intent.getStringExtra("email"))
-
-
-*/
+        presenter.attach(this)
 
         initViews()
     }
@@ -74,148 +42,82 @@ class LoginActivity : BaseActivity(), LoginView {
     private fun initViews() {
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.statusBarColor = ContextCompat.getColor(this,R.color.colorWhite)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.colorWhite)
 
-        btnLogin.setOnClickListener {
-
+        btnLogin_login.setOnClickListener {
+            if (isInputValid()) {
+                attemptLogin()
+            }
         }
 
         frlRegisterNewUser.setOnClickListener {
-            startActivity<RegisterUserActivity>()
+            launchRegisterUserActivity()
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        presenter.attach(this)
+    private fun isInputValid(): Boolean {
+        if (edtUsername_login.value.isBlank() || !edtUsername_login.value.isEmail()) {
+            tilUsername_login.error = "Please enter a valid username"
+            return false
+        } else {
+            tilUsername_login.error = null
+        }
+
+        if (edtPassword_login.value.length <= 4) {
+            tilPassword_login.error = "Password cannot be less than 5 characters"
+            return false
+        } else {
+            tilPassword_login.error = null
+        }
+
+        return true
     }
 
-    override fun onPause() {
-        super.onPause()
+    private fun attemptLogin() {
+        presenter.attemptLogin(edtUsername_login.value, edtPassword_login.value)
+    }
+
+    private fun launchRegisterUserActivity() {
+        val logoPair = Pair<View, String>(imvP2pLogo, getString(R.string.logo_transition))
+        val buttonPair = Pair<View, String>(btnLogin_login, getString(R.string.login_button_transition))
+        val options = ActivityOptions.makeSceneTransitionAnimation(this, logoPair, buttonPair)
+        val intent = Intent(this, RegisterUserActivity::class.java)
+        startActivity(intent, options.toBundle())
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
         presenter.detach()
     }
 
-
-    /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
-     */
-    private fun attemptLogin() {
-
-        // Reset errors.
-
-        /*etEmail.error = null
-        etPassword.error = null
-
-        // Store values at the time of the login attempt.
-        val emailStr = etEmail.text.toString()
-        val passwordStr = etPassword.text.toString()
-
-        var cancel = false
-        var focusView: View? = null
-
-
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(emailStr)) {
-            etEmail.error = getString(R.string.error_field_required)
-            focusView = etEmail
-            cancel = true
-        } else if (!isEmailValid(emailStr)) {
-            etEmail.error = getString(R.string.error_invalid_email)
-            focusView = etEmail
-            cancel = true
-        }
-
-        // Check for a valid password, if the user entered one.
-        if (TextUtils.isEmpty(passwordStr) ) {
-            etPassword.error = getString(R.string.error_field_required)
-            focusView = etPassword
-            cancel = true
-        } else if (!isPasswordValid(passwordStr))
-        {
-            etPassword.error = getString(R.string.error_invalid_password)
-            focusView = etPassword
-            cancel = true
-        }
-
-        if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
-            focusView?.requestFocus()
-        } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
-            showProgress(true)
-            App.get(this).hideKeyboard(etPassword)
-            presenter.attemptLogin(emailStr, passwordStr)
-        }*/
-    }
-
-    private fun isEmailValid(email: String): Boolean {
-        return email.contains("@")
-    }
-
-    private fun isPasswordValid(password: String): Boolean {
-        return password.length > 4
-    }
-
-    /**
-     * Shows the progress UI and hides the login form.
-     */
-    private fun showProgress(show: Boolean) {
-
-        /*val shortAnimTime = resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
-
-        login_form.visibility = if (show) View.GONE else View.VISIBLE
-        login_form.animate()
-                .setDuration(shortAnimTime)
-                .alpha((if (show) 0 else 1).toFloat())
-                .setListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationEnd(animation: Animator) {
-                        login_form.visibility = if (show) View.GONE else View.VISIBLE
-                    }
-                })
-
-        login_progress.visibility = if (show) View.VISIBLE else View.GONE
-        login_progress.animate()
-                .setDuration(shortAnimTime)
-                .alpha((if (show) 1 else 0).toFloat())
-                .setListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationEnd(animation: Animator) {
-                        login_progress.visibility = if (show) View.VISIBLE else View.GONE
-                    }
-                })*/
-
-    }
-
     override fun onLoadFinish() {
-        showProgress(false)
+        hideProgress()
     }
 
     override fun onTimeout() {
-        showToast(getString(R.string.unable_to_connect_to_server));
+        P2PDialog.errorDialog(this, getString(R.string.unable_to_connect_to_server)).show()
     }
 
     override fun onNetworkError() {
-        showToast(getString(R.string.unable_to_connect_to_server));
+        P2PDialog.errorDialog(this, getString(R.string.unable_to_connect_to_server)).show()
+    }
 
+    override fun onLoginError(e: Throwable) {
+        P2PDialog.errorDialog(this, e.getErrorMessage()).show()
     }
 
     override fun onFcmTokenSaved() {
-        showProgress(false)
-        startActivity(Intent(this, NavigationActivity::class.java))
+        hideProgress()
+        startActivity<NavigationActivity>()
         finish()
     }
 
-    override fun onSuccessfulLogin(user: User) {
-        App.get(this).setIsLoggedIn(true)
-        App.get(this).setUserEmail(user.id)
-        //user.password = etPassword.text.toString()
-        App.get(this).setUser(user)
+    override fun showProgress() {
+        pbLogin.show()
+    }
 
-        presenter.saveFcmToken(getSharedPreferences(AppConstants.SHARED_PREFS, Context.MODE_PRIVATE).getString(AppConstants.FCM_TOKEN, "")!!,
-                user.email, user.password)
+    override fun hideProgress() {
+        pbLogin.gone()
     }
 
     override fun onUnknownError(errorMessage: String) {

@@ -5,7 +5,9 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.auth.registeruser.RegisterUserActivity"
-    android:background="@drawable/login_gradient_background">
+    android:background="@drawable/login_gradient_background"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <androidx.appcompat.widget.AppCompatImageView
     android:id="@+id/appCompatImageView2"
@@ -27,12 +29,13 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/appCompatImageView"
+            android:id="@+id/imvP2pLogo"
             android:layout_width="70dp"
             android:layout_height="55dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
+            android:transitionName="@string/logo_transition"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -46,9 +49,9 @@
             android:fontFamily="@font/lato_bold"
             android:text="NEW USER"
             android:textSize="19sp"
-            app:layout_constraintEnd_toEndOf="@+id/appCompatImageView"
-            app:layout_constraintStart_toStartOf="@+id/appCompatImageView"
-            app:layout_constraintTop_toBottomOf="@+id/appCompatImageView" />
+            app:layout_constraintEnd_toEndOf="@+id/imvP2pLogo"
+            app:layout_constraintStart_toStartOf="@+id/imvP2pLogo"
+            app:layout_constraintTop_toBottomOf="@+id/imvP2pLogo" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="0dp"
@@ -74,7 +77,7 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout3"
+                android:id="@+id/tilFullName_register"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
@@ -86,42 +89,19 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtFullName_register"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/lato"
-                    android:hint="@string/prompt_username"
-                    android:textColor="@color/colorWhite"
+                    android:drawableStart="@drawable/ic_profile_drawable"
                     android:drawablePadding="12dp"
-                    android:drawableStart="@drawable/ic_profile_drawable"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout4"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="32dp"
-                android:textColorHint="@color/colorLabelText"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout3">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:fontFamily="@font/lato"
-                    android:hint="@string/prompt_password"
-                    android:drawableStart="@drawable/ic_password_drawable"
-                    android:drawablePadding="12dp"
+                    android:hint="@string/full_name"
                     android:textColor="@color/colorWhite" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout5"
+                android:id="@+id/tilPassword_register"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
@@ -131,21 +111,49 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout4">
+                app:layout_constraintTop_toBottomOf="@+id/tilFullName_register">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtPassword_register"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/lato"
                     android:drawableStart="@drawable/ic_password_drawable"
                     android:drawablePadding="12dp"
+                    android:fontFamily="@font/lato"
+                    android:hint="@string/prompt_password"
+                    android:inputType="textPassword"
+                    android:textColor="@color/colorWhite" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilRepeatPassword_register"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="32dp"
+                android:textColorHint="@color/colorLabelText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tilPassword_register">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtRepeatPassword_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_password_drawable"
+                    android:drawablePadding="12dp"
+                    android:fontFamily="@font/lato"
+                    android:inputType="textPassword"
                     android:hint="@string/prompt_repeat_password"
                     android:textColor="@color/colorWhite" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout6"
+                android:id="@+id/tilEmail_register"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
@@ -155,21 +163,22 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout5">
+                app:layout_constraintTop_toBottomOf="@+id/tilRepeatPassword_register">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtEmail_register"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/lato"
-                    android:hint="@string/prompt_email"
                     android:drawableStart="@drawable/ic_email"
                     android:drawablePadding="12dp"
+                    android:fontFamily="@font/lato"
+                    android:hint="@string/prompt_email"
                     android:textColor="@color/colorWhite" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout7"
+                android:id="@+id/tilMobile_register"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
@@ -179,21 +188,23 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout6">
+                app:layout_constraintTop_toBottomOf="@+id/tilEmail_register">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtMobile_register"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_mobile_drawable"
                     android:drawablePadding="12dp"
                     android:fontFamily="@font/lato"
                     android:hint="@string/prompt_mobile"
+                    android:inputType="number"
                     android:textColor="@color/colorWhite" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.appcompat.widget.AppCompatCheckBox
-                android:id="@+id/appCompatCheckBox"
+                android:id="@+id/ckbTerms_register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
@@ -202,11 +213,12 @@
                 android:text="@string/label_tnc"
                 android:textAlignment="center"
                 android:textColor="@color/colorLabelText"
-                app:layout_constraintEnd_toEndOf="@+id/textInputLayout7"
-                app:layout_constraintStart_toStartOf="@+id/textInputLayout7"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout7" />
+                app:layout_constraintEnd_toEndOf="@+id/tilMobile_register"
+                app:layout_constraintStart_toStartOf="@+id/tilMobile_register"
+                app:layout_constraintTop_toBottomOf="@+id/tilMobile_register" />
 
             <Button
+                android:id="@+id/btnRegister_register"
                 android:layout_width="280dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -222,10 +234,11 @@
                 android:text="@string/register"
                 android:textColor="@color/colorWhite"
                 android:textSize="16sp"
+                android:transitionName="@string/login_button_transition"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/appCompatCheckBox" />
+                app:layout_constraintTop_toBottomOf="@+id/ckbTerms_register" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

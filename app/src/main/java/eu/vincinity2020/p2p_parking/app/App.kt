@@ -12,12 +12,22 @@ import eu.vincinity2020.p2p_parking.data.entities.User
 class App : Application() {
     private lateinit var appComponent: AppComponent
 
+    init {
+        instance = this
+    }
+
     companion object {
         const val DB_VERSION = 1
         const val DB_NAME = "p2p-db"
 
         fun get(context: Context): App {
             return context.applicationContext as App
+        }
+
+        private var instance: App? = null
+
+        fun applicationContext(): Context {
+            return instance?.applicationContext!!
         }
 
     }

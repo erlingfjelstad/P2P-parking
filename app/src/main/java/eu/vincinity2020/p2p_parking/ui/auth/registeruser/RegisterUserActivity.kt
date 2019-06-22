@@ -1,50 +1,28 @@
 package eu.vincinity2020.p2p_parking.ui.auth.registeruser
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.app.DatePickerDialog
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.ArrayAdapter
-import android.widget.DatePicker
-import android.widget.TextView
-import android.widget.Toast
 import androidx.core.content.ContextCompat
-import butterknife.BindString
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
-import com.google.gson.JsonObject
+import com.jakewharton.rxbinding3.widget.textChanges
 import eu.vincinity2020.p2p_parking.R
 import eu.vincinity2020.p2p_parking.app.App
 import eu.vincinity2020.p2p_parking.app.common.AppConstants
 import eu.vincinity2020.p2p_parking.app.common.BaseActivity
-import eu.vincinity2020.p2p_parking.data.dto.Country
-import eu.vincinity2020.p2p_parking.ui.auth.login.LoginActivity
+import eu.vincinity2020.p2p_parking.data.entities.RegisterRequest
+import eu.vincinity2020.p2p_parking.utils.*
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_register_user.*
-import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class RegisterUserActivity : BaseActivity() {
+class RegisterUserActivity: BaseActivity(), RegisterView {
 
+    @Inject
+    lateinit var presenter: RegistrationPresenter
 
-    companion object {
-        private const val ARG_LOGGED_IN = "arg:isLoggedIn"
-
-        fun loggedInLaunchIntent(context: Context, isLoggedIn: Boolean): Intent {
-            val intent = Intent(context, RegisterUserActivity::class.java)
-            intent.putExtra(ARG_LOGGED_IN, isLoggedIn)
-
-            return intent
-        }
-    }
-
+    val disposables = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +34,112 @@ class RegisterUserActivity : BaseActivity() {
     private fun initViews() {
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.statusBarColor = ContextCompat.getColor(this,R.color.colorWhite)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.colorWhite)
+
+        setupPasswordWatcher()
+        btnRegister_register.setOnClickListener {
+            if (isInputValid()) {
+                registerUser()
+            }
+        }
+    }
+
+    private fun isInputValid(): Boolean {
+        if (edtFullName_register.value.isBlank()) {
+            tilFullName_register.error = "Please enter your full name"
+            return false
+        } else {
+            tilFullName_register.error = null
+        }
+
+        if (edtPassword_register.value.length < 5) {
+            tilPassword_register.error = "Password length should be at least 5 characters"
+            return false
+        } else {
+            tilPassword_register.error = null
+        }
+
+        if (edtPassword_register.value != edtRepeatPassword_register.value) {
+            tilPassword_register.error = "Passwords do not match"
+            return false
+        } else {
+            tilPassword_register.error = null
+        }
+
+        if (edtEmail_register.value.isBlank() || !edtEmail_register.value.isEmail()) {
+            tilEmail_register.error = "Please enter a valid email address"
+            return false
+        } else {
+            tilEmail_register.error = null
+        }
+
+        if (edtMobile_register.value.isBlank() || !edtMobile_register.value.isValidMobile()) {
+            tilMobile_register.error = "Please enter a valid mobile number"
+            return false
+        } else {
+            tilMobile_register.error = null
+        }
+
+        return true
+    }
+
+    private fun registerUser() {
+        val registerRequest = RegisterRequest(
+                edtFullName_register.value,
+                edtFullName_register.value,
+                edtMobile_register.value,
+                edtEmail_register.value,
+                edtPassword_register.value,
+                P2PPreferences(this).getString(AppConstants.FCM_TOKEN) ?: ""
+        )
+        presenter.registerUser(registerRequest)
+    }
+
+    private fun setupPasswordWatcher() {
+        disposables.add(edtRepeatPassword_register.textChanges()
+                .map { it.toString() }
+                .debounce(750, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { repeatedPassword ->
+                    if (repeatedPassword != edtPassword_register.value) {
+                        tilRepeatPassword_register.error = "Passwords do not match"
+                    } else {
+                        tilRepeatPassword_register.error = null
+                    }
+                }
+        )
+
+        disposables.add(edtPassword_register.textChanges()
+                .map { it.toString() }
+                .debounce(750, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { password ->
+                    if (password != edtRepeatPassword_register.value) {
+                        tilRepeatPassword_register.error = "Passwords do not match"
+                    } else {
+                        tilRepeatPassword_register.error = null
+                    }
+                }
+        )
+    }
+
+    override fun onRegisterSuccessful() {
+    }
+
+    override fun onRegisterError(e: Throwable) {
+    }
+
+    override fun hideProgress() {
+
+    }
+
+    override fun showProgress() {
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        disposables.dispose()
     }
 
 }

@@ -4,6 +4,4 @@ import eu.vincinity2020.p2p_parking.app.common.MvpPresenter
 
 interface LoginPresenter : MvpPresenter {
     fun attemptLogin(email: String, password: String)
-
-    fun saveFcmToken(token: String, email: String, password: String)
 }

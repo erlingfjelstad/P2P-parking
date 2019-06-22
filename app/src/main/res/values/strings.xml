@@ -137,6 +137,21 @@
     <string name="prompt_mobile">Mobile (must be a valid number)</string>
     <string name="label_tnc">I have read, understood and agree with the person and privacy policy</string>
     <string name="register">Register</string>
+    <string name="logo_transition">logoTransition</string>
+    <string name="login_button_transition">loginButtonTransition</string>
+    <string name="error_msg_no_internet">Device is offline, please connect to internet.</string>
+    <string name="error_msg_generic">Something went wrong, retry later.</string>
+    <string name="error_msg_cannot_connect">Cannot connect to server, try again later.</string>
+    <string name="error_msg_server_error">Request failed due to server error.</string>
+
+    <string name="dialog_action_okay">Okay</string>
+    <string name="dialog_action_cancel">Cancel</string>
+    <string name="dialog_action_exit">Exit</string>
+    <string name="dialog_title_error">Error</string>
+    <string name="dialog_title_confirmation">Confirmation</string>
+    <string name="dialog_title_info">Information</string>
+    <string name="invalid_credentials">Invalid Credentials</string>
+    <string name="full_name">Full name</string>
 
     <string-array name="genders">
         <item>Male</item>
