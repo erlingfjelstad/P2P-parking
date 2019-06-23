@@ -27,7 +27,7 @@ class LoginPresenterImpl(private val networkService: NetworkService): LoginPrese
         disposable.add(networkService.saveFcmToken(Credentials.basic(email, password), SaveFcmTokenRequest(token))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnComplete { loginView.hideProgress() }
+                .doFinally { loginView.hideProgress() }
                 .subscribe({
                     loginView.onFcmTokenSaved()
                 }, {
@@ -43,6 +43,7 @@ class LoginPresenterImpl(private val networkService: NetworkService): LoginPrese
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
+                    loginView.hideProgress()
                     if (it != null) {
                         App.get(context).setIsLoggedIn(true)
                         App.get(context).setUserEmail(it.user.id)
@@ -54,6 +55,7 @@ class LoginPresenterImpl(private val networkService: NetworkService): LoginPrese
                         }
                     }
                 }, {
+                    loginView.hideProgress()
                     loginView.onLoginError(it)
                 }))
     }

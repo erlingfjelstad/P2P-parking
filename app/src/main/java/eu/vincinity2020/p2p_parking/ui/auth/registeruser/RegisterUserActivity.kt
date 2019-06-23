@@ -9,11 +9,13 @@ import eu.vincinity2020.p2p_parking.app.App
 import eu.vincinity2020.p2p_parking.app.common.AppConstants
 import eu.vincinity2020.p2p_parking.app.common.BaseActivity
 import eu.vincinity2020.p2p_parking.data.entities.RegisterRequest
+import eu.vincinity2020.p2p_parking.ui.navigation.NavigationActivity
 import eu.vincinity2020.p2p_parking.utils.*
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_register_user.*
+import org.jetbrains.anko.startActivity
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -27,6 +29,14 @@ class RegisterUserActivity: BaseActivity(), RegisterView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register_user)
+        App.get(this)
+                .appComponent()
+                .registerUserComponentBuilder()
+                .registerUserModule(RegisterUserModule())
+                .build()
+                .inject(this)
+
+        presenter.attach(this)
 
         initViews()
     }
@@ -124,17 +134,20 @@ class RegisterUserActivity: BaseActivity(), RegisterView {
     }
 
     override fun onRegisterSuccessful() {
+        startActivity<NavigationActivity>()
+        finishAffinity()
     }
 
     override fun onRegisterError(e: Throwable) {
+        P2PDialog.errorDialog(this, e.getErrorMessage()).show()
     }
 
     override fun hideProgress() {
-
+        pbRegister.gone()
     }
 
     override fun showProgress() {
-
+        pbRegister.show()
     }
 
     override fun onDestroy() {

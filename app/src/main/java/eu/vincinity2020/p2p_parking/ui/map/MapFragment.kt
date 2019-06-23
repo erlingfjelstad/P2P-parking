@@ -32,7 +32,7 @@ import org.osmdroid.views.overlay.Marker
 import java.util.*
 import javax.inject.Inject
 
-class MapFragment : BaseFragment(), eu.vincinity2020.p2p_parking.ui.map.MapMvpView,
+class MapFragment : BaseFragment(), MapMvpView,
         Marker.OnMarkerClickListener, ParkingSpotAdapter.OnParkingSpotClickedListener {
 
 

@@ -1,6 +1,7 @@
 package eu.vincinity2020.p2p_parking.app.network
 
 import com.google.gson.JsonObject
+import eu.vincinity2020.p2p_parking.data.entities.GenericResponse
 import eu.vincinity2020.p2p_parking.data.entities.LoginResponse
 import eu.vincinity2020.p2p_parking.data.entities.RegisterRequest
 import eu.vincinity2020.p2p_parking.data.entities.SaveFcmTokenRequest
@@ -17,12 +18,12 @@ interface NetworkService {
 
     @Headers("ContainType: application/json")
     @PUT("/user/update/deviceId")
-    fun saveFcmToken(@Header("Authorization") basicAuth: String, @Body request: SaveFcmTokenRequest): Observable<JsonObject>           //Save FCM token of device on server
+    fun saveFcmToken(@Header("Authorization") basicAuth: String, @Body request: SaveFcmTokenRequest): Single<JsonObject>           //Save FCM token of device on server
 
 
     @Headers("ContainType: application/json")
     @POST("/user/register")
-    fun registerUser(@Body registerJson: RegisterRequest): Observable<JsonObject>
+    fun registerUser(@Body registerJson: RegisterRequest): Single<GenericResponse>
 
 
     @Headers("ContainType: application/json")

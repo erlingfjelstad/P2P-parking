@@ -7,4 +7,6 @@ import eu.vincinity2020.p2p_parking.data.entities.RegisterRequest
 interface RegistrationPresenter: MvpPresenter {
 
     fun registerUser(request: RegisterRequest)
+
+    fun attach(view: RegisterView)
 }
