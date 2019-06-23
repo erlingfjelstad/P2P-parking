@@ -8,6 +8,10 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.google.gson.Gson
 import eu.vincinity2020.p2p_parking.app.common.AppConstants
 import eu.vincinity2020.p2p_parking.data.entities.User
+import com.crashlytics.android.Crashlytics
+import io.fabric.sdk.android.Fabric
+
+
 
 class App : Application() {
     private lateinit var appComponent: AppComponent
@@ -41,7 +45,7 @@ class App : Application() {
                 .build()
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
-
+        Fabric.with(this, Crashlytics())
     }
 
 

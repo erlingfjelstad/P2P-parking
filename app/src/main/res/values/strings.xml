@@ -34,7 +34,7 @@
     <string name="book_parking_spot">Book</string>
     <string name="activity_reciept">Receipt</string>
     <string name="title_reciept">Successfully booked</string>
-    <string name="content_reciept">You have successfully booked %s from %s to %s</string>
+    <string name="content_reciept" formatted="false">You have successfully booked</string>
     <string name="ok">OK</string>
     <string name="search_empty_state">No results found</string>
     <string name="activity_login">Log in</string>

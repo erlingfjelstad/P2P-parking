@@ -9,7 +9,6 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'io.fabric'
 
 
-
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -32,14 +31,28 @@ android {
             }
         }
     }
+    signingConfigs {
+        release {
+            storeFile file("vicinity.jks")
+            storePassword 'vicinity'
+            keyAlias 'vicinity'
+            keyPassword 'vicinity'
+        }
+    }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 }
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
 androidExtensions {
     experimental = true
 }
@@ -103,7 +116,9 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-core:16.0.5'
     implementation "com.google.firebase:firebase-messaging:17.3.4"
-    implementation "com.crashlytics.sdk.android:crashlytics:2.9.7"
+    implementation('com.crashlytics.sdk.android:crashlytics:2.10.1@aar') {
+        transitive = true;
+    }
 
     // open street map
     implementation "org.osmdroid:osmdroid-android:${libs.openstreetmap}"
