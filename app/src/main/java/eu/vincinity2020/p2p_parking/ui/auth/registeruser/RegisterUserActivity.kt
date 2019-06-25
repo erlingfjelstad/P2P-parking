@@ -1,24 +1,33 @@
 package eu.vincinity2020.p2p_parking.ui.auth.registeruser
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.Gravity
 import android.view.WindowManager
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.jakewharton.rxbinding3.widget.textChanges
 import eu.vincinity2020.p2p_parking.R
 import eu.vincinity2020.p2p_parking.app.App
 import eu.vincinity2020.p2p_parking.app.common.AppConstants
 import eu.vincinity2020.p2p_parking.app.common.BaseActivity
 import eu.vincinity2020.p2p_parking.data.entities.RegisterRequest
+import eu.vincinity2020.p2p_parking.ui.about.AboutActivity
+import eu.vincinity2020.p2p_parking.ui.auth.registeruser.adapter.NavigationAdapter
+import eu.vincinity2020.p2p_parking.ui.getstarted.GetStartedActivity
 import eu.vincinity2020.p2p_parking.ui.navigation.NavigationActivity
+import eu.vincinity2020.p2p_parking.ui.privacy.PrivacyActivity
 import eu.vincinity2020.p2p_parking.utils.*
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_register_user.*
+import kotlinx.android.synthetic.main.layout_register.*
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
+@SuppressLint("WrongConstant")
 class RegisterUserActivity: BaseActivity(), RegisterView {
 
     @Inject
@@ -51,6 +60,39 @@ class RegisterUserActivity: BaseActivity(), RegisterView {
             if (isInputValid()) {
                 registerUser()
             }
+        }
+
+        imvNavHamburger.setOnClickListener {
+            drawerLayout.openDrawer(Gravity.START, true)
+        }
+
+        setupNavigation()
+    }
+
+    private fun setupNavigation() {
+        val adapter = NavigationAdapter(AppConstants.navigationItems) {
+            navigateTo(it)
+            drawerLayout.closeDrawer(Gravity.START, true)
+        }
+        revNavigation.layoutManager = LinearLayoutManager(this)
+        revNavigation.adapter = adapter
+    }
+
+    private fun navigateTo(position: Int) {
+        when (position) {
+            0 -> {
+                drawerLayout.closeDrawer(Gravity.START, true)
+            }
+            1 -> {
+                startActivity<PrivacyActivity>()
+            }
+            2 -> {
+                startActivity<GetStartedActivity>()
+            }
+            3 -> {
+                startActivity<AboutActivity>()
+            }
+
         }
     }
 

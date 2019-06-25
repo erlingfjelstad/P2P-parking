@@ -13,4 +13,5 @@
     <color name="gray_light">#D3D3D3</color>
     <color name="colorLabelText">#A2A2A2</color>
     <color name="colorButtonBackground">#EC651C</color>
+    <color name="colorNavDrawerBackground">#2A2E43</color>
 </resources>

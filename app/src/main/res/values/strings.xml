@@ -157,8 +157,9 @@
         <item>Male</item>
         <item>Female</item>
         <item>Other</item>
-    </string-array>VehicleListModule
- <string-array name="user_roles">
+    </string-array>
+    VehicleListModule
+    <string-array name="user_roles">
         <item>Driver</item>
         <item>Owner</item>
         <item>Medical</item>

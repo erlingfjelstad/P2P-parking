@@ -1,258 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.auth.registeruser.RegisterUserActivity"
-    android:background="@drawable/login_gradient_background"
-    android:focusable="true"
-    android:focusableInTouchMode="true">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.auth.registeruser.RegisterUserActivity">
 
-    <androidx.appcompat.widget.AppCompatImageView
-    android:id="@+id/appCompatImageView2"
-    android:layout_width="0dp"
-    android:layout_height="346dp"
-    android:scaleType="fitXY"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:srcCompat="@drawable/login_curved_background" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/ctl_headerContainer_register"
-        android:layout_width="0dp"
-        android:layout_height="150dp"
-        android:background="@color/colorWhite"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/imvP2pLogo"
-            android:layout_width="70dp"
-            android:layout_height="55dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:transitionName="@string/logo_transition"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_logo_p2p_black_text" />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/lato_bold"
-            android:text="NEW USER"
-            android:textSize="19sp"
-            app:layout_constraintEnd_toEndOf="@+id/imvP2pLogo"
-            app:layout_constraintStart_toStartOf="@+id/imvP2pLogo"
-            app:layout_constraintTop_toBottomOf="@+id/imvP2pLogo" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:scaleType="fitXY"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/line_vector" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <ScrollView
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:fitsSystemWindows="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ctl_headerContainer_register">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:openDrawer="start">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <include
+            layout="@layout/layout_register"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilFullName_register"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="32dp"
-                android:textColorHint="@color/colorLabelText"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="false">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edtFullName_register"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_profile_drawable"
-                    android:drawablePadding="12dp"
-                    android:fontFamily="@font/lato"
-                    android:hint="@string/full_name"
-                    android:textColor="@color/colorWhite" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorNavDrawerBackground">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/revNavigation"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilPassword_register"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="32dp"
-                android:textColorHint="@color/colorLabelText"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tilFullName_register">
+                </androidx.recyclerview.widget.RecyclerView>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edtPassword_register"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_password_drawable"
-                    android:drawablePadding="12dp"
-                    android:fontFamily="@font/lato"
-                    android:hint="@string/prompt_password"
-                    android:inputType="textPassword"
-                    android:textColor="@color/colorWhite" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilRepeatPassword_register"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="32dp"
-                android:textColorHint="@color/colorLabelText"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tilPassword_register">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edtRepeatPassword_register"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_password_drawable"
-                    android:drawablePadding="12dp"
-                    android:fontFamily="@font/lato"
-                    android:inputType="textPassword"
-                    android:hint="@string/prompt_repeat_password"
-                    android:textColor="@color/colorWhite" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilEmail_register"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="32dp"
-                android:textColorHint="@color/colorLabelText"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tilRepeatPassword_register">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edtEmail_register"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_email"
-                    android:drawablePadding="12dp"
-                    android:fontFamily="@font/lato"
-                    android:hint="@string/prompt_email"
-                    android:textColor="@color/colorWhite" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilMobile_register"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="32dp"
-                android:textColorHint="@color/colorLabelText"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tilEmail_register">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edtMobile_register"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_mobile_drawable"
-                    android:drawablePadding="12dp"
-                    android:fontFamily="@font/lato"
-                    android:hint="@string/prompt_mobile"
-                    android:inputType="number"
-                    android:textColor="@color/colorWhite" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <androidx.appcompat.widget.AppCompatCheckBox
-                android:id="@+id/ckbTerms_register"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:fontFamily="@font/lato_bold"
-                android:maxWidth="300dp"
-                android:text="@string/label_tnc"
-                android:textAlignment="center"
-                android:textColor="@color/colorLabelText"
-                app:layout_constraintEnd_toEndOf="@+id/tilMobile_register"
-                app:layout_constraintStart_toStartOf="@+id/tilMobile_register"
-                app:layout_constraintTop_toBottomOf="@+id/tilMobile_register" />
-
-            <Button
-                android:id="@+id/btnRegister_register"
-                android:layout_width="280dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="48dp"
-                android:layout_marginEnd="8dp"
-                android:background="@drawable/button_background"
-                android:fontFamily="@font/lato_bold"
-                android:shadowColor="#A8A8A8"
-                android:shadowDx="0"
-                android:shadowDy="0"
-                android:shadowRadius="10"
-                android:text="@string/register"
-                android:textColor="@color/colorWhite"
-                android:textSize="16sp"
-                android:transitionName="@string/login_button_transition"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ckbTerms_register" />
-
-            <ProgressBar
-                android:id="@+id/pbRegister"
-                android:layout_width="@dimen/progress_size"
-                android:layout_height="@dimen/progress_size"
-                android:visibility="gone"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/btnRegister_register"
-                app:layout_constraintStart_toStartOf="@+id/btnRegister_register"
-                app:layout_constraintTop_toBottomOf="@+id/btnRegister_register" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </ScrollView>
+        </com.google.android.material.navigation.NavigationView>
+    </androidx.drawerlayout.widget.DrawerLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

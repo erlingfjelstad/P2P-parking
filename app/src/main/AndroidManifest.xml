@@ -17,10 +17,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/launcher_logo"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/AppTheme">
-
-
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".ui.privacy.PrivacyActivity"></activity>
+        <activity android:name=".ui.getstarted.GetStartedActivity" />
+        <activity android:name=".ui.about.AboutActivity" />
         <activity
             android:name=".ui.auth.launcher.LauncherActivity"
             android:label="@string/app_name"
@@ -31,46 +32,38 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.auth.login.LoginActivity"
             android:label="@string/activity_login" />
-
         <activity
             android:name=".ui.auth.registeruser.RegisterUserActivity"
             android:label="@string/activity_register_user" />
-
         <activity
             android:name=".ui.navigation.NavigationActivity"
             android:theme="@style/AppTheme">
 
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
 
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
-
         <activity
             android:name=".ui.search.SearchActivity"
             android:label="@string/activity_search" />
-
         <activity
             android:name=".ui.choose.ChooseParkingSpotActivity"
             android:label="@string/activity_choose_parking_spot" />
-
         <activity
             android:name=".ui.book.BookParkingSpotActivity"
             android:label="@string/activity_book_parking_spot" />
-
         <activity
             android:name=".ui.reciept.RecieptActivity"
             android:label="@string/activity_reciept" />
-
         <activity
             android:name=".ui.car.MyCarsActivity"
             android:label="@string/activity_my_cars" />
-
 
         <service android:name=".push.MyFirebaseMessagingService">
             <intent-filter>
@@ -80,11 +73,7 @@
 
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="c4e2f9ada987c6415434c22daf149dbd5168ad39"
-            />
-
+            android:value="c4e2f9ada987c6415434c22daf149dbd5168ad39" />
     </application>
-
-
 
 </manifest>
