@@ -14,6 +14,7 @@ import eu.vincinity2020.p2p_parking.app.common.BaseActivity
 import eu.vincinity2020.p2p_parking.data.entities.RegisterRequest
 import eu.vincinity2020.p2p_parking.ui.about.AboutActivity
 import eu.vincinity2020.p2p_parking.ui.auth.registeruser.adapter.NavigationAdapter
+import eu.vincinity2020.p2p_parking.ui.dashboard.DashboardActivity
 import eu.vincinity2020.p2p_parking.ui.getstarted.GetStartedActivity
 import eu.vincinity2020.p2p_parking.ui.navigation.NavigationActivity
 import eu.vincinity2020.p2p_parking.ui.privacy.PrivacyActivity
@@ -23,7 +24,6 @@ import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_register_user.*
 import kotlinx.android.synthetic.main.layout_register.*
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -70,7 +70,7 @@ class RegisterUserActivity: BaseActivity(), RegisterView {
     }
 
     private fun setupNavigation() {
-        val adapter = NavigationAdapter(AppConstants.navigationItems) {
+        val adapter = NavigationAdapter(AppConstants.registerNavigationItems) {
             navigateTo(it)
             drawerLayout.closeDrawer(Gravity.START, true)
         }
@@ -79,17 +79,17 @@ class RegisterUserActivity: BaseActivity(), RegisterView {
     }
 
     private fun navigateTo(position: Int) {
-        when (position) {
-            0 -> {
+        when (AppConstants.registerNavigationItems[position]) {
+            AppConstants.NAV_HOME -> {
                 drawerLayout.closeDrawer(Gravity.START, true)
             }
-            1 -> {
+            AppConstants.NAV_PRIVACY -> {
                 startActivity<PrivacyActivity>()
             }
-            2 -> {
+            AppConstants.NAV_GET_STARTED -> {
                 startActivity<GetStartedActivity>()
             }
-            3 -> {
+            AppConstants.NAV_ABOUT_US -> {
                 startActivity<AboutActivity>()
             }
 
@@ -176,7 +176,7 @@ class RegisterUserActivity: BaseActivity(), RegisterView {
     }
 
     override fun onRegisterSuccessful() {
-        startActivity<NavigationActivity>()
+        startActivity<DashboardActivity>()
         finishAffinity()
     }
 

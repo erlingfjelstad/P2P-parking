@@ -11,6 +11,7 @@ import eu.vincinity2020.p2p_parking.R
 import eu.vincinity2020.p2p_parking.app.App
 import eu.vincinity2020.p2p_parking.app.common.BaseActivity
 import eu.vincinity2020.p2p_parking.ui.auth.registeruser.RegisterUserActivity
+import eu.vincinity2020.p2p_parking.ui.dashboard.DashboardActivity
 import eu.vincinity2020.p2p_parking.ui.navigation.NavigationActivity
 import eu.vincinity2020.p2p_parking.utils.*
 import kotlinx.android.synthetic.main.activity_login.*
@@ -108,7 +109,7 @@ class LoginActivity: BaseActivity(), LoginView {
 
     override fun onFcmTokenSaved() {
         hideProgress()
-        startActivity<NavigationActivity>()
+        startActivity<DashboardActivity>()
         finish()
     }
 

@@ -21,6 +21,7 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.annotation.DrawableRes
+import androidx.annotation.IdRes
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -28,6 +29,7 @@ import androidx.fragment.app.FragmentManager
 import com.google.android.material.textfield.TextInputLayout
 import eu.vincinity2020.p2p_parking.R
 import eu.vincinity2020.p2p_parking.app.App
+import eu.vincinity2020.p2p_parking.ui.dashboard.home.HomeFragment
 import retrofit2.HttpException
 import java.io.File
 import java.net.ConnectException
@@ -55,9 +57,9 @@ fun Context.hasPermissions(permissions: Array<String>): Boolean {
     if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         for (permission in permissions) {
             if (ActivityCompat.checkSelfPermission(
-                    this,
-                    permission
-                ) != PackageManager.PERMISSION_GRANTED
+                            this,
+                            permission
+                    ) != PackageManager.PERMISSION_GRANTED
             ) {
                 return false
             }
@@ -72,8 +74,8 @@ fun Context.getManifestPermissions(): Array<String> {
     val list = ArrayList<String>(1)
     try {
         packageInfo = packageManager.getPackageInfo(
-            packageName,
-            PackageManager.GET_PERMISSIONS
+                packageName,
+                PackageManager.GET_PERMISSIONS
         )
     } catch (e: PackageManager.NameNotFoundException) {
         e.message?.let { error(it) }
@@ -148,7 +150,7 @@ fun String.isValidMobile(): Boolean {
 val EditText.value get() = text.toString()
 
 
-fun <T : Any> T.TAG() = this::class.java.simpleName
+fun <T: Any> T.TAG() = this::class.java.simpleName
 
 
 fun String.ellipsize(at: Int): String {
@@ -161,7 +163,7 @@ fun String.ellipsize(at: Int): String {
 //region: Random
 
 fun IntRange.random() =
-    Random().nextInt((endInclusive + 1) - start) + start
+        Random().nextInt((endInclusive + 1) - start) + start
 
 fun Random.randomString(length: Int = 8): String {
     val base = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -178,7 +180,7 @@ fun Random.randomString(length: Int = 8): String {
 
 //region: Calendar, Date-Time Extensions
 fun Calendar.getFormattedDate(format: String): String = SimpleDateFormat(format, Locale.ENGLISH)
-    .format(this.timeInMillis)
+        .format(this.timeInMillis)
 
 
 fun Calendar.getDatePicker(
@@ -186,8 +188,8 @@ fun Calendar.getDatePicker(
         onDateSetListener: DatePickerDialog.OnDateSetListener
 ): DatePickerDialog {
     return DatePickerDialog(
-        context, onDateSetListener,
-        get(Calendar.YEAR), get(Calendar.MONTH), get(Calendar.DAY_OF_MONTH)
+            context, onDateSetListener,
+            get(Calendar.YEAR), get(Calendar.MONTH), get(Calendar.DAY_OF_MONTH)
     )
 }
 
@@ -197,8 +199,8 @@ fun Calendar.getTimePicker(
         is24HourView: Boolean
 ): TimePickerDialog {
     return TimePickerDialog(
-        context, onTimeSetListener,
-        get(Calendar.HOUR_OF_DAY), get(Calendar.MINUTE), is24HourView
+            context, onTimeSetListener,
+            get(Calendar.HOUR_OF_DAY), get(Calendar.MINUTE), is24HourView
     )
 }
 
@@ -311,21 +313,22 @@ fun Date.dayOfYear(): Int {
 //region: Fragment Extensions
 fun FragmentManager.addFragAllowingStateLoss(container: Int, fragment: Fragment) {
     this.beginTransaction()
-        .add(container, fragment)
-        .commitAllowingStateLoss()
+            .add(container, fragment)
+            .commitAllowingStateLoss()
 }
 
 
-fun FragmentManager.addFragment(container: Int, fragment: Fragment) {
+fun FragmentManager.addFragment(@IdRes container: Int, fragment: Fragment) {
     this.beginTransaction()
-        .add(container, fragment)
-        .commit()
+            .add(container, fragment)
+            .commit()
 }
 
-fun FragmentManager.addFragment(container: Int, fragment: Fragment, tag: String?) {
+fun FragmentManager.addFragment(@IdRes container: Int, fragment: Fragment, tag: String?) {
     this.beginTransaction()
-        .add(container, fragment, tag)
-        .commit()
+            .add(container, fragment)
+            .addToBackStack(tag)
+            .commit()
 }
 
 
@@ -335,13 +338,13 @@ fun FragmentManager.replaceFragAllowingStateLoss(
 ) {
     if (addToBackStack) {
         this.beginTransaction()
-            .replace(container, fragment)
-            .addToBackStack(null)
-            .commitAllowingStateLoss()
+                .replace(container, fragment)
+                .addToBackStack(null)
+                .commitAllowingStateLoss()
     } else {
         this.beginTransaction()
-            .replace(container, fragment)
-            .commitAllowingStateLoss()
+                .replace(container, fragment)
+                .commitAllowingStateLoss()
     }
 
 }
@@ -355,20 +358,31 @@ fun FragmentManager.replaceFragAllowingStateLoss(
  * @param addToBackStack Boolean
  */
 fun FragmentManager.replaceFragment(
-        container: Int, fragment: Fragment,
-        addToBackStack: Boolean
+        @IdRes container: Int,
+        fragment: Fragment,
+        addToBackStack: Boolean = false
 ) {
     if (addToBackStack) {
         this.beginTransaction()
-            .replace(container, fragment)
-            .addToBackStack(null)
-            .commit()
+                .replace(container, fragment)
+                .addToBackStack(null)
+                .commit()
     } else {
         this.beginTransaction()
-            .replace(container, fragment)
-            .commit()
+                .replace(container, fragment)
+                .commit()
     }
 
+}
+
+fun FragmentManager.addFragmentIfNotAlreadyAdded(
+        @IdRes container: Int,
+        fragment: Fragment
+) {
+    val currentFragment = findFragmentById(container)
+    if (currentFragment == null || currentFragment::javaClass != fragment::javaClass) {
+        addFragment(container, fragment)
+    }
 }
 //endregion
 
@@ -478,13 +492,13 @@ fun TextView.setColorOfSubstring(substring: String, color: Int) {
         val spannable = android.text.SpannableString(text)
         val start = text.indexOf(substring)
         spannable.setSpan(
-            ForegroundColorSpan(ContextCompat.getColor(context, color)), start,
-            start + substring.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                ForegroundColorSpan(ContextCompat.getColor(context, color)), start,
+                start + substring.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         text = spannable
     } catch (e: Exception) {
         Log.e(
-            "ViewExtensions", "exception in setColorOfSubstring, text=$text, substring=$substring", e
+                "ViewExtensions", "exception in setColorOfSubstring, text=$text, substring=$substring", e
         )
     }
 }
@@ -506,7 +520,7 @@ fun EditText.clear() {
 //endregion
 
 fun Throwable.getErrorMessage(): String {
-    if(this is HttpException && code() == 401){
+    if (this is HttpException && code() == 401) {
         return App.applicationContext().getString(R.string.invalid_credentials)
     }
 

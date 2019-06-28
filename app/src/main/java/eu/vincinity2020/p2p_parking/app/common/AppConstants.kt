@@ -16,11 +16,15 @@ class AppConstants {
         const val NAV_GET_STARTED = "Get Started"
         const val NAV_ABOUT_US = "About Us"
 
-        val navigationItems = arrayListOf(
-                AppConstants.NAV_HOME,
-                AppConstants.NAV_PRIVACY,
-                AppConstants.NAV_GET_STARTED,
-                AppConstants.NAV_ABOUT_US
+        val registerNavigationItems = arrayListOf(
+                NAV_HOME,
+                NAV_PRIVACY,
+                NAV_GET_STARTED,
+                NAV_ABOUT_US
+        )
+
+        val homeNavigationItems = arrayListOf(
+                NAV_HOME
         )
     }
 

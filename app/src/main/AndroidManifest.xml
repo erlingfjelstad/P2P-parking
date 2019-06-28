@@ -19,7 +19,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.privacy.PrivacyActivity"></activity>
+        <activity android:name=".ui.dashboard.DashboardActivity"></activity>
+        <activity android:name=".ui.privacy.PrivacyActivity" />
         <activity android:name=".ui.getstarted.GetStartedActivity" />
         <activity android:name=".ui.about.AboutActivity" />
         <activity
