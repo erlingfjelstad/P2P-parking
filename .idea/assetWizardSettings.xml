@@ -160,31 +160,16 @@
                   <entry key="vectorAssetStep">
                     <value>
                       <PersistentState>
-                        <option name="children">
-                          <map>
-                            <entry key="clipartAsset">
-                              <value>
-                                <PersistentState>
-                                  <option name="values">
-                                    <map>
-                                      <entry key="url" value="jar:file:/D:/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/image/ic_dehaze_black_24dp.xml" />
-                                    </map>
-                                  </option>
-                                </PersistentState>
-                              </value>
-                            </entry>
-                          </map>
-                        </option>
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="autoMirrored" value="true" />
                             <entry key="color" value="5b5b5b" />
-                            <entry key="height" value="50" />
-                            <entry key="outputName" value="ic_parking_sign" />
+                            <entry key="height" value="38" />
+                            <entry key="outputName" value="ic_endtime" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="D:\Sumit's\Projects\Android\client-projects\Workspace\Vicinity\Project\P2P-parking\app\src\main\res\new_assets\ic_parking_sign.svg" />
-                            <entry key="width" value="49" />
+                            <entry key="sourceFile" value="$USER_HOME$/Downloads/symbol-starttime-planned.svg" />
+                            <entry key="width" value="38" />
                           </map>
                         </option>
                       </PersistentState>
