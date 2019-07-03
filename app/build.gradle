@@ -136,6 +136,9 @@ dependencies {
     //RxBinding
     implementation 'com.jakewharton.rxbinding3:rxbinding-core:3.0.0-alpha2'
 
+    //Navigation tab strip
+    implementation 'com.github.devlight.navigationtabstrip:navigationtabstrip:1.0.4'
+
     api("com.github.MKergall:osmbonuspack:6.5.2") {
         exclude module: 'support-v4'
     }

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import eu.vincinity2020.p2p_parking.app.App
+import eu.vincinity2020.p2p_parking.ui.auth.edituser.EditUserActivity
 import eu.vincinity2020.p2p_parking.ui.auth.login.LoginActivity
 import eu.vincinity2020.p2p_parking.ui.dashboard.DashboardActivity
 import eu.vincinity2020.p2p_parking.ui.navigation.NavigationActivity
@@ -27,7 +28,7 @@ class LauncherActivity : AppCompatActivity() {
         val intent = if (loggedIn) {
             Intent(this, DashboardActivity::class.java)
         } else {
-            Intent(this, LoginActivity::class.java)
+            Intent(this, EditUserActivity::class.java)
         }
 
         startActivity(intent)
