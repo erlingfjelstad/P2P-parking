@@ -128,7 +128,7 @@ class MyVehiclesAdapter(private val context: Context,
             if (vehicle.vehicleType.id == 1)
                 ivVehicleType.setImageDrawable  (ContextCompat.getDrawable(itemView.context, R.drawable.ic_parking_standard))
             else if (vehicle.vehicleType.id == 2)
-                ivVehicleType.setImageDrawable  (ContextCompat.getDrawable(itemView.context, R.drawable.ic_van))
+                ivVehicleType.setImageDrawable  (ContextCompat.getDrawable(itemView.context, R.drawable.ic_van_outline))
             else if (vehicle.vehicleType.id == 3)
                 ivVehicleType.setImageDrawable  (ContextCompat.getDrawable(itemView.context, R.drawable.ic_parking_electrical))
             else if (vehicle.vehicleType.id == 4)

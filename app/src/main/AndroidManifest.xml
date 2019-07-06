@@ -19,7 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.auth.edituser.EditUserActivity"></activity>
+        <activity android:name=".ui.vehiclelist.AddEditVehicleActivity"></activity>
+        <activity android:name=".ui.vehiclelist.VehicleListActivity" />
+        <activity android:name=".ui.edituser.EditUserActivity" />
         <activity android:name=".ui.dashboard.DashboardActivity" />
         <activity android:name=".ui.privacy.PrivacyActivity" />
         <activity android:name=".ui.getstarted.GetStartedActivity" />
