@@ -139,6 +139,9 @@ dependencies {
     //Navigation tab strip
     implementation 'com.github.devlight.navigationtabstrip:navigationtabstrip:1.0.4'
 
+    //Fragment animations
+    implementation 'com.labo.kaji:fragmentanimations:0.1.1'
+
     api("com.github.MKergall:osmbonuspack:6.5.2") {
         exclude module: 'support-v4'
     }

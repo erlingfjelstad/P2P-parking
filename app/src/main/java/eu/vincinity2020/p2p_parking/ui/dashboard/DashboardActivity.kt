@@ -10,10 +10,13 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import eu.vincinity2020.p2p_parking.R
 import eu.vincinity2020.p2p_parking.app.common.AppConstants
-import eu.vincinity2020.p2p_parking.ui.auth.registeruser.adapter.NavigationAdapter
+import eu.vincinity2020.p2p_parking.app.common.AppConstants.Companion.NAV_EDIT_PROFILE
+import eu.vincinity2020.p2p_parking.app.common.AppConstants.Companion.NAV_HOME
+import eu.vincinity2020.p2p_parking.ui.dashboard.adapter.DashboardNavigationAdapter
 import eu.vincinity2020.p2p_parking.ui.dashboard.home.HomeFragment
+import eu.vincinity2020.p2p_parking.ui.profile.edituser.EditUserFragment
 import eu.vincinity2020.p2p_parking.utils.addFragment
-import eu.vincinity2020.p2p_parking.utils.addFragmentIfNotAlreadyAdded
+import eu.vincinity2020.p2p_parking.utils.replaceFragment
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import kotlinx.android.synthetic.main.layout_dashboard.*
 
@@ -39,7 +42,7 @@ class DashboardActivity: AppCompatActivity() {
     }
 
     private fun setupNavigation() {
-        val adapter = NavigationAdapter(AppConstants.homeNavigationItems) { position ->
+        val adapter = DashboardNavigationAdapter(AppConstants.dashboardNavigationItems) { position ->
             navigateTo(position)
             drlDashboard.closeDrawer(Gravity.START, true)
         }
@@ -49,9 +52,12 @@ class DashboardActivity: AppCompatActivity() {
     }
 
     private fun navigateTo(position: Int) {
-        when (AppConstants.homeNavigationItems[position]) {
-            AppConstants.NAV_HOME -> {
-                supportFragmentManager.addFragmentIfNotAlreadyAdded(R.id.frlFragmentContainerDashboard, HomeFragment())
+        when (AppConstants.dashboardNavigationItems[position].first) {
+            NAV_HOME -> {
+                supportFragmentManager.replaceFragment(R.id.frlFragmentContainerDashboard, HomeFragment())
+            }
+            NAV_EDIT_PROFILE -> {
+                supportFragmentManager.replaceFragment(R.id.frlFragmentContainerDashboard, EditUserFragment())
             }
         }
     }
@@ -63,3 +69,5 @@ class DashboardActivity: AppCompatActivity() {
         window.navigationBarColor = ContextCompat.getColor(this, color)
     }
 }
+
+

@@ -13,10 +13,9 @@ import eu.vincinity2020.p2p_parking.app.common.AppConstants
 import eu.vincinity2020.p2p_parking.app.common.BaseActivity
 import eu.vincinity2020.p2p_parking.data.entities.RegisterRequest
 import eu.vincinity2020.p2p_parking.ui.about.AboutActivity
-import eu.vincinity2020.p2p_parking.ui.auth.registeruser.adapter.NavigationAdapter
+import eu.vincinity2020.p2p_parking.ui.auth.registeruser.adapter.RegisterNavigationAdapter
 import eu.vincinity2020.p2p_parking.ui.dashboard.DashboardActivity
 import eu.vincinity2020.p2p_parking.ui.getstarted.GetStartedActivity
-import eu.vincinity2020.p2p_parking.ui.navigation.NavigationActivity
 import eu.vincinity2020.p2p_parking.ui.privacy.PrivacyActivity
 import eu.vincinity2020.p2p_parking.utils.*
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -70,7 +69,7 @@ class RegisterUserActivity: BaseActivity(), RegisterView {
     }
 
     private fun setupNavigation() {
-        val adapter = NavigationAdapter(AppConstants.registerNavigationItems) {
+        val adapter = RegisterNavigationAdapter(AppConstants.registerNavigationItems) {
             navigateTo(it)
             drawerLayout.closeDrawer(Gravity.START, true)
         }

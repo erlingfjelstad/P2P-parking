@@ -29,6 +29,7 @@ import androidx.fragment.app.FragmentManager
 import com.google.android.material.textfield.TextInputLayout
 import eu.vincinity2020.p2p_parking.R
 import eu.vincinity2020.p2p_parking.app.App
+import eu.vincinity2020.p2p_parking.app.common.AppConstants
 import eu.vincinity2020.p2p_parking.ui.dashboard.home.HomeFragment
 import retrofit2.HttpException
 import java.io.File
@@ -37,6 +38,7 @@ import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 /**

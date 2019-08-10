@@ -6,12 +6,11 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import eu.vincinity2020.p2p_parking.R
-import eu.vincinity2020.p2p_parking.app.common.AppConstants
 import kotlinx.android.synthetic.main.item_layout_nav.view.*
 
-class NavigationAdapter(private val dataSource: ArrayList<String>,
-                        val onItemClick: (position: Int) -> Unit):
-        RecyclerView.Adapter<NavigationAdapter.NavigationViewHolder>() {
+class RegisterNavigationAdapter(private val dataSource: ArrayList<String>,
+                                val onItemClick: (position: Int) -> Unit):
+        RecyclerView.Adapter<RegisterNavigationAdapter.NavigationViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NavigationViewHolder {
