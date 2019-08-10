@@ -160,16 +160,27 @@
                   <entry key="vectorAssetStep">
                     <value>
                       <PersistentState>
+                        <option name="children">
+                          <map>
+                            <entry key="clipartAsset">
+                              <value>
+                                <PersistentState>
+                                  <option name="values">
+                                    <map>
+                                      <entry key="url" value="jar:file:/D:/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/navigation/ic_arrow_back_black_24dp.xml" />
+                                    </map>
+                                  </option>
+                                </PersistentState>
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
                         <option name="values">
                           <map>
-                            <entry key="assetSourceType" value="FILE" />
                             <entry key="autoMirrored" value="true" />
-                            <entry key="color" value="5b5b5b" />
-                            <entry key="height" value="43" />
-                            <entry key="outputName" value="ic_other_disability" />
+                            <entry key="outputName" value="ic_back_arrow_black" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="$USER_HOME$/Desktop/ic_other_disability.svg" />
-                            <entry key="width" value="38" />
+                            <entry key="sourceFile" value="C:\Users\viren\Desktop\ic_car.svg" />
                           </map>
                         </option>
                       </PersistentState>

@@ -19,29 +19,35 @@ open class TileSelector : LinearLayout {
 
     constructor(context: Context, attributeSet: AttributeSet, defStyleAttr: Int, defStyleRes: Int) : super(context, attributeSet, defStyleAttr, defStyleRes)
 
-    var isChosen = false
+    var state = -1
 
-    fun setOnToggleListener(clickHandler: (isSelected: Boolean) -> Unit){
+    fun setOnToggleListener(clickHandler: (isSelected: Boolean) -> Unit) {
         super.setOnClickListener {
-            if(isChosen){
-                setTileNotChosen()
-            }else{
-                setTileChosen()
-            }
-            clickHandler(isChosen)
+            toggleState()
+            clickHandler(state == 1)
+        }
+    }
+
+    private fun toggleState() {
+        if (state != 1 || state == -1) {
+            setTileChosen()
+        } else {
+            setTileNotChosen()
         }
     }
 
     private fun setTileChosen() {
-        isChosen = true
+        state = 1
         setBackgroundResource(R.drawable.tile_not_selected_background)
     }
 
-    private fun setTileNotChosen() {
-        isChosen = false
+    fun setTileNotChosen() {
+        state = 0
         setBackgroundResource(R.drawable.tile_selected_background)
     }
 
-
+    fun isChosen():Boolean{
+        return state == 1
+    }
 
 }

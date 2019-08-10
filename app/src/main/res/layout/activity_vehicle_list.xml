@@ -6,15 +6,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/login_gradient_background">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="0dp"
-        android:layout_height="346dp"
-        android:scaleType="fitXY"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/login_curved_background" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="0dp"
@@ -25,20 +16,23 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/textView19"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             android:fontFamily="@font/lato_bold"
-            android:text="USER ROLE"
+            android:text="@string/vehicle_list"
             android:textSize="19sp"
-            android:layout_marginTop="22dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/appCompatImageView9"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:scaleType="fitXY"
@@ -49,40 +43,51 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.gigamole.navigationtabstrip.NavigationTabStrip
-        android:id="@+id/navigationTabStrip"
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/appCompatImageView7"
         android:layout_width="0dp"
-        android:layout_height="50dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-        app:nts_active_color="#FFFFFF"
-        app:nts_animation_duration="500"
-        app:nts_color="@color/colorWhite"
-        app:nts_corners_radius="5dp"
-        app:nts_factor="1"
-        app:nts_gravity="bottom"
-        app:nts_inactive_color="@color/grayIndicatorInactive"
-        app:nts_size="15sp"
-        app:nts_titles="@array/edit_user_titles"
-        app:nts_type="point"
-        app:nts_weight="5dp"
-        android:clickable="false"/>
-
-    <ScrollView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="346dp"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/navigationTabStrip">
+        app:srcCompat="@drawable/login_curved_background" />
 
-        <eu.vincinity2020.p2p_parking.ui.customviews.NonSwipeableViewPager
-            android:id="@+id/vpEditUser"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/revVehicleList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnAddVehicleVehicleList"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
-    </ScrollView>
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <Button
+        android:id="@+id/btnAddVehicleVehicleList"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/button_blue_background"
+        android:fontFamily="@font/lato_bold"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="10"
+        android:text="@string/add_vehicle"
+        android:textColor="@color/colorWhite"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

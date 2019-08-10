@@ -130,8 +130,9 @@ dependencies {
     implementation "org.jetbrains.anko:anko:0.10.8"
 
     //Material Dialog
-    implementation 'com.afollestad.material-dialogs:core:2.0.0-rc9'
-    implementation 'com.afollestad.material-dialogs:input:2.0.0-rc9'
+    implementation 'com.afollestad.material-dialogs:core:3.1.0'
+    implementation 'com.afollestad.material-dialogs:input:3.1.0'
+    implementation 'com.afollestad.material-dialogs:bottomsheets:3.1.0'
 
     //RxBinding
     implementation 'com.jakewharton.rxbinding3:rxbinding-core:3.0.0-alpha2'
@@ -141,6 +142,19 @@ dependencies {
 
     //Fragment animations
     implementation 'com.labo.kaji:fragmentanimations:0.1.1'
+
+    //Play services (Maps)
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
+    implementation 'com.google.maps:google-maps-services:0.9.4'
+    implementation 'com.google.maps.android:android-maps-utils:0.5'
+
+    //Smart location
+    implementation 'io.nlopez.smartlocation:library:3.3.3'
+
+    //Dexter
+    implementation 'com.karumi:dexter:5.0.0'
+
 
     api("com.github.MKergall:osmbonuspack:6.5.2") {
         exclude module: 'support-v4'

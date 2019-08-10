@@ -6,19 +6,19 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView14"
+        android:id="@+id/textView16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/lato"
-        android:text="Your usertype"
+        android:text="Your Gender"
         android:textColor="@color/colorGrayText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:id="@+id/view"
+        android:id="@+id/view3"
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:layout_marginStart="16dp"
@@ -27,32 +27,32 @@
         android:background="@color/colorGrayText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView14" />
+        app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
     <eu.vincinity2020.p2p_parking.ui.customviews.TileSelector
-        android:id="@+id/tlsDriver"
+        android:id="@+id/tlsMale"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="8dp"
         android:orientation="vertical"
-        app:layout_constraintEnd_toStartOf="@+id/tlsOwner"
+        app:layout_constraintEnd_toStartOf="@+id/tlsFemale"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view">
+        app:layout_constraintTop_toBottomOf="@+id/view3">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="42dp"
             android:layout_height="42dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="8dp"
-            app:srcCompat="@drawable/ic_driver" />
+            app:srcCompat="@drawable/ic_male" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="18dp"
-            android:text="Driver"
+            android:text="Male"
             android:textColor="@color/colorGrayText" />
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -64,29 +64,29 @@
     </eu.vincinity2020.p2p_parking.ui.customviews.TileSelector>
 
     <eu.vincinity2020.p2p_parking.ui.customviews.TileSelector
-        android:id="@+id/tlsOwner"
+        android:id="@+id/tlsFemale"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="8dp"
         android:orientation="vertical"
-        app:layout_constraintEnd_toStartOf="@+id/tlsHealth"
+        app:layout_constraintEnd_toStartOf="@+id/tlsOtherGender"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tlsDriver"
-        app:layout_constraintTop_toBottomOf="@+id/view">
+        app:layout_constraintStart_toEndOf="@+id/tlsMale"
+        app:layout_constraintTop_toBottomOf="@+id/view3">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="42dp"
             android:layout_height="42dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="8dp"
-            app:srcCompat="@drawable/ic_key" />
+            app:srcCompat="@drawable/ic_female" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="18dp"
-            android:text="Owner"
+            android:text="Female"
             android:textColor="@color/colorGrayText" />
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -98,7 +98,7 @@
     </eu.vincinity2020.p2p_parking.ui.customviews.TileSelector>
 
     <eu.vincinity2020.p2p_parking.ui.customviews.TileSelector
-        android:id="@+id/tlsHealth"
+        android:id="@+id/tlsOtherGender"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="8dp"
@@ -106,22 +106,22 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tlsOwner"
-        app:layout_constraintTop_toBottomOf="@+id/view">
+        app:layout_constraintStart_toEndOf="@+id/tlsFemale"
+        app:layout_constraintTop_toBottomOf="@+id/view3">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="42dp"
             android:layout_height="42dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="8dp"
-            app:srcCompat="@drawable/ic_health" />
+            app:srcCompat="@drawable/ic_other_gender" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="18dp"
-            android:text="Health"
+            android:text="Other"
             android:textColor="@color/colorGrayText" />
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -133,19 +133,19 @@
     </eu.vincinity2020.p2p_parking.ui.customviews.TileSelector>
 
     <TextView
-        android:id="@+id/textView15"
+        android:id="@+id/textView17"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="22dp"
         android:fontFamily="@font/lato"
-        android:text="Your parking preferences"
+        android:text="Disabilities"
         android:textColor="@color/colorGrayText"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tlsDriver" />
+        app:layout_constraintTop_toBottomOf="@+id/tlsMale" />
 
     <View
-        android:id="@+id/view2"
+        android:id="@+id/view4"
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:layout_marginStart="16dp"
@@ -154,32 +154,32 @@
         android:background="@color/colorGrayText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+        app:layout_constraintTop_toBottomOf="@+id/textView17" />
 
     <eu.vincinity2020.p2p_parking.ui.customviews.TileSelector
-        android:id="@+id/tlsNormal"
+        android:id="@+id/tlsNone"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="8dp"
         android:orientation="vertical"
-        app:layout_constraintEnd_toStartOf="@+id/tlsElectrical"
+        app:layout_constraintEnd_toStartOf="@+id/tlsWheelchair"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view2">
+        app:layout_constraintTop_toBottomOf="@+id/view4">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="42dp"
             android:layout_height="42dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="8dp"
-            app:srcCompat="@drawable/ic_car" />
+            app:srcCompat="@drawable/ic_none_disability" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="18dp"
-            android:text="Normal"
+            android:text="None"
             android:textColor="@color/colorGrayText" />
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -191,49 +191,15 @@
     </eu.vincinity2020.p2p_parking.ui.customviews.TileSelector>
 
     <eu.vincinity2020.p2p_parking.ui.customviews.TileSelector
-        android:id="@+id/tlsElectrical"
+        android:id="@+id/tlsWheelchair"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="8dp"
         android:orientation="vertical"
-        app:layout_constraintEnd_toStartOf="@+id/tlsHandicap"
+        app:layout_constraintEnd_toStartOf="@+id/tlsOtherDisability"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tlsNormal"
-        app:layout_constraintTop_toBottomOf="@+id/view2">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"
-            app:srcCompat="@drawable/ic_plug" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="18dp"
-            android:text="Electrical"
-            android:textColor="@color/colorGrayText" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:layout_marginTop="2dp"
-            app:srcCompat="@drawable/line_vector" />
-
-    </eu.vincinity2020.p2p_parking.ui.customviews.TileSelector>
-
-    <eu.vincinity2020.p2p_parking.ui.customviews.TileSelector
-        android:id="@+id/tlsHandicap"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="8dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tlsElectrical"
-        app:layout_constraintTop_toBottomOf="@+id/view2">
+        app:layout_constraintStart_toEndOf="@+id/tlsNone"
+        app:layout_constraintTop_toBottomOf="@+id/view4">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="42dp"
@@ -247,7 +213,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="18dp"
-            android:text="Handicap"
+            android:text="Wheelchair"
             android:textColor="@color/colorGrayText" />
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -257,5 +223,99 @@
             app:srcCompat="@drawable/line_vector" />
 
     </eu.vincinity2020.p2p_parking.ui.customviews.TileSelector>
+
+    <eu.vincinity2020.p2p_parking.ui.customviews.TileSelector
+        android:id="@+id/tlsOtherDisability"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tlsWheelchair"
+        app:layout_constraintTop_toBottomOf="@+id/view4">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            app:srcCompat="@drawable/ic_other_disability" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="18dp"
+            android:text="Other"
+            android:textColor="@color/colorGrayText" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_marginTop="2dp"
+            app:srcCompat="@drawable/line_vector" />
+
+    </eu.vincinity2020.p2p_parking.ui.customviews.TileSelector>
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/lato"
+        android:text="Handicap perking permission"
+        android:textColor="@color/colorGrayText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tlsNone" />
+
+    <View
+        android:id="@+id/view5"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/colorGrayText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView18" />
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/ckbParkingPermit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="I have a valid parking permit"
+        android:enabled="false"
+        android:textColor="@color/colorGrayText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view5" />
+
+    <Button
+        android:id="@+id/btnNext_body"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_background"
+        android:fontFamily="@font/lato_bold"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="10"
+        android:text="@string/next"
+        android:textColor="@color/colorWhite"
+        android:textSize="16sp"
+        android:transitionName="@string/login_button_transition"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ckbParkingPermit" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

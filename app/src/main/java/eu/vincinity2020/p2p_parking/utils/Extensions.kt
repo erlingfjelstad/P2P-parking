@@ -382,8 +382,19 @@ fun FragmentManager.addFragmentIfNotAlreadyAdded(
         fragment: Fragment
 ) {
     val currentFragment = findFragmentById(container)
-    if (currentFragment == null || currentFragment::javaClass != fragment::javaClass) {
+    if (currentFragment == null || currentFragment::class.java.name != fragment::class.java.name) {
         addFragment(container, fragment)
+    }
+}
+
+fun FragmentManager.replaceFragmentIfNotAlreadyVisible(
+        @IdRes container: Int,
+        fragment: Fragment,
+        addToBackStack: Boolean = false
+) {
+    val currentFragment = findFragmentById(container)
+    if (currentFragment == null || currentFragment::class.java.name != fragment::class.java.name) {
+        replaceFragment(container, fragment, addToBackStack)
     }
 }
 //endregion

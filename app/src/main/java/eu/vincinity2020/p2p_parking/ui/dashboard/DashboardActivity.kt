@@ -2,6 +2,7 @@ package eu.vincinity2020.p2p_parking.ui.dashboard
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Handler
 import android.view.Gravity
 import android.view.WindowManager
 import androidx.annotation.ColorRes
@@ -12,16 +13,22 @@ import eu.vincinity2020.p2p_parking.R
 import eu.vincinity2020.p2p_parking.app.common.AppConstants
 import eu.vincinity2020.p2p_parking.app.common.AppConstants.Companion.NAV_EDIT_PROFILE
 import eu.vincinity2020.p2p_parking.app.common.AppConstants.Companion.NAV_HOME
+import eu.vincinity2020.p2p_parking.app.common.AppConstants.Companion.NAV_VEHICLE_LIST
+import eu.vincinity2020.p2p_parking.app.common.routingDummyData
+import eu.vincinity2020.p2p_parking.ui.customviews.dialog.FirstResponderAlertDialog
 import eu.vincinity2020.p2p_parking.ui.dashboard.adapter.DashboardNavigationAdapter
 import eu.vincinity2020.p2p_parking.ui.dashboard.home.HomeFragment
 import eu.vincinity2020.p2p_parking.ui.profile.edituser.EditUserFragment
+import eu.vincinity2020.p2p_parking.ui.vehiclelist.VehicleListFragment
 import eu.vincinity2020.p2p_parking.utils.addFragment
-import eu.vincinity2020.p2p_parking.utils.replaceFragment
+import eu.vincinity2020.p2p_parking.utils.replaceFragmentIfNotAlreadyVisible
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import kotlinx.android.synthetic.main.layout_dashboard.*
 
 @SuppressLint("WrongConstant")
 class DashboardActivity: AppCompatActivity() {
+
+    private val homeFragment by lazy { HomeFragment() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +41,7 @@ class DashboardActivity: AppCompatActivity() {
         setStatusBarColor(R.color.colorWhite)
         setupNavigation()
 
-        supportFragmentManager.addFragment(R.id.frlFragmentContainerDashboard, HomeFragment())
+        supportFragmentManager.addFragment(R.id.frlFragmentContainerDashboard, homeFragment)
 
         imvNavMenuDashboard.setOnClickListener {
             drlDashboard.openDrawer(Gravity.START, true)
@@ -54,10 +61,21 @@ class DashboardActivity: AppCompatActivity() {
     private fun navigateTo(position: Int) {
         when (AppConstants.dashboardNavigationItems[position].first) {
             NAV_HOME -> {
-                supportFragmentManager.replaceFragment(R.id.frlFragmentContainerDashboard, HomeFragment())
+                supportFragmentManager.replaceFragmentIfNotAlreadyVisible(R.id.frlFragmentContainerDashboard, homeFragment)
             }
             NAV_EDIT_PROFILE -> {
-                supportFragmentManager.replaceFragment(R.id.frlFragmentContainerDashboard, EditUserFragment())
+                supportFragmentManager.replaceFragmentIfNotAlreadyVisible(R.id.frlFragmentContainerDashboard, EditUserFragment())
+            }
+            NAV_VEHICLE_LIST -> {
+                supportFragmentManager.replaceFragmentIfNotAlreadyVisible(R.id.frlFragmentContainerDashboard, VehicleListFragment())
+            }
+            "Show alert" -> {
+                FirstResponderAlertDialog(this).show()
+            }
+            "Routing sample" -> {
+                supportFragmentManager.replaceFragmentIfNotAlreadyVisible(R.id.frlFragmentContainerDashboard, homeFragment)
+                Handler().postDelayed({ homeFragment.showDirectionsOnMap(routingDummyData) }, 1000)
+
             }
         }
     }

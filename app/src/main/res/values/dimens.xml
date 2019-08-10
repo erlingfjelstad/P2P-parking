@@ -13,4 +13,5 @@
     <dimen name="text_small">12sp</dimen>
     <dimen name="text_medium">15sp</dimen>
     <dimen name="progress_size">25dp</dimen>
+    <dimen name="bottomsheet_corner_radius">16dp</dimen>
 </resources>

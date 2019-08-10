@@ -181,6 +181,12 @@
         <item>Info</item>
     </string-array>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="next">Next</string>
+    <string name="edit_user_error">Please provide your info before continuing</string>
+    <string name="parking_permit_error">You need a valid parking permit to continue</string>
+    <string name="vehicle_list">Vehicle List</string>
+    <string name="save_vehicle">Save vehicle</string>
+    <string name="number_plate_label">Number plate (if applicable)</string>
+    <string name="motorbike">Motorbike</string>
+    <string name="emergency">Emergency</string>
 </resources>

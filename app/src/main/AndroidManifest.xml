@@ -21,6 +21,7 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
 
+        <activity android:name=".ui.vehiclelist.AddEditVehicleActivity"></activity>
         <activity android:name=".ui.dashboard.DashboardActivity" />
         <activity android:name=".ui.privacy.PrivacyActivity" />
         <activity android:name=".ui.getstarted.GetStartedActivity" />
@@ -77,6 +78,10 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="c4e2f9ada987c6415434c22daf149dbd5168ad39" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
     </application>
 
 </manifest>

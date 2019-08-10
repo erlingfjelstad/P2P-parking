@@ -1,5 +1,6 @@
 package eu.vincinity2020.p2p_parking.ui.dashboard.adapter
 
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,8 @@ class DashboardNavigationAdapter(
         private val onItemClicked: (itemPosition: Int) -> Unit
 ): RecyclerView.Adapter<DashboardNavigationAdapter.DashboardNavigationViewHolder>() {
 
+    var selectedPosition = 0
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DashboardNavigationViewHolder {
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_layout_nav, parent, false)
@@ -22,7 +25,16 @@ class DashboardNavigationAdapter(
     override fun getItemCount(): Int = dataSource.size
 
     override fun onBindViewHolder(holder: DashboardNavigationViewHolder, position: Int) {
-        holder.itemView.ctlNavItem.setOnClickListener { onItemClicked(position) }
+        holder.itemView.ctlNavItem.setOnClickListener {
+            onItemClicked(position)
+            selectedPosition = position
+            notifyDataSetChanged()
+        }
+        if (position == selectedPosition) {
+            holder.itemView.ctlNavSelectedBackground.setBackgroundResource(R.drawable.nav_selected_background)
+        } else {
+            holder.itemView.ctlNavSelectedBackground.setBackgroundResource(0)
+        }
         setupViewHolder(holder.itemView, dataSource[position])
     }
 
