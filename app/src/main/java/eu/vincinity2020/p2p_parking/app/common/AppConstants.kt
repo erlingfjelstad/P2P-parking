@@ -31,7 +31,7 @@ class AppConstants {
 
         val dashboardNavigationItems = arrayListOf(
                 Pair(NAV_HOME, R.drawable.ic_nav_home),
-                Pair(NAV_EDIT_PROFILE, R.drawable.ic_profile),
+                Pair(NAV_EDIT_PROFILE, R.drawable.ic_profile_outline),
                 Pair(NAV_VEHICLE_LIST, R.drawable.ic_car),
                 Pair("Show alert", R.drawable.ic_warning),
                 Pair("Routing sample", R.drawable.ic_map_white)
