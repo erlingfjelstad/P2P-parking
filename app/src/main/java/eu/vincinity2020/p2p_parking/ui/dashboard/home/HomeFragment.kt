@@ -43,7 +43,7 @@ import org.jetbrains.anko.uiThread
 import java.time.Instant
 import java.util.concurrent.TimeUnit
 
-class HomeFragment: Fragment(), OnMapReadyCallback {
+class HomeFragment : Fragment(), OnMapReadyCallback {
 
     private var mapInstance: GoogleMap? = null
 
@@ -64,7 +64,7 @@ class HomeFragment: Fragment(), OnMapReadyCallback {
                 .withPermissions(
                         Manifest.permission.ACCESS_COARSE_LOCATION,
                         Manifest.permission.ACCESS_FINE_LOCATION
-                ).withListener(object: MultiplePermissionsListener {
+                ).withListener(object : MultiplePermissionsListener {
                     override fun onPermissionsChecked(report: MultiplePermissionsReport) {
                         if (report.areAllPermissionsGranted()) {
                             initMap()
@@ -147,9 +147,9 @@ class HomeFragment: Fragment(), OnMapReadyCallback {
 
 
             val decodedPath = PolyUtil.decode(directionResult?.routes?.get(0)?.overviewPolyline?.encodedPath)
-            val cameraUpdateFactory = CameraUpdateFactory.newLatLngBounds(getLatLngBounds(decodedPath), 20.px)
+            val cameraUpdateFactory = CameraUpdateFactory.newLatLngBounds(getLatLngBounds(stops.map { LatLng(it.location.lat,it.location.lng) }), 20.px)
             uiThread {
-                mapInstance?.addPolyline(PolylineOptions().color(Color.GREEN).addAll(decodedPath))
+                mapInstance?.addPolyline(PolylineOptions().color(Color.BLUE).addAll(decodedPath))
                 mapInstance?.animateCamera(cameraUpdateFactory, 1000, null)
                 addStopMarkersOnMap(stops)
             }
@@ -176,7 +176,7 @@ class HomeFragment: Fragment(), OnMapReadyCallback {
 
     private fun getLatLngBounds(decodedPath: List<LatLng>): LatLngBounds {
         val boundsBuilder = LatLngBounds.builder()
-        decodedPath.forEach {
+        decodedPath.subList(0, 2).forEach {
             boundsBuilder.include(it)
         }
         return boundsBuilder.build()
