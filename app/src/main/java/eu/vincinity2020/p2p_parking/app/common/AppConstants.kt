@@ -34,7 +34,8 @@ class AppConstants {
                 Pair(NAV_EDIT_PROFILE, R.drawable.ic_profile_outline),
                 Pair(NAV_VEHICLE_LIST, R.drawable.ic_car),
                 Pair("Show alert", R.drawable.ic_warning),
-                Pair("Routing sample", R.drawable.ic_map_white)
+                Pair("Routing sample", R.drawable.ic_map_white),
+                Pair("Timer", R.drawable.ic_timer)
         )
 
         const val NAV_FRAGMENT_ANIMATION_DURATION = 400L

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorStatusBarBackground">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="0dp"
+        android:layout_height="93dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        app:cardBackgroundColor="@color/colorYellowText"
+        app:cardCornerRadius="6dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/lato_bold"
+            android:text="Book Parking"
+            android:textColor="@color/colorStatusBarBackground"
+            android:textSize="35sp" />
+    </androidx.cardview.widget.CardView>
+
+    <Switch
+        android:id="@+id/sw24HrsTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:switchPadding="8dp"
+        android:text="24 hrs"
+        android:fontFamily="@font/lato"
+        android:textColor="@color/colorYellowText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recTimerHour"
+        android:layout_width="90dp"
+        android:layout_height="260dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/timer_background"
+        android:overScrollMode="never"
+        android:paddingTop="10dp"
+        android:paddingBottom="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/recTimerMinute"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sw24HrsTimer" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recTimerMinute"
+        android:layout_width="90dp"
+        android:layout_height="260dp"
+        android:background="@drawable/timer_background"
+        android:overScrollMode="never"
+        android:paddingTop="10dp"
+        android:paddingBottom="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/recTimerHour"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/recTimerHour"
+        app:layout_constraintTop_toTopOf="@+id/recTimerHour" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

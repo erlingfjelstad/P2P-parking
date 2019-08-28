@@ -16,6 +16,7 @@ import eu.vincinity2020.p2p_parking.app.common.AppConstants.Companion.NAV_HOME
 import eu.vincinity2020.p2p_parking.app.common.AppConstants.Companion.NAV_VEHICLE_LIST
 import eu.vincinity2020.p2p_parking.app.common.routingDummyData
 import eu.vincinity2020.p2p_parking.ui.customviews.dialog.FirstResponderAlertDialog
+import eu.vincinity2020.p2p_parking.ui.customviews.dialog.timer.TimerDialog
 import eu.vincinity2020.p2p_parking.ui.dashboard.adapter.DashboardNavigationAdapter
 import eu.vincinity2020.p2p_parking.ui.dashboard.home.HomeFragment
 import eu.vincinity2020.p2p_parking.ui.profile.edituser.EditUserFragment
@@ -76,6 +77,9 @@ class DashboardActivity: AppCompatActivity() {
                 supportFragmentManager.replaceFragmentIfNotAlreadyVisible(R.id.frlFragmentContainerDashboard, homeFragment)
                 Handler().postDelayed({ homeFragment.showDirectionsOnMap(routingDummyData) }, 1000)
 
+            }
+            "Timer" ->{
+                TimerDialog(this).show()
             }
         }
     }
