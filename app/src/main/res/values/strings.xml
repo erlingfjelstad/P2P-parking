@@ -153,19 +153,33 @@
     <string name="invalid_credentials">Invalid Credentials</string>
     <string name="full_name">Full name</string>
 
+    <string name="next">Next</string>
+    VehicleListModule
+    <string name="edit_user_error">Please provide your info before continuing</string>
+
+
+    <string name="parking_permit_error">You need a valid parking permit to continue</string>
+
+    <string name="vehicle_list">Vehicle List</string>
+
+    <string name="save_vehicle">Save vehicle</string>
+    <string name="number_plate_label">Number plate (if applicable)</string>
+    <string name="motorbike">Motorbike</string>
+    <string name="emergency">Emergency</string>
+    <string name="places">Places</string>
+    <string name="progress">Progress</string>
+    <string name="settings">Settings</string>
+    <string name="begin_visit">Begin Visit</string>
     <string-array name="genders">
         <item>Male</item>
         <item>Female</item>
         <item>Other</item>
     </string-array>
-    VehicleListModule
     <string-array name="user_roles">
         <item>Driver</item>
         <item>Owner</item>
         <item>Medical</item>
     </string-array>
-
-
     <string-array name="vehicle_fuel">
         <item>octane_95</item>
         <item>octane_98</item>
@@ -174,19 +188,9 @@
         <item>Hydrogen</item>
         <item>Unknown</item>
     </string-array>
-
     <string-array name="edit_user_titles">
         <item>Role</item>
         <item>Body</item>
         <item>Info</item>
     </string-array>
-
-    <string name="next">Next</string>
-    <string name="edit_user_error">Please provide your info before continuing</string>
-    <string name="parking_permit_error">You need a valid parking permit to continue</string>
-    <string name="vehicle_list">Vehicle List</string>
-    <string name="save_vehicle">Save vehicle</string>
-    <string name="number_plate_label">Number plate (if applicable)</string>
-    <string name="motorbike">Motorbike</string>
-    <string name="emergency">Emergency</string>
 </resources>
