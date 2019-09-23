@@ -3,14 +3,16 @@ package eu.vincinity2020.p2p_parking.app
 import android.content.Context
 import dagger.Component
 import eu.vincinity2020.p2p_parking.app.network.NetworkModule
-import eu.vincinity2020.p2p_parking.ui.book.BookParkingSpotComponent
-import eu.vincinity2020.p2p_parking.ui.car.MyCarsComponent
 import eu.vincinity2020.p2p_parking.ui.auth.login.LoginComponent
-import eu.vincinity2020.p2p_parking.ui.map.MapComponent
 import eu.vincinity2020.p2p_parking.ui.auth.registeruser.RegisterUserComponent
+import eu.vincinity2020.p2p_parking.ui.book.BookParkingSpotComponent
 import eu.vincinity2020.p2p_parking.ui.bookings.ViewBookingComponent
+import eu.vincinity2020.p2p_parking.ui.car.MyCarsComponent
+import eu.vincinity2020.p2p_parking.ui.map.MapComponent
 import eu.vincinity2020.p2p_parking.ui.mylocations.addlocation.AddLocationComponent
 import eu.vincinity2020.p2p_parking.ui.mylocations.locationlist.MyLocationListComponent
+import eu.vincinity2020.p2p_parking.ui.places.addplaces.AddPlacesComponent
+import eu.vincinity2020.p2p_parking.ui.places.listplaces.PlacesListComponent
 import eu.vincinity2020.p2p_parking.ui.profile.edit.part1.EditProfile1Component
 import eu.vincinity2020.p2p_parking.ui.profile.edit.part2.EditProfile2Component
 import eu.vincinity2020.p2p_parking.ui.profile.edit.part3.EditProfile3Component
@@ -35,7 +37,6 @@ interface AppComponent/*: AndroidInjector<App>*/ {
     fun viewProfileComponentBuilder(): ViewProfileComponent.Builder
 
 
-
     fun editProfile1ComponentBuilder(): EditProfile1Component.Builder
 
     fun editProfile2ComponentBuilder(): EditProfile2Component.Builder
@@ -57,13 +58,16 @@ interface AppComponent/*: AndroidInjector<App>*/ {
     fun viewVehiclesComponentBuilder(): VehicleListComponent.Builder
 
 
-
     fun tripComponentBuilder(): TripComponent.Builder
 
 
     fun myLocationListComponentBuilder(): MyLocationListComponent.Builder
 
     fun addLocationComponentBuilder(): AddLocationComponent.Builder
+
+    fun myPlacesComponentBuilder(): AddPlacesComponent.Builder
+
+    fun placeListComponentBuilder():PlacesListComponent.Builder
 
     /*  @Component.Builder
       interface Builder {

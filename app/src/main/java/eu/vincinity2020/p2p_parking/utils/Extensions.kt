@@ -1,5 +1,6 @@
 package eu.vincinity2020.p2p_parking.utils
 
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
@@ -15,6 +16,7 @@ import android.text.format.DateUtils
 import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.webkit.MimeTypeMap
 import android.widget.EditText
 import android.widget.RadioButton
@@ -26,11 +28,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.google.android.material.textfield.TextInputLayout
 import eu.vincinity2020.p2p_parking.R
 import eu.vincinity2020.p2p_parking.app.App
-import eu.vincinity2020.p2p_parking.app.common.AppConstants
-import eu.vincinity2020.p2p_parking.ui.dashboard.home.HomeFragment
 import retrofit2.HttpException
 import java.io.File
 import java.net.ConnectException
@@ -575,4 +574,9 @@ fun File.getMimeType(): String {
         type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension)
     }
     return type ?: ""
+}
+
+fun Context.hideKeyboard(view: View) {
+    val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+    inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 }

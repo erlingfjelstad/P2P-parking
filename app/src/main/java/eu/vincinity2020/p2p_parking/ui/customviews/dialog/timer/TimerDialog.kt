@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import eu.vincinity2020.p2p_parking.R
 import kotlinx.android.synthetic.main.layout_dialog_timer.*
+import org.jetbrains.anko.toast
 
 class TimerDialog(context: Context): AlertDialog(context) {
 
@@ -23,6 +24,10 @@ class TimerDialog(context: Context): AlertDialog(context) {
         sw24HrsTimer.setOnCheckedChangeListener { _, isChecked ->
             val adapter = TimerAdapter(if (isChecked) get24Hours() else get12Hours())
             recTimerHour.adapter = adapter
+        }
+        crdBookParkingTimer.setOnClickListener{
+            context.toast("Parking booked")
+            dismiss()
         }
     }
 

@@ -5,6 +5,8 @@ import eu.vincinity2020.p2p_parking.data.entities.GenericResponse
 import eu.vincinity2020.p2p_parking.data.entities.LoginResponse
 import eu.vincinity2020.p2p_parking.data.entities.RegisterRequest
 import eu.vincinity2020.p2p_parking.data.entities.SaveFcmTokenRequest
+import eu.vincinity2020.p2p_parking.data.entities.locations.PlaceRequest
+import eu.vincinity2020.p2p_parking.data.entities.locations.PlacesResponse
 import io.reactivex.Observable
 import io.reactivex.Single
 import retrofit2.http.*
@@ -59,12 +61,15 @@ interface NetworkService {
     @Headers("ContainType: application/json")
     @POST("/location/save")
     fun saveMyLocation(@Header("Authorization") basicAuth: String, @Body locationObject: JsonObject): Observable<JsonObject>
+    @Headers("ContainType: application/json")
+    @POST("/location/save")
+    fun saveMyLocation(@Header("Authorization") basicAuth: String, @Body locationObject: PlaceRequest): Observable<GenericResponse>
 
 
     @Headers("ContainType: application/json")
     @GET("location/list")
     fun getSavedLocations(@Header("Authorization") basicAuth: String,
-                          @Query("userId") userId: String, @Query("limit") limit: String): Observable<JsonObject>                  //Returns all vehicles of this user
+                          @Query("userId") userId: String, @Query("limit") limit: String = "20"): Observable<PlacesResponse>                  //Returns all vehicles of this user
 
 
     @GET("/vehicleType/list")

@@ -16,7 +16,7 @@
     <color name="colorLabelText">#A2A2A2</color>
     <color name="colorButtonBackground">#EC651C</color>
     <color name="colorNavDrawerBackground">#2A2E43</color>
-    <color name="colorNavDrawerSelected">#3497FD</color>
+    <color name="colorSelection">#3497FD</color>`
     <color name="colorStatusBarBackground">#272E68</color>
     <color name="colorIndicatorBackground">#1F2863</color>
     <color name="colorTileNotChosenBackground">#151C48</color>
@@ -24,4 +24,5 @@
     <color name="colorYellowText">#FFB300</color>
     <color name="colorFirstResponderCardBackground">#4A5088</color>
     <color name="colorRed">#e51c23</color>
+    <color name="colorOffWhite">#E8E8E8</color>
 </resources>

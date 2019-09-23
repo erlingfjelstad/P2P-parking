@@ -4,13 +4,13 @@ package eu.vincinity2020.p2p_parking.ui.dashboard.home
 import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.location.Location
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -29,24 +29,30 @@ import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
-import com.labo.kaji.fragmentanimations.MoveAnimation
-
 import eu.vincinity2020.p2p_parking.R
-import eu.vincinity2020.p2p_parking.app.common.AppConstants.Companion.NAV_FRAGMENT_ANIMATION_DURATION
 import eu.vincinity2020.p2p_parking.data.entities.directions.UserStop
-import eu.vincinity2020.p2p_parking.utils.addFragment
-import eu.vincinity2020.p2p_parking.utils.getBitmapFromVectorDrawable
-import eu.vincinity2020.p2p_parking.utils.px
+import eu.vincinity2020.p2p_parking.ui.dashboard.home.fragmnet.DirectionStatusFragment
+import eu.vincinity2020.p2p_parking.utils.*
 import io.nlopez.smartlocation.SmartLocation
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
+import kotlinx.android.synthetic.main.fragment_home.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
-import java.time.Instant
 import java.util.concurrent.TimeUnit
 
 class HomeFragment : Fragment(), OnMapReadyCallback {
 
     private var mapInstance: GoogleMap? = null
+    private val allDisposables = CompositeDisposable()
+    private var mapReadyObservable = PublishSubject.create<Boolean>()
+    private var shouldShowCurrentLocation = true
+    private var currentLocation: Location? = null
+    private var locationObservable = PublishSubject.create<Location?>()
 
+    private lateinit var listener: HomeListener
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -57,6 +63,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         handlePermissions()
+        mapReadyObservable.onNext(false)
     }
 
     private fun handlePermissions() {
@@ -109,6 +116,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 googleMap.uiSettings.isMyLocationButtonEnabled = true
             }
         }
+        mapReadyObservable.onNext(true)
     }
 
     private fun moveCameraToCurrentLocation(map: GoogleMap) {
@@ -116,9 +124,13 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 .location()
                 .oneFix()
                 .start { location ->
-                    map.animateCamera(
-                            CameraUpdateFactory.newLatLngZoom(LatLng(location.latitude, location.longitude), 17f)
-                    )
+                    currentLocation = location
+                    locationObservable.onNext(location)
+                    if (shouldShowCurrentLocation) {
+                        map.animateCamera(
+                                CameraUpdateFactory.newLatLngZoom(LatLng(location.latitude, location.longitude), 17f)
+                        )
+                    }
                 }
     }
 
@@ -128,7 +140,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             val totalStops = stops.size
 
             val directionResult = if (totalStops >= 3) {
-                val waypoints = stops.subList(1, stops.size - 2).map { DirectionsApiRequest.Waypoint(it.location) }
+                val waypoints = stops.subList(1, stops.size - 1).map { DirectionsApiRequest.Waypoint(it.location) }
                 DirectionsApi.newRequest(getGeoContext())
                         .mode(TravelMode.DRIVING)
                         .origin(stops[0].location)
@@ -147,16 +159,22 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
 
             val decodedPath = PolyUtil.decode(directionResult?.routes?.get(0)?.overviewPolyline?.encodedPath)
-            val cameraUpdateFactory = CameraUpdateFactory.newLatLngBounds(getLatLngBounds(stops.map { LatLng(it.location.lat,it.location.lng) }), 20.px)
+            val cameraUpdateFactory = CameraUpdateFactory.newLatLngBounds(getLatLngBounds(stops.subList(0, 2).map { LatLng(it.location.lat, it.location.lng) }), 20.px)
             uiThread {
                 mapInstance?.addPolyline(PolylineOptions().color(Color.BLUE).addAll(decodedPath))
                 mapInstance?.animateCamera(cameraUpdateFactory, 1000, null)
                 addStopMarkersOnMap(stops)
+                //show directions in progress ui
+                val statusFragment = DirectionStatusFragment()
+                childFragmentManager.addFragmentIfNotAlreadyAdded(R.id.frlStatusContainerHome, statusFragment)
+                statusFragment.updateArrivalTime(((directionResult?.routes?.get(0)?.legs?.get(0)?.duration?.inSeconds)?.div(60))?.toInt())
+                statusFragment.showDirectionsButton(stops)
+                statusFragment.showTimerButton()
             }
         }
     }
 
-    private fun addStopMarkersOnMap(stops: ArrayList<UserStop>) {
+    private fun addStopMarkersOnMap(stops: List<UserStop>) {
         stops.forEachIndexed { index, userStop ->
             val icon = if (index == 0) {
                 context?.let { context -> getBitmapFromVectorDrawable(context, R.drawable.ic_map_car) }
@@ -176,20 +194,82 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
     private fun getLatLngBounds(decodedPath: List<LatLng>): LatLngBounds {
         val boundsBuilder = LatLngBounds.builder()
-        decodedPath.subList(0, 2).forEach {
+        decodedPath.forEach {
             boundsBuilder.include(it)
         }
         return boundsBuilder.build()
     }
 
+    fun showDestinations(places: ArrayList<UserStop>) {
+        refreshStateObservables()
+        shouldShowCurrentLocation = false
+        allDisposables.add(
+                mapReadyObservable.subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe { isMapReady ->
+                            if (isMapReady) {
+                                initViewSwitcher(places)
+                                addStopMarkersOnMap(places)
+                                val cameraUpdateFactory = CameraUpdateFactory.newLatLngBounds(getLatLngBounds(places.map { LatLng(it.location.lat, it.location.lng) }), 20.px)
+                                mapInstance?.stopAnimation()
+                                mapInstance?.animateCamera(cameraUpdateFactory, 1000, null)
+                            }
+                        }
+        )
+    }
 
-    override fun onCreateAnimation(transit: Int, enter: Boolean, nextAnim: Int): Animation? {
+    private fun refreshStateObservables() {
+        mapReadyObservable = PublishSubject.create()
+        locationObservable = PublishSubject.create()
+    }
+
+    fun showRoute(places: ArrayList<UserStop>) {
+        refreshStateObservables()
+        shouldShowCurrentLocation = false
+        allDisposables.add(
+                mapReadyObservable.subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe { isMapReady ->
+                            if (isMapReady) {
+                                allDisposables.add(
+                                        locationObservable.subscribeOn(Schedulers.io())
+                                                .observeOn(AndroidSchedulers.mainThread())
+                                                .subscribe { currentLocation ->
+                                                    if (currentLocation != null) {
+                                                        initViewSwitcher(places)
+                                                        places.add(0, UserStop(getString(R.string.current_location), com.google.maps.model.LatLng(currentLocation.latitude, currentLocation.longitude)))
+                                                        mapInstance?.stopAnimation()
+                                                        showDirectionsOnMap(places)
+                                                    }
+                                                }
+                                )
+                            }
+                        }
+        )
+    }
+
+    private fun initViewSwitcher(places: ArrayList<UserStop>) {
+        ctlViewSwitcherHome.show()
+        linListViewHome.setOnClickListener {
+            if (::listener.isInitialized) {
+                listener.onListViewSelected(places)
+            }
+        }
+        txtNextStopHome.text = places[0].name
+    }
+
+    fun setListener(listener: HomeListener) {
+        this.listener = listener
+    }
+
+
+    /*override fun onCreateAnimation(transit: Int, enter: Boolean, nextAnim: Int): Animation? {
         return if (enter) {
             MoveAnimation.create(MoveAnimation.LEFT, enter, NAV_FRAGMENT_ANIMATION_DURATION)
         } else {
             MoveAnimation.create(MoveAnimation.LEFT, enter, NAV_FRAGMENT_ANIMATION_DURATION)
         }
-    }
+    }*/
 
     private fun getGeoContext(): GeoApiContext = GeoApiContext.Builder()
             .apiKey(getString(R.string.google_maps_key))
@@ -197,4 +277,17 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             .readTimeout(2, TimeUnit.SECONDS)
             .writeTimeout(2, TimeUnit.SECONDS)
             .build()
+
+    override fun onDestroy() {
+        super.onDestroy()
+        SmartLocation.with(context)
+                .location()
+                .stop()
+        shouldShowCurrentLocation = true
+    }
+
+}
+
+interface HomeListener {
+    fun onListViewSelected(places: List<UserStop>)
 }

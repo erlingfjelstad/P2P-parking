@@ -13,7 +13,6 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.startpage.StartPageActivity"></activity>
         <activity android:name=".ui.vehiclelist.AddEditVehicleActivity" />
         <activity android:name=".ui.dashboard.DashboardActivity" />
         <activity android:name=".ui.privacy.PrivacyActivity" />

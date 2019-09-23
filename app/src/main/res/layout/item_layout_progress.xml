@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:background="@color/colorNavDrawerBackground"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/txtStopNameProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:maxWidth="92dp"
+        tools:text="Olav V gate 18"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="@+id/imvStopProgress"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imvStopProgress" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imvStopProgress"
+        android:layout_width="25dp"
+        android:layout_height="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="60dp"
+        app:layout_constraintStart_toEndOf="@+id/txtStopNameProgress"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@drawable/ic_progress_unfinished" />
+
+    <TextView
+        android:id="@+id/txtDistanceProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="36dp"
+        android:layout_marginEnd="55dp"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="@+id/imvStopProgress"
+        app:layout_constraintEnd_toStartOf="@+id/txtEtaProgress"
+        app:layout_constraintTop_toTopOf="@+id/imvStopProgress"
+        tools:text="3 km" />
+
+    <TextView
+        android:id="@+id/txtEtaProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="36dp"
+        android:layout_marginEnd="17dp"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="@+id/txtDistanceProgress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txtDistanceProgress"
+        tools:text="10:10" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

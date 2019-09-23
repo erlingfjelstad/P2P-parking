@@ -5,5 +5,9 @@ import com.google.maps.model.LatLng
 
 data class UserStop(
         val name: String = "",
-        val location: LatLng
-)
+        val location: LatLng,
+        val isStopDone:Boolean = false
+){
+    lateinit var eta: String
+    lateinit var distance:String
+}

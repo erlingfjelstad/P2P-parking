@@ -9,6 +9,7 @@ class AppConstants {
         const val SHARED_PREFS = "sharedPrefs"
         const val USER_LOGGED_IN = "userLoggedIn"
         const val FCM_TOKEN = "fcmToken"
+        const val API_TOKEN = "api_token"
         const val USER_EMAIL = "userEmail"
         const val USER = "loggedUser"
         const val IsLoggedOut = "loggedOut"
@@ -21,6 +22,7 @@ class AppConstants {
         const val NAV_ABOUT_US = "About Us"
         const val NAV_EDIT_PROFILE = "Edit Profile"
         const val NAV_VEHICLE_LIST = "Vehicles"
+        const val NAV_MY_PLACES = "My Places"
 
         val registerNavigationItems = arrayListOf(
                 NAV_HOME,
@@ -31,6 +33,7 @@ class AppConstants {
 
         val dashboardNavigationItems = arrayListOf(
                 Pair(NAV_HOME, R.drawable.ic_nav_home),
+                Pair(NAV_MY_PLACES, R.drawable.ic_places),
                 Pair(NAV_EDIT_PROFILE, R.drawable.ic_profile_outline),
                 Pair(NAV_VEHICLE_LIST, R.drawable.ic_car),
                 Pair("Show alert", R.drawable.ic_warning),

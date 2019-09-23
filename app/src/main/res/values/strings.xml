@@ -170,6 +170,9 @@
     <string name="progress">Progress</string>
     <string name="settings">Settings</string>
     <string name="begin_visit">Begin Visit</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="search">Search</string>
+    <string name="current_location">Current Location</string>
     <string-array name="genders">
         <item>Male</item>
         <item>Female</item>
@@ -188,6 +191,8 @@
         <item>Hydrogen</item>
         <item>Unknown</item>
     </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
     <string-array name="edit_user_titles">
         <item>Role</item>
         <item>Body</item>
