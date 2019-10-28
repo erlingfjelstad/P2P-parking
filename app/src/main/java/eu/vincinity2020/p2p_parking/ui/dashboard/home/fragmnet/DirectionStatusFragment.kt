@@ -26,6 +26,19 @@ class DirectionStatusFragment : Fragment() {
 
     private val allDisposables = CompositeDisposable()
     private val onViewCreatedObservable = PublishSubject.create<Boolean>()
+    private lateinit var listener: DirectionStatusListener
+
+    companion object {
+        operator fun invoke(listener: DirectionStatusListener): DirectionStatusFragment {
+            val fragment = DirectionStatusFragment()
+            fragment.setlistener(listener)
+            return fragment
+        }
+    }
+
+    private fun setlistener(listener: DirectionStatusListener) {
+        this.listener = listener
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -42,15 +55,13 @@ class DirectionStatusFragment : Fragment() {
 
     }
 
-    fun updateArrivalTime(minutes: Int?) {
+    fun updateArrivalTime(duration: String) {
         allDisposables.add(
                 onViewCreatedObservable.subscribeOn(Schedulers.computation())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe { isViewCreated ->
                             if (isViewCreated) {
-                                if (minutes != null) {
-                                    txtMinuteArrivalETA?.text = minutes.toString()
-                                }
+                                txtMinuteArrivalETA?.text = duration
                             }
                         }
         )
@@ -90,9 +101,27 @@ class DirectionStatusFragment : Fragment() {
         )
     }
 
+    fun showCloseButton(){
+        allDisposables.add(
+                onViewCreatedObservable.subscribeOn(Schedulers.computation())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe{isViewCreated ->
+                            if(isViewCreated){
+                                crdCloseStatus.setOnClickListener{
+                                    listener.onCloseDirections()
+                                }
+                            }
+                        }
+        )
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         allDisposables.dispose()
     }
 
+}
+
+interface DirectionStatusListener{
+    fun onCloseDirections()
 }

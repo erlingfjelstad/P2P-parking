@@ -43,6 +43,12 @@ open class P2PPreferences(context: Context) {
         editor.apply()
     }
 
+    fun removeKey(key: String) {
+        val editor = mSharedPreferences.edit()
+        editor.remove(key)
+        editor.apply()
+    }
+
     fun clear() {
         val editor = mSharedPreferences.edit()
         editor.clear()

@@ -6,9 +6,12 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
+import android.os.Handler
+import android.os.SystemClock
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.LinearInterpolator
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.afollestad.materialdialogs.MaterialDialog
@@ -32,6 +35,7 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import eu.vincinity2020.p2p_parking.R
 import eu.vincinity2020.p2p_parking.data.entities.directions.UserStop
 import eu.vincinity2020.p2p_parking.ui.dashboard.home.fragmnet.DirectionStatusFragment
+import eu.vincinity2020.p2p_parking.ui.dashboard.home.fragmnet.DirectionStatusListener
 import eu.vincinity2020.p2p_parking.utils.*
 import io.nlopez.smartlocation.SmartLocation
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -43,7 +47,7 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import java.util.concurrent.TimeUnit
 
-class HomeFragment : Fragment(), OnMapReadyCallback {
+class HomeFragment : Fragment(), OnMapReadyCallback, DirectionStatusListener {
 
     private var mapInstance: GoogleMap? = null
     private val allDisposables = CompositeDisposable()
@@ -112,12 +116,12 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             mapInstance = googleMap
             moveCameraToCurrentLocation(googleMap)
             if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                googleMap.isMyLocationEnabled = true
                 googleMap.uiSettings.isMyLocationButtonEnabled = true
             }
         }
         mapReadyObservable.onNext(true)
     }
+
 
     private fun moveCameraToCurrentLocation(map: GoogleMap) {
         SmartLocation.with(context)
@@ -134,51 +138,115 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 }
     }
 
+    private fun animateMarker(marker: Marker, location: Location) {
+        val handler = Handler()
+        val start = SystemClock.uptimeMillis()
+        val startLatLng = marker.position
+        val startRotation = marker.rotation
+        val duration: Long = 500
+        val interpolator = LinearInterpolator()
+        handler.post(object : Runnable {
+            override fun run() {
+                val elapsed = SystemClock.uptimeMillis() - start
+                val t = interpolator.getInterpolation((elapsed.toFloat() / duration))
+                val lng = (t * location.longitude + ((1 - t) * startLatLng.longitude))
+                val lat = (t * location.latitude + ((1 - t) * startLatLng.latitude))
+                val rotation = ((t * location.bearing + ((1 - t) * startRotation))) as Float
+                marker.position = LatLng(lat, lng)
+                marker.rotation = rotation
+                if (t < 1.0) {
+                    // Post again 16ms later.
+                    handler.postDelayed(this, 16)
+                }
+            }
+        })
+    }
+
     fun showDirectionsOnMap(stops: ArrayList<UserStop>) {
         mapInstance?.clear()
         doAsync {
-            val totalStops = stops.size
+            val location = SmartLocation.with(context)
+                    .location()
+                    .lastLocation
 
-            val directionResult = if (totalStops >= 3) {
-                val waypoints = stops.subList(1, stops.size - 1).map { DirectionsApiRequest.Waypoint(it.location) }
-                DirectionsApi.newRequest(getGeoContext())
-                        .mode(TravelMode.DRIVING)
-                        .origin(stops[0].location)
-                        .waypoints(*(waypoints.toTypedArray()))
-                        .destination(stops[stops.size - 1].location)
-                        .units(Unit.METRIC)
-                        .await()
-            } else {
-                DirectionsApi.newRequest(getGeoContext())
-                        .mode(TravelMode.DRIVING)
-                        .origin(stops[0].location)
-                        .destination(stops[stops.size - 1].location)
-                        .units(Unit.METRIC)
-                        .await()
-            }
+            if (location != null) {
+                val totalStops = stops.size
+
+                val directionResult = if (totalStops >= 3) {
+                    val waypoints = stops.map { DirectionsApiRequest.Waypoint(it.location) }
+                    DirectionsApi.newRequest(getGeoContext())
+                            .mode(TravelMode.DRIVING)
+                            .origin(com.google.maps.model.LatLng(location.latitude, location.longitude))
+                            .waypoints(*(waypoints.toTypedArray()))
+                            .destination(stops[stops.size - 1].location)
+                            .units(Unit.METRIC)
+                            .await()
+                } else {
+                    DirectionsApi.newRequest(getGeoContext())
+                            .mode(TravelMode.DRIVING)
+                            .origin(com.google.maps.model.LatLng(location.latitude, location.longitude))
+                            .destination(stops[stops.size - 1].location)
+                            .units(Unit.METRIC)
+                            .await()
+                }
 
 
-            val decodedPath = PolyUtil.decode(directionResult?.routes?.get(0)?.overviewPolyline?.encodedPath)
-            val cameraUpdateFactory = CameraUpdateFactory.newLatLngBounds(getLatLngBounds(stops.subList(0, 2).map { LatLng(it.location.lat, it.location.lng) }), 20.px)
-            uiThread {
-                mapInstance?.addPolyline(PolylineOptions().color(Color.BLUE).addAll(decodedPath))
-                mapInstance?.animateCamera(cameraUpdateFactory, 1000, null)
-                addStopMarkersOnMap(stops)
-                //show directions in progress ui
-                val statusFragment = DirectionStatusFragment()
-                childFragmentManager.addFragmentIfNotAlreadyAdded(R.id.frlStatusContainerHome, statusFragment)
-                statusFragment.updateArrivalTime(((directionResult?.routes?.get(0)?.legs?.get(0)?.duration?.inSeconds)?.div(60))?.toInt())
-                statusFragment.showDirectionsButton(stops)
-                statusFragment.showTimerButton()
+                if (directionResult?.routes?.isEmpty() == true) {
+                    return@doAsync
+                }
+                val cameraUpdateFactory = if (stops.size > 2) {
+                    val path = stops.subList(0, 2).map { LatLng(it.location.lat, it.location.lng) }.toMutableList()
+                    path.add(0, LatLng(location.latitude, location.longitude))
+                    CameraUpdateFactory.newLatLngBounds(getLatLngBounds(path), 40.px)
+
+                } else {
+                    val path = stops.map { LatLng(it.location.lat, it.location.lng) }.toMutableList()
+                    path.add(0, LatLng(location.latitude, location.longitude))
+                    CameraUpdateFactory.newLatLngBounds(getLatLngBounds(path), 100.px)
+                }
+                val decodedPath = PolyUtil.decode(directionResult?.routes?.get(0)?.overviewPolyline?.encodedPath)
+                uiThread {
+                    mapInstance?.addPolyline(PolylineOptions().color(Color.BLUE).addAll(decodedPath))
+                    mapInstance?.animateCamera(cameraUpdateFactory, 1000, null)
+                    addStopMarkersOnMap(stops)
+                    //show directions in progress ui
+                    val statusFragment = DirectionStatusFragment(this@HomeFragment)
+                    childFragmentManager.addFragmentIfNotAlreadyAdded(R.id.frlStatusContainerHome, statusFragment)
+
+                    var totalSeconds: Long = 0
+                    directionResult?.routes?.get(0)?.legs?.forEach {
+                        totalSeconds += it.duration.inSeconds
+                    }
+                    statusFragment.updateArrivalTime(totalSeconds.toCompoundDuration())
+                    statusFragment.showDirectionsButton(stops)
+                    statusFragment.showTimerButton()
+                    statusFragment.showCloseButton()
+
+                    startMyLocationIconUpdate()
+                }
             }
         }
+    }
+
+    private fun startMyLocationIconUpdate() {
+        SmartLocation.with(context)
+                .location()
+                .continuous()
+                .start { location ->
+                    val marker = mapInstance?.addMarker(
+                            MarkerOptions()
+                                    .flat(true)
+                                    .icon(BitmapDescriptorFactory.fromBitmap(getBitmapFromVectorDrawable(requireContext(), R.drawable.ic_map_car)))
+                                    .anchor(0.5f, 0.5f)
+                                    .position(LatLng(location.latitude, location.longitude))
+                    )
+                    marker?.let { animateMarker(it, location) }
+                }
     }
 
     private fun addStopMarkersOnMap(stops: List<UserStop>) {
         stops.forEachIndexed { index, userStop ->
             val icon = if (index == 0) {
-                context?.let { context -> getBitmapFromVectorDrawable(context, R.drawable.ic_map_car) }
-            } else if (index == stops.size - 1) {
                 context?.let { context -> getBitmapFromVectorDrawable(context, R.drawable.ic_marker_red) }
             } else {
                 context?.let { context -> getBitmapFromVectorDrawable(context, R.drawable.ic_marker) }
@@ -262,14 +330,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         this.listener = listener
     }
 
+    override fun onCloseDirections() {
 
-    /*override fun onCreateAnimation(transit: Int, enter: Boolean, nextAnim: Int): Animation? {
-        return if (enter) {
-            MoveAnimation.create(MoveAnimation.LEFT, enter, NAV_FRAGMENT_ANIMATION_DURATION)
-        } else {
-            MoveAnimation.create(MoveAnimation.LEFT, enter, NAV_FRAGMENT_ANIMATION_DURATION)
-        }
-    }*/
+    }
 
     private fun getGeoContext(): GeoApiContext = GeoApiContext.Builder()
             .apiKey(getString(R.string.google_maps_key))
@@ -290,4 +353,5 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
 interface HomeListener {
     fun onListViewSelected(places: List<UserStop>)
+    fun closeDirections()
 }

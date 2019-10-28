@@ -7,6 +7,7 @@ import eu.vincinity2020.p2p_parking.data.entities.RegisterRequest
 import eu.vincinity2020.p2p_parking.data.entities.SaveFcmTokenRequest
 import eu.vincinity2020.p2p_parking.data.entities.locations.PlaceRequest
 import eu.vincinity2020.p2p_parking.data.entities.locations.PlacesResponse
+import eu.vincinity2020.p2p_parking.data.entities.user.EditUserRequest
 import io.reactivex.Observable
 import io.reactivex.Single
 import retrofit2.http.*
@@ -26,6 +27,10 @@ interface NetworkService {
     @Headers("ContainType: application/json")
     @POST("/user/register")
     fun registerUser(@Body registerJson: RegisterRequest): Single<GenericResponse>
+
+    @Headers("ContainType: application/json")
+    @PUT("/user/save")
+    fun editUser(@Body editUserRequest: EditUserRequest): Single<GenericResponse>
 
 
     @Headers("ContainType: application/json")
@@ -61,6 +66,7 @@ interface NetworkService {
     @Headers("ContainType: application/json")
     @POST("/location/save")
     fun saveMyLocation(@Header("Authorization") basicAuth: String, @Body locationObject: JsonObject): Observable<JsonObject>
+
     @Headers("ContainType: application/json")
     @POST("/location/save")
     fun saveMyLocation(@Header("Authorization") basicAuth: String, @Body locationObject: PlaceRequest): Observable<GenericResponse>
@@ -71,6 +77,10 @@ interface NetworkService {
     fun getSavedLocations(@Header("Authorization") basicAuth: String,
                           @Query("userId") userId: String, @Query("limit") limit: String = "20"): Observable<PlacesResponse>                  //Returns all vehicles of this user
 
+    @Headers("ContainType: application/json")
+    @DELETE("/location/delete/{id}")
+    fun deleteLocation(@Header("Cookie") token: String,
+                       @Path("id") locationId: String): Observable<GenericResponse>
 
     @GET("/vehicleType/list")
     fun getVehicleTypeList(): Observable<JsonObject>                  //Returns Vehicle Type listing

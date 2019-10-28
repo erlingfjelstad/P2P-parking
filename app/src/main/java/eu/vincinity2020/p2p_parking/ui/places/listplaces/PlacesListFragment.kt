@@ -68,34 +68,52 @@ class PlacesListFragment : Fragment(), PlacesListContract.View {
                 linSetDestinationPlaceList.clicks()
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe {
-                            val adapter = revPlacesList.adapter as PlacesListAdapter
-                            listener?.onSetDestination(adapter.getSelectedPlaceObjects().map { UserStop(it.description, LatLng(it.lat, it.long)) })
+                            val adapter = revPlacesList.adapter as PlacesListAdapter?
+                            if (adapter != null) {
+                                listener?.onSetDestination(adapter.getSelectedPlaceObjects().map { UserStop(it.description, LatLng(it.lat, it.long)) })
+                            }
                         },
                 linShowRoutePlaceList.clicks()
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe {
-                            val adapter = revPlacesList.adapter as PlacesListAdapter
-                            listener?.onShowRoute(adapter.getSelectedPlaceObjects().map { UserStop(it.description, LatLng(it.lat, it.long)) })
+                            val adapter = revPlacesList.adapter as PlacesListAdapter?
+                            if (adapter != null) {
+                                listener?.onShowRoute(adapter.getSelectedPlaceObjects().map { UserStop(it.description, LatLng(it.lat, it.long)) })
+                            }
+                        },
+                btnEditPlaces.clicks()
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe {
+                            val adapter = revPlacesList.adapter as PlacesListAdapter?
+                            adapter?.toggleEditing()
                         }
         )
     }
 
     override fun handleFetchPlacesSuccess(places: ArrayList<PlaceRequest>) {
-        val adapter = PlacesListAdapter(places) { selectedPlaces ->
+        val adapter = PlacesListAdapter(places, { selectedPlaces ->
             TransitionManager.beginDelayedTransition(crdControlsPlacesList)
             if (selectedPlaces.isEmpty()) {
                 crdControlsPlacesList.gone()
             } else {
                 crdControlsPlacesList.show()
             }
-        }
+        }, { position ->
+            places[position].id?.let { id -> presenter.deletePlace(this, id, position) }
+        })
         revPlacesList.layoutManager = LinearLayoutManager(context)
         revPlacesList.adapter = adapter
+    }
 
+    override fun handleDeleteLocationSuccess(position: Int) {
+        val adapter = revPlacesList.adapter as PlacesListAdapter?
+        adapter?.deleteLocation(position)
     }
 
     override fun handleFailure(message: String) {
         P2PDialog.errorDialog(requireContext(), message).show()
+        val adapter = revPlacesList.adapter as PlacesListAdapter?
+        adapter?.hideAllProgressBars()
     }
 
     fun attachListener(listener: PlacesListListener) {

@@ -11,7 +11,7 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout"
+            android:id="@+id/tilFullNameInfo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -23,17 +23,18 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtFullNameInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_profile_drawable"
                 android:drawablePadding="12dp"
                 android:fontFamily="@font/lato"
-                android:hint="Username"
+                android:hint="Full name"
                 android:textColor="@color/colorWhite" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout2"
+            android:id="@+id/tilPasswordInfo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -43,20 +44,22 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
+            app:layout_constraintTop_toBottomOf="@+id/tilFullNameInfo">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtPasswordInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_password_drawable"
+                android:drawablePadding="12dp"
+                android:fontFamily="@font/lato"
                 android:hint="Password"
-                android:drawableStart="@drawable/ic_password_drawable"
-                android:drawablePadding="12dp"
-                android:fontFamily="@font/lato"
+                android:inputType="textPassword"
                 android:textColor="@color/colorWhite" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout3"
+            android:id="@+id/tilRepeatPasswordInfo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -66,20 +69,22 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
+            app:layout_constraintTop_toBottomOf="@+id/tilPasswordInfo">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtRepeatPasswordInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Repeat password"
                 android:drawableStart="@drawable/ic_password_drawable"
                 android:drawablePadding="12dp"
                 android:fontFamily="@font/lato"
-                android:textColor="@color/colorWhite"/>
+                android:hint="Repeat password"
+                android:inputType="textPassword"
+                android:textColor="@color/colorWhite" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout4"
+            android:id="@+id/tilEmailInfo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -89,20 +94,22 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout3">
+            app:layout_constraintTop_toBottomOf="@+id/tilRepeatPasswordInfo">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtEmailInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email"
                 android:drawableStart="@drawable/ic_email"
                 android:drawablePadding="12dp"
+                android:enabled="false"
                 android:fontFamily="@font/lato"
-                android:textColor="@color/colorWhite"/>
+                android:hint="Email"
+                android:textColor="@color/colorWhite" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout5"
+            android:id="@+id/tilMobileInfo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -112,20 +119,22 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout4">
+            app:layout_constraintTop_toBottomOf="@+id/tilEmailInfo">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtMobileInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Mobile"
                 android:drawableStart="@drawable/ic_mobile_drawable"
                 android:drawablePadding="12dp"
+                android:enabled="false"
                 android:fontFamily="@font/lato"
-                android:textColor="@color/colorWhite"/>
+                android:hint="Mobile"
+                android:textColor="@color/colorWhite" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout6"
+            android:id="@+id/tilAddressInfo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -135,16 +144,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout5">
+            app:layout_constraintTop_toBottomOf="@+id/tilMobileInfo">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtAddressInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Address" />
+                android:hint="Address"
+                android:fontFamily="@font/lato"
+                android:textColor="@color/colorWhite" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout7"
+            android:id="@+id/tilZipInfo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -154,16 +166,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout6">
+            app:layout_constraintTop_toBottomOf="@+id/tilAddressInfo">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtZipInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/lato"
+                android:textColor="@color/colorWhite"
                 android:hint="Zip" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout8"
+            android:id="@+id/tilBirthdayInfo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -173,38 +188,51 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout7">
+            app:layout_constraintTop_toBottomOf="@+id/tilZipInfo">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtBirthdayInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Your birthday"
                 android:drawableStart="@drawable/ic_calendar"
                 android:drawablePadding="12dp"
                 android:fontFamily="@font/lato"
-                android:textColor="@color/colorWhite"/>
+                android:hint="Your birthday"
+                android:textColor="@color/colorWhite" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:layout_marginBottom="16dp"
-            android:text="Update Info"
+            android:id="@+id/btnUpdateInfo"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/button_background"
             android:fontFamily="@font/lato_bold"
             android:shadowColor="#A8A8A8"
             android:shadowDx="1"
             android:shadowDy="3"
             android:shadowRadius="8"
+            android:text="Update Info"
             android:textColor="@color/colorWhite"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout8" />
+            app:layout_constraintTop_toBottomOf="@+id/tilBirthdayInfo" />
+
+        <ProgressBar
+            android:id="@+id/pbInfo"
+            android:layout_width="@dimen/progress_size"
+            android:layout_height="@dimen/progress_size"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@+id/btnUpdateInfo"
+            app:layout_constraintEnd_toEndOf="@+id/btnUpdateInfo"
+            app:layout_constraintTop_toBottomOf="@+id/btnUpdateInfo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="gone"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

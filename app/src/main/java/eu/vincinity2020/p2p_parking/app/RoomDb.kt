@@ -9,7 +9,7 @@ import eu.vincinity2020.p2p_parking.data.dao.TripDao
 import eu.vincinity2020.p2p_parking.data.entities.Car
 import eu.vincinity2020.p2p_parking.data.entities.Trip
 
-@Database(entities = [Car::class, Trip::class], version = App.DB_VERSION)
+
 @TypeConverters(DateTypeConverter::class)
 abstract class RoomDb : RoomDatabase() {
     abstract fun carDao(): CarDao

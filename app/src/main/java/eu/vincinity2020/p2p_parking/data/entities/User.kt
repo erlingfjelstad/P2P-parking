@@ -19,5 +19,8 @@ data class User(
         @SerializedName("email") val email: String,
         @SerializedName("password") var password: String,
         @SerializedName("image") val image: String?,
-        @SerializedName("country") val country: Country
+        @SerializedName("country") val country: Country,
+        @SerializedName("userType") val userType: String?,
+        @SerializedName("parkingPreference") val parkingPreference: String?,
+        @SerializedName("disability") val disability: String?
 )

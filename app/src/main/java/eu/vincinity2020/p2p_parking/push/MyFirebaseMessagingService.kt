@@ -7,14 +7,18 @@ import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Build
-import android.preference.PreferenceManager
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import eu.vincinity2020.p2p_parking.R
 import eu.vincinity2020.p2p_parking.app.common.AppConstants
-import eu.vincinity2020.p2p_parking.ui.auth.login.LoginActivity
+import eu.vincinity2020.p2p_parking.data.entities.eventbus.FirstResponderAlert
+import eu.vincinity2020.p2p_parking.ui.dashboard.DashboardActivity
+import eu.vincinity2020.p2p_parking.utils.NotificationUtils
+import eu.vincinity2020.p2p_parking.utils.isLoggedIn
+import eu.vincinity2020.p2p_parking.utils.saveFirstResponderData
+import java.util.*
 
 /**
  * Created by Ankush on 15/11/18.
@@ -44,8 +48,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         remoteMessage?.data?.isNotEmpty()?.let {
             Log.d(TAG, "Message data payload: " + remoteMessage.data)
 
-                // Handle message within 10 seconds
-            sendNotification(remoteMessage.data["title"], remoteMessage.data["message"])
+            // Handle message within 10 seconds
+            sendNotification(remoteMessage.data["title"], remoteMessage.data["message"], NotificationUtils.getFirstResponderAlertFromMessage(remoteMessage.data["message"]))
 
         }
         // Check if message contains a notification payload.
@@ -54,6 +58,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         }
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
+
+        if(remoteMessage?.data?.get("message")?.contains("location") == true){
+            NotificationUtils.onFirstResponderNotificationReceived(remoteMessage.data["message"])
+        }
     }
     // [END receive_message]
     // [START on_new_token]
@@ -87,30 +95,36 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
      *
      * @param messageBody FCM message body received.
      */
-    private fun sendNotification(messageTitle: String?, messageBody: String?) {
-        val intent = Intent(this, LoginActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        val pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                PendingIntent.FLAG_ONE_SHOT)
-        val channelId = getString(R.string.default_notification_channel_id)
-        val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        val notificationBuilder = NotificationCompat.Builder(this, channelId)
-                .setSmallIcon(R.drawable.ic_stat_ic_notification)
-                .setContentTitle(getString(R.string.fcm_message))
-                .setContentText(messageBody)
-                .setAutoCancel(true)
-                .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent)
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        // Since android Oreo notification channel is needed.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(channelId,
-                    "p2p parking title",
-                    NotificationManager.IMPORTANCE_DEFAULT)
-            notificationManager.createNotificationChannel(channel)
+    private fun sendNotification(messageTitle: String?, messageBody: String?, firstResponderAlert: FirstResponderAlert?) {
+        if (isLoggedIn() && firstResponderAlert != null) {
+            saveFirstResponderData(firstResponderAlert)
+            val intent = Intent(this, DashboardActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+            val pendingIntent = PendingIntent.getActivity(this, Random().nextInt(10000 + 1) /* Request code */, intent,
+                    PendingIntent.FLAG_ONE_SHOT)
+            val channelId = getString(R.string.default_notification_channel_id)
+            val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+            val notificationBuilder = NotificationCompat.Builder(this, channelId)
+                    .setSmallIcon(R.drawable.ic_stat_ic_notification)
+                    .setContentTitle(getString(R.string.fcm_message))
+                    .setContentText(messageBody)
+                    .setAutoCancel(true)
+                    .setSound(defaultSoundUri)
+                    .setContentIntent(pendingIntent)
+            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            // Since android Oreo notification channel is needed.
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val channel = NotificationChannel(channelId,
+                        "P2P Parking",
+                        NotificationManager.IMPORTANCE_DEFAULT)
+                notificationManager.createNotificationChannel(channel)
+            }
+            notificationManager.notify(0 /* ID of notification */, notificationBuilder.build())
+
         }
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build())
     }
+
+
     companion object {
         private const val TAG = "MyFirebaseMsgService"
     }

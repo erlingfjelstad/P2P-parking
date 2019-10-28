@@ -396,6 +396,8 @@ fun FragmentManager.replaceFragmentIfNotAlreadyVisible(
         replaceFragment(container, fragment, addToBackStack)
     }
 }
+
+fun String.toWords() = trim().splitToSequence(' ').filter { it.isNotEmpty() }.toList()
 //endregion
 
 
@@ -579,4 +581,39 @@ fun File.getMimeType(): String {
 fun Context.hideKeyboard(view: View) {
     val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
     inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+}
+
+fun Long.toCompoundDuration(): String {
+    if (this < 0L) return "" // task doesn't ask for negative integers to be converted
+    if (this == 0L) return "0 seconds"
+    val weeks  : Long
+    val days   : Long
+    val hours  : Long
+    val minutes: Long
+    val seconds: Long
+    var divisor: Long = 7 * 24 * 60 * 60
+    var rem    : Long
+    var result = ""
+
+    weeks = this / divisor
+    rem   = this % divisor
+    divisor /= 7
+    days  = rem / divisor
+    rem  %= divisor
+    divisor /= 24
+    hours = rem / divisor
+    rem  %= divisor
+    divisor /= 60
+    minutes = rem / divisor
+    seconds = rem % divisor
+
+    if (weeks > 0)   result += "$weeks weeks, "
+    if (days > 0)    result += "$days days, "
+    if (hours > 0)   result += "$hours hours, "
+    if (minutes > 0) result += "$minutes minutes, "
+    if (seconds > 0)
+        result += "$seconds sec"
+    else
+        result = result.substring(0, result.length - 2)
+    return result
 }

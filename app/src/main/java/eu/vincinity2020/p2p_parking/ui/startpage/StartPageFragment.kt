@@ -10,6 +10,10 @@ import kotlinx.android.synthetic.main.fragment_start_page.*
 
 class StartPageFragment: Fragment() {
 
+    companion object{
+        val backstackTag = "frag_start"
+    }
+
     private lateinit var listener: StartPageListener
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

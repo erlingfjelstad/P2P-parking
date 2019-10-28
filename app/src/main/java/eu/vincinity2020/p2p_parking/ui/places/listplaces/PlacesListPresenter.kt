@@ -3,6 +3,8 @@ package eu.vincinity2020.p2p_parking.ui.places.listplaces
 import androidx.fragment.app.Fragment
 import eu.vincinity2020.p2p_parking.app.App
 import eu.vincinity2020.p2p_parking.app.network.NetworkService
+import eu.vincinity2020.p2p_parking.utils.getApiToken
+import eu.vincinity2020.p2p_parking.utils.getErrorMessage
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -26,6 +28,21 @@ class PlacesListPresenter(private val networkService:NetworkService): PlacesList
                             })
             )
         }
+    }
+
+    override fun deletePlace(view: PlacesListContract.View, id: Int, position: Int) {
+        allDisposables.add(
+                networkService.deleteLocation(getApiToken() ,id.toString())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({
+                            if(it.isError == false){
+                                view.handleDeleteLocationSuccess(position)
+                            }
+                        },{
+                            view.handleFailure(it.getErrorMessage())
+                        })
+        )
     }
 
     override fun detach() {

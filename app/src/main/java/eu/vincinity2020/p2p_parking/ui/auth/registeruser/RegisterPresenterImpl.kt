@@ -37,7 +37,9 @@ class RegisterPresenterImpl(private val networkService: NetworkService): Registr
                 .observeOn(AndroidSchedulers.mainThread())
                 .doFinally { registrationView.hideProgress() }
                 .subscribe({
-                    attemptLogin("jay2@mail.com", "123456")
+                    if(it.isError == false){
+                        attemptLogin(request.email, request.password)
+                    }
                 }, {
                     registrationView.onRegisterError(it)
                 }))

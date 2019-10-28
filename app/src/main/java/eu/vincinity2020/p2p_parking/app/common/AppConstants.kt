@@ -13,6 +13,9 @@ class AppConstants {
         const val USER_EMAIL = "userEmail"
         const val USER = "loggedUser"
         const val IsLoggedOut = "loggedOut"
+        const val DB_NAME = "p2p_parking.db"
+
+        const val PREF_FR_ALERT = "pref_fr_alert"
 
         const val SEARCHACTIVITYCODE = 1001
 
@@ -23,6 +26,7 @@ class AppConstants {
         const val NAV_EDIT_PROFILE = "Edit Profile"
         const val NAV_VEHICLE_LIST = "Vehicles"
         const val NAV_MY_PLACES = "My Places"
+        const val NAV_LOGOUT = "Logout"
 
         val registerNavigationItems = arrayListOf(
                 NAV_HOME,
@@ -38,7 +42,8 @@ class AppConstants {
                 Pair(NAV_VEHICLE_LIST, R.drawable.ic_car),
                 Pair("Show alert", R.drawable.ic_warning),
                 Pair("Routing sample", R.drawable.ic_map_white),
-                Pair("Timer", R.drawable.ic_timer)
+                Pair("Timer", R.drawable.ic_timer),
+                Pair(NAV_LOGOUT, R.drawable.ic_logout)
         )
 
         const val NAV_FRAGMENT_ANIMATION_DURATION = 400L

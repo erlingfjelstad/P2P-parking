@@ -15,6 +15,7 @@ import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRe
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.jakewharton.rxbinding3.view.clicks
 import com.jakewharton.rxbinding3.widget.textChanges
+import eu.vincinity2020.p2p_parking.BuildConfig
 import eu.vincinity2020.p2p_parking.R
 import eu.vincinity2020.p2p_parking.app.App
 import eu.vincinity2020.p2p_parking.app.common.FragmentOnBackInterface
@@ -73,9 +74,14 @@ class AddPlacesFragment : Fragment(), FragmentOnBackInterface, AddPlacesContract
                         .map { it.toString().trim() }
                         .debounce(500, TimeUnit.MILLISECONDS)
                         .subscribe { searchQuery ->
+                            val country = if (BuildConfig.DEBUG) {
+                                "CA"
+                            } else {
+                                "NO"
+                            }
                             val autoCompleteSessionToken = AutocompleteSessionToken.newInstance()
                             val predictionsRequest = FindAutocompletePredictionsRequest.builder()
-                                    .setCountry("CA")
+                                    .setCountry(country)
                                     .setTypeFilter(TypeFilter.ADDRESS)
                                     .setSessionToken(autoCompleteSessionToken)
                                     .setQuery(searchQuery)

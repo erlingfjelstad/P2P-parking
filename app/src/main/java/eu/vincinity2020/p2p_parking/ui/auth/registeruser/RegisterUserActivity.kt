@@ -139,7 +139,7 @@ class RegisterUserActivity: BaseActivity(), RegisterView {
                 edtFullName_register.value,
                 edtFullName_register.value,
                 edtMobile_register.value,
-                edtEmail_register.value,
+                edtEmail_register.value.toLowerCase(),
                 edtPassword_register.value,
                 P2PPreferences(this).getString(AppConstants.FCM_TOKEN) ?: ""
         )

@@ -1,22 +1,20 @@
 package eu.vincinity2020.p2p_parking.ui.auth.login
 
 import android.content.Context
-import com.google.gson.JsonObject
 import eu.vincinity2020.p2p_parking.app.App
 import eu.vincinity2020.p2p_parking.app.common.AppConstants
 import eu.vincinity2020.p2p_parking.app.common.BaseActivity
 import eu.vincinity2020.p2p_parking.app.common.MvpView
-import eu.vincinity2020.p2p_parking.app.network.NetworkResponse
 import eu.vincinity2020.p2p_parking.app.network.NetworkService
 import eu.vincinity2020.p2p_parking.data.entities.SaveFcmTokenRequest
 import eu.vincinity2020.p2p_parking.utils.P2PPreferences
+import eu.vincinity2020.p2p_parking.utils.saveApiToken
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import okhttp3.Credentials
-import retrofit2.HttpException
 
-class LoginPresenterImpl(private val networkService: NetworkService): LoginPresenter {
+class LoginPresenterImpl(private val networkService: NetworkService) : LoginPresenter {
 
     private lateinit var loginView: LoginView
     private lateinit var context: Context
@@ -53,6 +51,8 @@ class LoginPresenterImpl(private val networkService: NetworkService): LoginPrese
                         P2PPreferences(context).getString(AppConstants.FCM_TOKEN)?.let { fcmToken ->
                             saveFcmToken(fcmToken, email, password)
                         }
+
+                        saveApiToken(it.token)
                     }
                 }, {
                     loginView.hideProgress()

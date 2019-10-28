@@ -8,5 +8,6 @@ data class LoginResponse(
         @SerializedName("accountNonLocked") val isAccountLocked:Boolean,
         @SerializedName("credentialsNonExpired") val isCredentialExpired:Boolean,
         @SerializedName("username") val username:String,
-        @SerializedName("enabled") val isEnabled:Boolean
+        @SerializedName("enabled") val isEnabled:Boolean,
+        @SerializedName("token") val token:String
 )

@@ -15,8 +15,8 @@ android {
         applicationId "eu.vincinity2020.p2p_parking"
         minSdkVersion 22
         targetSdkVersion 28
-        versionCode 104
-        versionName "1.04"
+        versionCode 107
+        versionName "1.07"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -165,6 +165,12 @@ dependencies {
     //Presenter
     implementation 'androidx.lifecycle:lifecycle-viewmodel:2.0.0'
     implementation "android.arch.lifecycle:extensions:2.0.0"
+
+    //Reactive Network
+    implementation 'com.github.pwittchen:reactivenetwork-rx2:3.0.6'
+
+    //EventBus
+    implementation 'org.greenrobot:eventbus:3.1.1'
 
 
     api("com.github.MKergall:osmbonuspack:6.5.2") {
