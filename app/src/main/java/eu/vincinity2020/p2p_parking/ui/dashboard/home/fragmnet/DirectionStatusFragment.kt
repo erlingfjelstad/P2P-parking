@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import eu.vincinity2020.p2p_parking.R
 import eu.vincinity2020.p2p_parking.data.entities.directions.UserStop
+import eu.vincinity2020.p2p_parking.data.repositories.UserStopRepository
 import eu.vincinity2020.p2p_parking.ui.customviews.dialog.timer.TimerDialog
 import eu.vincinity2020.p2p_parking.utils.show
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -110,6 +111,7 @@ class DirectionStatusFragment : Fragment() {
                                 crdCloseStatus.show()
                                 crdCloseStatus.setOnClickListener{
                                     listener.onCloseDirections()
+                                    UserStopRepository.deleteAll()
                                 }
                             }
                         }

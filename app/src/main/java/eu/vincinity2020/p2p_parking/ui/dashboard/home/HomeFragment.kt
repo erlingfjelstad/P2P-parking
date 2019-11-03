@@ -168,16 +168,13 @@ class HomeFragment : Fragment(), OnMapReadyCallback, DirectionStatusListener {
     private fun showDirectionsOnMap(stops: ArrayList<UserStop>) {
         mapInstance?.clear()
         doAsync {
-            val currentLocation = stops.takeIf {
-                stops.first().name.equals("My location", true) ||
-                        stops.first().name.equals("Current location", true)
-            }?.first()?.location
-            val currentLatLng = currentLocation?.let { com.google.maps.model.LatLng(it.lat, it.lng) }
+            val currentLocation = SmartLocation.with(context).location().lastLocation
+            val currentLatLng = currentLocation?.let { com.google.maps.model.LatLng(it.latitude, it.longitude) }
 
             if (currentLatLng != null) {
                 val totalStops = stops.size
 
-                val directionResult = if (totalStops >= 3) {
+                val directionResult = if (totalStops >= 2) {
                     val waypoints = stops.map { DirectionsApiRequest.Waypoint(it.location) }
                     DirectionsApi.newRequest(getGeoContext())
                             .mode(TravelMode.DRIVING)
@@ -265,7 +262,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, DirectionStatusListener {
                                     }
                                     statusFragment.updateArrivalTime(totalSeconds.toCompoundDuration())
 
-                                    if (totalSeconds < AppConstants.ONE_MINUTE_MILLIS) {
+                                    if (totalSeconds*1000 < AppConstants.ONE_MINUTE_MILLIS) {
                                         uiThread {
                                             MaterialDialog(requireContext())
                                                     .title(text = "Arrived")

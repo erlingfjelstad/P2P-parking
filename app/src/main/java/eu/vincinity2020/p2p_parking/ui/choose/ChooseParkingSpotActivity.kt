@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import eu.vincinity2020.p2p_parking.R
-import eu.vincinity2020.p2p_parking.ui.book.BookParkingSpotActivity
 import eu.vincinity2020.p2p_parking.app.common.BaseActivity
 import eu.vincinity2020.p2p_parking.data.entities.ParkingSensor
 import eu.vincinity2020.p2p_parking.ui.map.ParkingSpotAdapter
@@ -144,7 +143,5 @@ class ChooseParkingSpotActivity : BaseActivity(), ParkingSpotAdapter.OnParkingSp
     }
 
     override fun onParkingSpotClicked(parkingSensor: ParkingSensor) {
-        val launchIntent = BookParkingSpotActivity.getLaunchIntent(this, parkingSensor, geoPoint)
-        startActivity(launchIntent)
     }
 }

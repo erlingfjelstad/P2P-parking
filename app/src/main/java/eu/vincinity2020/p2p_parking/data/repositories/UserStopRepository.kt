@@ -42,4 +42,10 @@ object UserStopRepository {
 
         }
     }
+
+    fun deleteAll(){
+        doAsync {
+            P2PDatabase.db.userStopDao().deleteAll()
+        }
+    }
 }

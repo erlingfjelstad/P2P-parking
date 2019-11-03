@@ -14,7 +14,6 @@ import eu.vincinity2020.p2p_parking.ui.bookings.ViewBookingsFragment
 import eu.vincinity2020.p2p_parking.ui.map.MapFragment
 import eu.vincinity2020.p2p_parking.ui.mylocations.locationlist.MyLocationListFragment
 import eu.vincinity2020.p2p_parking.ui.profile.view.ViewProfileFragment
-import eu.vincinity2020.p2p_parking.ui.trip.TripFragment
 import eu.vincinity2020.p2p_parking.ui.vehicle.vehiclelist.VehicleListFragment
 import eu.vincinity2020.p2p_parking.utils.AndroidUtils
 import kotlinx.android.synthetic.main.activity_navigation.*
@@ -72,7 +71,7 @@ class NavigationActivity : BaseActivity(), NavigationView.OnNavigationItemSelect
                     MapFragment()
                 }
                 TRIP_FRAGMENT -> {
-                    TripFragment()
+                    MapFragment()
                 }
                 LOCATION_LIST_FRAGMENT -> {
                     MyLocationListFragment()

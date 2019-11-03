@@ -5,9 +5,7 @@ import dagger.Component
 import eu.vincinity2020.p2p_parking.app.network.NetworkModule
 import eu.vincinity2020.p2p_parking.ui.auth.login.LoginComponent
 import eu.vincinity2020.p2p_parking.ui.auth.registeruser.RegisterUserComponent
-import eu.vincinity2020.p2p_parking.ui.book.BookParkingSpotComponent
 import eu.vincinity2020.p2p_parking.ui.bookings.ViewBookingComponent
-import eu.vincinity2020.p2p_parking.ui.car.MyCarsComponent
 import eu.vincinity2020.p2p_parking.ui.map.MapComponent
 import eu.vincinity2020.p2p_parking.ui.mylocations.addlocation.AddLocationComponent
 import eu.vincinity2020.p2p_parking.ui.mylocations.locationlist.MyLocationListComponent
@@ -22,15 +20,12 @@ import eu.vincinity2020.p2p_parking.ui.profile.edituser.fragments.info.InfoCompo
 import eu.vincinity2020.p2p_parking.ui.profile.edituser.fragments.role.RoleComponent
 import eu.vincinity2020.p2p_parking.ui.profile.view.ViewProfileComponent
 import eu.vincinity2020.p2p_parking.ui.search.SearchComponent
-import eu.vincinity2020.p2p_parking.ui.trip.TripComponent
 import eu.vincinity2020.p2p_parking.ui.vehicle.addvehicle.AddVehicleComponent
 import eu.vincinity2020.p2p_parking.ui.vehicle.vehiclelist.VehicleListComponent
 
-@Component(modules = [AppModule::class, DbModule::class, NetworkModule::class])
+@Component(modules = [AppModule::class, NetworkModule::class])
 interface AppComponent/*: AndroidInjector<App>*/ {
     fun context(): Context
-
-    fun dbModule(): DbModule
 
     fun loginComponentBuilder(): LoginComponent.Builder
 
@@ -50,9 +45,6 @@ interface AppComponent/*: AndroidInjector<App>*/ {
 
     fun searchComponentBuilder(): SearchComponent.Builder
 
-    fun myCarsComponentBuilder(): MyCarsComponent.Builder
-
-    fun bookParkingSpotComponentBuilder(): BookParkingSpotComponent.Builder
 
     fun viewBookingsComponentBuilder(): ViewBookingComponent.Builder
 
@@ -60,9 +52,6 @@ interface AppComponent/*: AndroidInjector<App>*/ {
     fun addVehicleComponentBuilder(): AddVehicleComponent.Builder
 
     fun viewVehiclesComponentBuilder(): VehicleListComponent.Builder
-
-
-    fun tripComponentBuilder(): TripComponent.Builder
 
 
     fun myLocationListComponentBuilder(): MyLocationListComponent.Builder

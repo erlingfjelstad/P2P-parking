@@ -5,10 +5,10 @@ import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatDelegate
+import com.crashlytics.android.Crashlytics
 import com.google.gson.Gson
 import eu.vincinity2020.p2p_parking.app.common.AppConstants
 import eu.vincinity2020.p2p_parking.data.entities.User
-import com.crashlytics.android.Crashlytics
 import io.fabric.sdk.android.Fabric
 
 
@@ -41,7 +41,6 @@ class App : Application() {
 
         appComponent = DaggerAppComponent.builder()
                 .appModule(AppModule(this))
-                .dbModule(DbModule(this, "db.sqlite"))
                 .build()
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)

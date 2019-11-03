@@ -23,12 +23,6 @@ class AppModule(application: Application) {
 
     @ApplicationScope
     @Provides
-    fun providesDbModule(): DbModule {
-        return DbModule(context, App.DB_NAME)
-    }
-
-    @ApplicationScope
-    @Provides
     fun providesNetworkModule(): NetworkModule {
         return NetworkModule()
     }
