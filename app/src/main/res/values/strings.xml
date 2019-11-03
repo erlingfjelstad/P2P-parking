@@ -173,6 +173,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search">Search</string>
     <string name="current_location">Current Location</string>
+    <string name="route_updated_prompt">Your driving route has been updated from the web panel, would you like to apply the new addresses?</string>
     <string-array name="genders">
         <item>Male</item>
         <item>Female</item>
@@ -197,5 +198,11 @@
         <item>Role</item>
         <item>Body</item>
         <item>Info</item>
+    </string-array>
+
+    <string-array name="logs_titles">
+        <item>Visits</item>
+        <item>Parking sites</item>
+        <item>Cost</item>
     </string-array>
 </resources>

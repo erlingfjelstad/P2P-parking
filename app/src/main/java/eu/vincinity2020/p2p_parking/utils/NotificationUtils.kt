@@ -1,6 +1,7 @@
 package eu.vincinity2020.p2p_parking.utils
 
 import eu.vincinity2020.p2p_parking.data.entities.eventbus.FirstResponderAlert
+import eu.vincinity2020.p2p_parking.data.entities.eventbus.RouteUpdateAlert
 import org.greenrobot.eventbus.EventBus
 
 object NotificationUtils {
@@ -15,6 +16,10 @@ object NotificationUtils {
             }
 
         }
+    }
+
+    fun onRouteUpdateAlertReceived(alert: String) {
+        EventBus.getDefault().postSticky(RouteUpdateAlert(alert))
     }
 
     fun getFirstResponderAlertFromMessage(message: String?): FirstResponderAlert? {

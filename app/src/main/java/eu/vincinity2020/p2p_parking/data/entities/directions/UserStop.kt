@@ -1,13 +1,15 @@
 package eu.vincinity2020.p2p_parking.data.entities.directions
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.maps.model.LatLng
 
-
+@Entity
 data class UserStop(
         val name: String = "",
-        val location: LatLng,
-        val isStopDone:Boolean = false
+        @PrimaryKey val location: LatLng,
+        var isStopDone:Boolean = false
 ){
-    lateinit var eta: String
-    lateinit var distance:String
+    var eta: String? = null
+    var distance:String? = null
 }

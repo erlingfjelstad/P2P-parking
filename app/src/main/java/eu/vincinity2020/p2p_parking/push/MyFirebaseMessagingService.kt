@@ -41,7 +41,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         // and data payloads are treated as notification messages. The Firebase console always sends notification
         // messages. For more see: https://firebase.google.com/docs/cloud-messaging/concept-options
         // [END_EXCLUDE]
-        // TODO(developer): Handle FCM messages here.
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
         Log.d(TAG, "From: ${remoteMessage?.from}")
         // Check if message contains a data payload.
@@ -59,7 +58,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
 
-        if(remoteMessage?.data?.get("message")?.contains("location") == true){
+        if (remoteMessage?.data?.get("message")?.contains("location") == true) {
             NotificationUtils.onFirstResponderNotificationReceived(remoteMessage.data["message"])
         }
     }
@@ -96,32 +95,38 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
      * @param messageBody FCM message body received.
      */
     private fun sendNotification(messageTitle: String?, messageBody: String?, firstResponderAlert: FirstResponderAlert?) {
+        if(messageBody?.contains("route_updated") == true){
+            NotificationUtils.onRouteUpdateAlertReceived(messageBody)
+            return
+        }
+        var pendingIntent: PendingIntent? = null
         if (isLoggedIn() && firstResponderAlert != null) {
             saveFirstResponderData(firstResponderAlert)
             val intent = Intent(this, DashboardActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
-            val pendingIntent = PendingIntent.getActivity(this, Random().nextInt(10000 + 1) /* Request code */, intent,
+            pendingIntent = PendingIntent.getActivity(this, Random().nextInt(10000 + 1) /* Request code */, intent,
                     PendingIntent.FLAG_ONE_SHOT)
-            val channelId = getString(R.string.default_notification_channel_id)
-            val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-            val notificationBuilder = NotificationCompat.Builder(this, channelId)
-                    .setSmallIcon(R.drawable.ic_stat_ic_notification)
-                    .setContentTitle(getString(R.string.fcm_message))
-                    .setContentText(messageBody)
-                    .setAutoCancel(true)
-                    .setSound(defaultSoundUri)
-                    .setContentIntent(pendingIntent)
-            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            // Since android Oreo notification channel is needed.
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val channel = NotificationChannel(channelId,
-                        "P2P Parking",
-                        NotificationManager.IMPORTANCE_DEFAULT)
-                notificationManager.createNotificationChannel(channel)
-            }
-            notificationManager.notify(0 /* ID of notification */, notificationBuilder.build())
-
         }
+        val channelId = getString(R.string.default_notification_channel_id)
+        val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        val notificationBuilder = NotificationCompat.Builder(this, channelId)
+                .setSmallIcon(R.drawable.ic_logo_p2p)
+                .setContentTitle(getString(R.string.fcm_message))
+                .setContentText(messageBody)
+                .setAutoCancel(true)
+                .setSound(defaultSoundUri)
+        if (pendingIntent != null) {
+            notificationBuilder.setContentIntent(pendingIntent)
+        }
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        // Since android Oreo notification channel is needed.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(channelId,
+                    "P2P Parking",
+                    NotificationManager.IMPORTANCE_DEFAULT)
+            notificationManager.createNotificationChannel(channel)
+        }
+        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build())
     }
 
 

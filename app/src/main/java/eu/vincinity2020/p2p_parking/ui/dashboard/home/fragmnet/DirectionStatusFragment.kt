@@ -107,6 +107,7 @@ class DirectionStatusFragment : Fragment() {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe{isViewCreated ->
                             if(isViewCreated){
+                                crdCloseStatus.show()
                                 crdCloseStatus.setOnClickListener{
                                     listener.onCloseDirections()
                                 }

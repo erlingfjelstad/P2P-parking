@@ -33,7 +33,7 @@ class ProgressFragment : Fragment() {
     companion object {
         fun newInstance(stops: ArrayList<UserStop>, listener: ProgressListener): ProgressFragment {
             val fragment = ProgressFragment()
-            stops.removeAll { it.name == "Current Location" }
+            stops.removeAll { it.name.equals("Current Location", true) || it.name.equals("My location", true) }
             fragment.userStops = stops
             fragment.setListener(listener)
             return fragment

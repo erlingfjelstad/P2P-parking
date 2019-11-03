@@ -6,6 +6,9 @@ import eu.vincinity2020.p2p_parking.data.entities.directions.UserStop
 
 class AppConstants {
     companion object {
+        const val ONE_SECOND_MILLIS = 1000L
+        const val ONE_MINUTE_MILLIS = 60 * ONE_SECOND_MILLIS
+
         const val SHARED_PREFS = "sharedPrefs"
         const val USER_LOGGED_IN = "userLoggedIn"
         const val FCM_TOKEN = "fcmToken"
@@ -26,6 +29,7 @@ class AppConstants {
         const val NAV_EDIT_PROFILE = "Edit Profile"
         const val NAV_VEHICLE_LIST = "Vehicles"
         const val NAV_MY_PLACES = "My Places"
+        const val NAV_LOGS = "Logs"
         const val NAV_LOGOUT = "Logout"
 
         val registerNavigationItems = arrayListOf(
@@ -41,8 +45,8 @@ class AppConstants {
                 Pair(NAV_EDIT_PROFILE, R.drawable.ic_profile_outline),
                 Pair(NAV_VEHICLE_LIST, R.drawable.ic_car),
                 Pair("Show alert", R.drawable.ic_warning),
-                Pair("Routing sample", R.drawable.ic_map_white),
                 Pair("Timer", R.drawable.ic_timer),
+                Pair(NAV_LOGS, R.drawable.ic_timer),
                 Pair(NAV_LOGOUT, R.drawable.ic_logout)
         )
 
@@ -100,4 +104,4 @@ val routingDummyData = arrayListOf<UserStop>(
         UserStop("Skytebanen 11\n" +
                 "4841 Arendal",
                 LatLng(58.461095, 8.7707518))
-        )
+)

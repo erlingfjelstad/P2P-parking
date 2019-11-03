@@ -12,7 +12,6 @@ import eu.vincinity2020.p2p_parking.app.App
 import eu.vincinity2020.p2p_parking.app.common.BaseActivity
 import eu.vincinity2020.p2p_parking.ui.auth.registeruser.RegisterUserActivity
 import eu.vincinity2020.p2p_parking.ui.dashboard.DashboardActivity
-import eu.vincinity2020.p2p_parking.ui.navigation.NavigationActivity
 import eu.vincinity2020.p2p_parking.utils.*
 import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.startActivity
@@ -21,7 +20,7 @@ import javax.inject.Inject
 /**
  * A login screen that offers login via email/password.
  */
-class LoginActivity: BaseActivity(), LoginView {
+class LoginActivity : BaseActivity(), LoginView {
 
     @Inject
     lateinit var presenter: LoginPresenter
@@ -54,6 +53,7 @@ class LoginActivity: BaseActivity(), LoginView {
         frlRegisterNewUser.setOnClickListener {
             launchRegisterUserActivity()
         }
+        edtUsername_login.setText(App.get(this).getUser()?.email ?: "")
     }
 
     private fun isInputValid(): Boolean {

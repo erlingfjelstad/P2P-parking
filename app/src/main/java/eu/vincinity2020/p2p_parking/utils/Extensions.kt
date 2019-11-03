@@ -381,7 +381,7 @@ fun FragmentManager.addFragmentIfNotAlreadyAdded(
         fragment: Fragment
 ) {
     val currentFragment = findFragmentById(container)
-    if (currentFragment == null || currentFragment::class.java.name != fragment::class.java.name) {
+    if (currentFragment == null || currentFragment !== fragment) {
         addFragment(container, fragment)
     }
 }
