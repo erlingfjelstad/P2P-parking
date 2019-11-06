@@ -17,7 +17,7 @@ object UserStopRepository {
 
     fun insertUserStop(userStops: ArrayList<UserStop>) {
         doAsync {
-            //P2PDatabase.db.userStopDao().deleteAll()
+            P2PDatabase.db.userStopDao().deleteAll()
             userStops.forEach {
                 P2PDatabase.db.userStopDao().insert(it)
             }

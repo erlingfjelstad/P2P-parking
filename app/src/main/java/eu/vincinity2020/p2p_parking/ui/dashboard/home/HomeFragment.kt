@@ -38,10 +38,7 @@ import eu.vincinity2020.p2p_parking.ui.dashboard.home.fragmnet.DirectionStatusFr
 import eu.vincinity2020.p2p_parking.ui.dashboard.home.fragmnet.DirectionStatusListener
 import eu.vincinity2020.p2p_parking.utils.*
 import io.nlopez.smartlocation.SmartLocation
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -51,10 +48,10 @@ class HomeFragment : Fragment(), OnMapReadyCallback, DirectionStatusListener {
 
     private var mapInstance: GoogleMap? = null
     private val allDisposables = CompositeDisposable()
-    private var mapReadyObservable = PublishSubject.create<Boolean>()
-    private var shouldShowCurrentLocation = true
-    private var currentLocation: Location? = null
-    private var locationObservable = PublishSubject.create<Location?>()
+    private var currentLocationMarker: Marker? = null
+    private var allMarkers: ArrayList<Marker> = arrayListOf()
+    private var onMapReadyAction: (() -> kotlin.Unit)? = null
+    private var isMapReady = false
 
     private lateinit var listener: HomeListener
 
@@ -67,7 +64,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, DirectionStatusListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         handlePermissions()
-        mapReadyObservable.onNext(false)
     }
 
     private fun handlePermissions() {
@@ -114,31 +110,14 @@ class HomeFragment : Fragment(), OnMapReadyCallback, DirectionStatusListener {
     override fun onMapReady(googleMap: GoogleMap?) {
         if (googleMap != null) {
             mapInstance = googleMap
-            moveCameraToCurrentLocation(googleMap)
-
-        }
-        mapReadyObservable.onNext(true)
-        googleMap?.setOnMapClickListener {
-            UserStopRepository.getBlocking {
-                val x = 1
-            }
+            isMapReady = true
+            onMapReadyAction?.invoke()
         }
     }
 
 
-    private fun moveCameraToCurrentLocation(map: GoogleMap) {
-        SmartLocation.with(context)
-                .location()
-                .oneFix()
-                .start { location ->
-                    currentLocation = location
-                    locationObservable.onNext(location)
-                    if (shouldShowCurrentLocation) {
-                        map.animateCamera(
-                                CameraUpdateFactory.newLatLngZoom(LatLng(location.latitude, location.longitude), 17f)
-                        )
-                    }
-                }
+    private fun moveCameraToLocation(location: LatLng) {
+        mapInstance?.animateCamera(CameraUpdateFactory.newLatLng(location))
     }
 
     private fun animateMarker(marker: Marker, location: Location) {
@@ -166,67 +145,78 @@ class HomeFragment : Fragment(), OnMapReadyCallback, DirectionStatusListener {
     }
 
     private fun showDirectionsOnMap(stops: ArrayList<UserStop>) {
-        mapInstance?.clear()
+        if(stops.isEmpty()){
+            activity?.onBackPressed()
+            return
+        }
         doAsync {
-            val currentLocation = SmartLocation.with(context).location().lastLocation
-            val currentLatLng = currentLocation?.let { com.google.maps.model.LatLng(it.latitude, it.longitude) }
+            SmartLocation.with(context)
+                    .location()
+                    .continuous()
+                    .start { currentLocation ->
+                        mapInstance?.clear()
+                        currentLocationMarker = null
+                        val currentLatLng = currentLocation?.let { com.google.maps.model.LatLng(it.latitude, it.longitude) }
 
-            if (currentLatLng != null) {
-                val totalStops = stops.size
+                        if (currentLatLng != null) {
+                            val totalStops = stops.size
 
-                val directionResult = if (totalStops >= 2) {
-                    val waypoints = stops.map { DirectionsApiRequest.Waypoint(it.location) }
-                    DirectionsApi.newRequest(getGeoContext())
-                            .mode(TravelMode.DRIVING)
-                            .origin(currentLatLng)
-                            .waypoints(*(waypoints.toTypedArray()))
-                            .destination(stops.last().location)
-                            .units(Unit.METRIC)
-                            .await()
-                } else {
-                    DirectionsApi.newRequest(getGeoContext())
-                            .mode(TravelMode.DRIVING)
-                            .origin(currentLatLng)
-                            .destination(stops.last().location)
-                            .units(Unit.METRIC)
-                            .await()
-                }
+                            val directionResult = if (totalStops >= 2) {
+                                val waypoints = stops.map { DirectionsApiRequest.Waypoint(it.location) }
+                                DirectionsApi.newRequest(getGeoContext())
+                                        .mode(TravelMode.DRIVING)
+                                        .origin(currentLatLng)
+                                        .waypoints(*(waypoints.toTypedArray()))
+                                        .destination(stops.lastOrNull()?.location)
+                                        .units(Unit.METRIC)
+                                        .await()
+                            } else {
+                                DirectionsApi.newRequest(getGeoContext())
+                                        .mode(TravelMode.DRIVING)
+                                        .origin(currentLatLng)
+                                        .destination(stops.lastOrNull()?.location)
+                                        .units(Unit.METRIC)
+                                        .await()
+                            }
 
 
-                if (directionResult?.routes?.isEmpty() == true) {
-                    return@doAsync
-                }
-                val cameraUpdateFactory = if (stops.size > 2) {
-                    val path = stops.subList(0, 2).map { LatLng(it.location.lat, it.location.lng) }.toMutableList()
-                    path.add(0, LatLng(currentLatLng.lat, currentLatLng.lng))
-                    CameraUpdateFactory.newLatLngBounds(getLatLngBounds(path), 40.px)
+                            if (directionResult?.routes?.isEmpty() == true) {
+                                activity?.onBackPressed()
+                                return@start
+                            }
+                            val cameraUpdateFactory = if (stops.size > 2) {
+                                val path = stops.subList(0, 2).map { LatLng(it.location.lat, it.location.lng) }.toMutableList()
+                                path.add(0, LatLng(currentLatLng.lat, currentLatLng.lng))
+                                CameraUpdateFactory.newLatLngBounds(getLatLngBounds(path), 40.px)
 
-                } else {
-                    val path = stops.map { LatLng(it.location.lat, it.location.lng) }.toMutableList()
-                    path.add(0, LatLng(currentLatLng.lat, currentLatLng.lng))
-                    CameraUpdateFactory.newLatLngBounds(getLatLngBounds(path), 100.px)
-                }
-                val decodedPath = PolyUtil.decode(directionResult?.routes?.get(0)?.overviewPolyline?.encodedPath)
-                uiThread {
-                    mapInstance?.addPolyline(PolylineOptions().color(Color.BLUE).addAll(decodedPath))
-                    mapInstance?.animateCamera(cameraUpdateFactory, 1000, null)
-                    addStopMarkersOnMap(stops)
-                    //show directions in progress ui
-                    val statusFragment = DirectionStatusFragment(this@HomeFragment)
-                    childFragmentManager.addFragmentIfNotAlreadyAdded(R.id.frlStatusContainerHome, statusFragment)
+                            } else {
+                                val path = stops.map { LatLng(it.location.lat, it.location.lng) }.toMutableList()
+                                path.add(0, LatLng(currentLatLng.lat, currentLatLng.lng))
+                                CameraUpdateFactory.newLatLngBounds(getLatLngBounds(path), 100.px)
+                            }
+                            val decodedPath = PolyUtil.decode(directionResult?.routes?.get(0)?.overviewPolyline?.encodedPath)
+                            uiThread {
+                                mapInstance?.addPolyline(PolylineOptions().color(Color.BLUE).addAll(decodedPath))
+                                mapInstance?.animateCamera(cameraUpdateFactory, 1000, null)
+                                addStopMarkersOnMap(stops)
+                                //show directions in progress ui
+                                val statusFragment = DirectionStatusFragment(this@HomeFragment)
+                                childFragmentManager.addFragmentIfNotAlreadyAdded(R.id.frlStatusContainerHome, statusFragment)
 
-                    var totalSeconds: Long = 0
-                    directionResult?.routes?.get(0)?.legs?.forEach {
-                        totalSeconds += it.duration.inSeconds
+                                var totalSeconds: Long = 0
+                                directionResult?.routes?.get(0)?.legs?.forEach {
+                                    totalSeconds += it.duration.inSeconds
+                                }
+                                statusFragment.updateArrivalTime(totalSeconds.toCompoundDuration())
+                                statusFragment.showDirectionsButton(stops)
+                                statusFragment.showTimerButton()
+                                statusFragment.showCloseButton()
+
+                                updateMarker(currentLocation)
+                                updateEta(currentLocation)
+                            }
+                        }
                     }
-                    statusFragment.updateArrivalTime(totalSeconds.toCompoundDuration())
-                    statusFragment.showDirectionsButton(stops)
-                    statusFragment.showTimerButton()
-                    statusFragment.showCloseButton()
-
-                    startMyLocationUpdateMonitoring()
-                }
-            }
         }
     }
 
@@ -235,8 +225,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback, DirectionStatusListener {
                 .location()
                 .continuous()
                 .start { location ->
-                    updateMarker(location)
-                    updateEta(location)
+
+                    //moveCameraToLocation(LatLng(location.latitude, location.longitude))
                 }
     }
 
@@ -244,71 +234,98 @@ class HomeFragment : Fragment(), OnMapReadyCallback, DirectionStatusListener {
         allDisposables.addAll(
                 UserStopRepository.getAllUserStops()
                         .subscribe { currentStops ->
-                            val statusFragment = childFragmentManager.findFragmentById(R.id.frlStatusContainerHome)
-                            if (currentStops != null && statusFragment != null && statusFragment is DirectionStatusFragment) {
-                                doAsync {
-                                    val waypoints = currentStops.map { DirectionsApiRequest.Waypoint(it.location) }
-                                    val directionResult = DirectionsApi.newRequest(getGeoContext())
-                                            .mode(TravelMode.DRIVING)
-                                            .origin(com.google.maps.model.LatLng(location.latitude, location.longitude))
-                                            .waypoints(*(waypoints).toTypedArray())
-                                            .destination(currentStops.last().location)
-                                            .units(Unit.METRIC)
-                                            .await()
+                            if (currentStops.isNotEmpty()) {
+                                val statusFragment = childFragmentManager.findFragmentById(R.id.frlStatusContainerHome)
+                                if (currentStops != null && statusFragment != null && statusFragment is DirectionStatusFragment) {
+                                    doAsync {
+                                        val nextStop = currentStops.find { !it.isStopDone }
+                                        val directionResult = DirectionsApi.newRequest(getGeoContext())
+                                                .mode(TravelMode.DRIVING)
+                                                .origin(com.google.maps.model.LatLng(location.latitude, location.longitude))
+                                                .destination(nextStop?.location)
+                                                .units(Unit.METRIC)
+                                                .await()
 
-                                    var totalSeconds: Long = 0
-                                    directionResult?.routes?.get(0)?.legs?.forEach {
-                                        totalSeconds += it.duration.inSeconds
-                                    }
-                                    statusFragment.updateArrivalTime(totalSeconds.toCompoundDuration())
-
-                                    if (totalSeconds*1000 < AppConstants.ONE_MINUTE_MILLIS) {
+                                        var totalSeconds: Long = 0
+                                        directionResult?.routes?.get(0)?.legs?.forEach {
+                                            totalSeconds += it.duration.inSeconds
+                                        }
+                                        statusFragment.showNextStop(nextStop?.name)
+                                        statusFragment.updateArrivalTime(totalSeconds.toCompoundDuration())
                                         uiThread {
-                                            MaterialDialog(requireContext())
-                                                    .title(text = "Arrived")
-                                                    .message(text = "Do you wanna mark the current stop as done?")
-                                                    .positiveButton(text = "Yes", click = {
-                                                        val userStop = currentStops[currentStops.indexOfFirst { stop -> !stop.isStopDone }]
-                                                        userStop.isStopDone = true
-                                                        UserStopRepository.updateUserStop(userStop)
-                                                        it.dismiss()
-                                                    })
-                                                    .negativeButton(text = "No", click = {
-                                                        it.dismiss()
-                                                    })
-                                                    .show()
+                                            removeDoneStopMarkers(currentStops)
+                                        }
+
+                                        if (totalSeconds * 1000 < AppConstants.ONE_MINUTE_MILLIS) {
+                                            uiThread {
+                                                MaterialDialog(requireContext())
+                                                        .title(text = "Arrived")
+                                                        .message(text = "Do you wanna mark the current stop as done?")
+                                                        .positiveButton(text = "Yes", click = {
+                                                            val userStop = currentStops[currentStops.indexOfFirst { stop -> !stop.isStopDone }]
+                                                            userStop.isStopDone = true
+                                                            UserStopRepository.updateUserStop(userStop)
+                                                            it.dismiss()
+                                                        })
+                                                        .negativeButton(text = "No", click = {
+                                                            it.dismiss()
+                                                        })
+                                                        .show()
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
+
+
         )
     }
 
     private fun updateMarker(location: Location) {
-        val marker = mapInstance?.addMarker(
-                MarkerOptions()
-                        .flat(true)
-                        .icon(BitmapDescriptorFactory.fromBitmap(getBitmapFromVectorDrawable(requireContext(), R.drawable.ic_map_car)))
-                        .anchor(0.5f, 0.5f)
-                        .position(LatLng(location.latitude, location.longitude))
-        )
-        marker?.let { animateMarker(it, location) }
+        if (currentLocationMarker != null) {
+            currentLocationMarker?.position = LatLng(location.latitude, location.longitude)
+            currentLocationMarker?.let { animateMarker(it, location) }
+        } else {
+            currentLocationMarker = mapInstance?.addMarker(
+                    MarkerOptions()
+                            .flat(true)
+                            .icon(BitmapDescriptorFactory.fromBitmap(getBitmapFromVectorDrawable(requireContext(), R.drawable.ic_map_car)))
+                            .anchor(0.5f, 0.5f)
+                            .position(LatLng(location.latitude, location.longitude))
+            )
+            currentLocationMarker?.let { animateMarker(it, location) }
+        }
     }
 
     private fun addStopMarkersOnMap(stops: List<UserStop>) {
         stops.forEachIndexed { index, userStop ->
-            val icon = if (index == 0) {
-                context?.let { context -> getBitmapFromVectorDrawable(context, R.drawable.ic_marker) }
-            } else {
-                context?.let { context -> getBitmapFromVectorDrawable(context, R.drawable.ic_marker_red) }
+            if (!userStop.isStopDone) {
+                val icon = if (index == 0) {
+                    context?.let { context -> getBitmapFromVectorDrawable(context, R.drawable.ic_marker) }
+                } else {
+                    context?.let { context -> getBitmapFromVectorDrawable(context, R.drawable.ic_marker_red) }
+                }
+                mapInstance?.addMarker(
+                        MarkerOptions()
+                                .position(LatLng(userStop.location.lat, userStop.location.lng))
+                                .title(userStop.name)
+                                .icon(BitmapDescriptorFactory.fromBitmap(icon))
+                ).also {
+                    if (it != null) {
+                        allMarkers.add(it)
+                    }
+                }
             }
-            mapInstance?.addMarker(
-                    MarkerOptions()
-                            .position(LatLng(userStop.location.lat, userStop.location.lng))
-                            .title(userStop.name)
-                            .icon(BitmapDescriptorFactory.fromBitmap(icon))
-            )
+        }
+    }
+
+    private fun removeDoneStopMarkers(stops: ArrayList<UserStop>?) {
+        stops?.forEach { stop ->
+            if (stop.isStopDone) {
+                val marker = allMarkers.find { it.title == stop.name }
+                marker?.remove()
+            }
         }
     }
 
@@ -321,58 +338,35 @@ class HomeFragment : Fragment(), OnMapReadyCallback, DirectionStatusListener {
     }
 
     fun showDestinations(places: ArrayList<UserStop>) {
-        refreshStateObservables()
-        shouldShowCurrentLocation = false
-        allDisposables.add(
-                mapReadyObservable.subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe { isMapReady ->
-                            val location = SmartLocation.with(context).location().lastLocation
-                            if (isMapReady && location != null) {
-                                places.add(0, UserStop("My location", com.google.maps.model.LatLng(location.latitude, location.longitude), true))
-                                initViewSwitcher(places)
-                                addStopMarkersOnMap(places)
-                                startMyLocationUpdateMonitoring()
-                                val cameraUpdateFactory = CameraUpdateFactory.newLatLngBounds(getLatLngBounds(places.map { LatLng(it.location.lat, it.location.lng) }), 20.px)
-                                mapInstance?.stopAnimation()
-                                mapInstance?.animateCamera(cameraUpdateFactory, 1000, null)
-                            }
-                        }
-        )
-    }
+        SmartLocation.with(context)
+                .location()
+                .continuous()
+                .start { location ->
+                    if (isMapReady && location != null) {
+                        places.add(0, UserStop("My location", com.google.maps.model.LatLng(location.latitude, location.longitude), true))
+                        initViewSwitcher(places)
+                        addStopMarkersOnMap(places)
+                        updateMarker(location)
+                        updateEta(location)
+                        val cameraUpdateFactory = CameraUpdateFactory.newLatLngBounds(getLatLngBounds(places.map { LatLng(it.location.lat, it.location.lng) }), 20.px)
+                        mapInstance?.stopAnimation()
+                        mapInstance?.animateCamera(cameraUpdateFactory, 1000, null)
+                    }
+                }
 
-    private fun refreshStateObservables() {
-        mapReadyObservable = PublishSubject.create()
-        locationObservable = PublishSubject.create()
     }
 
     fun showRoute() {
-        allDisposables.addAll(
-                UserStopRepository.getAllUserStops()
-                        .subscribe {
-                            refreshStateObservables()
-                            shouldShowCurrentLocation = false
-                            allDisposables.add(
-                                    mapReadyObservable.subscribeOn(Schedulers.io())
-                                            .observeOn(AndroidSchedulers.mainThread())
-                                            .subscribe { isMapReady ->
-                                                if (isMapReady) {
-                                                    allDisposables.add(
-                                                            locationObservable.subscribeOn(Schedulers.io())
-                                                                    .observeOn(AndroidSchedulers.mainThread())
-                                                                    .subscribe { currentLocation ->
-                                                                        if (currentLocation != null) {
-                                                                            initViewSwitcher(it)
-                                                                            mapInstance?.stopAnimation()
-                                                                            showDirectionsOnMap(it)
-                                                                        }
-                                                                    }
-                                                    )
-                                                }
-                                            }
-                            )
-                        }
-        )
+        if (isMapReady) {
+            allDisposables.add(
+                    UserStopRepository.getAllUserStops()
+                            .subscribe {
+                                initViewSwitcher(it)
+                                mapInstance?.stopAnimation()
+                                showDirectionsOnMap(ArrayList(it.filter { stop -> !stop.isStopDone }))
+                            }
+            )
+        }
     }
 
     private fun initViewSwitcher(places: ArrayList<UserStop>) {
@@ -389,6 +383,10 @@ class HomeFragment : Fragment(), OnMapReadyCallback, DirectionStatusListener {
         this.listener = listener
     }
 
+    fun setOnMapReadyAction(action: () -> kotlin.Unit) {
+        onMapReadyAction = action
+    }
+
     override fun onCloseDirections() {
         activity?.onBackPressed()
     }
@@ -402,10 +400,15 @@ class HomeFragment : Fragment(), OnMapReadyCallback, DirectionStatusListener {
 
     override fun onDestroy() {
         super.onDestroy()
-        SmartLocation.with(context)
+        /*SmartLocation.with(context)
                 .location()
-                .stop()
-        shouldShowCurrentLocation = true
+                .stop()*/
+        isMapReady = false
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        allDisposables.clear()
     }
 
 }

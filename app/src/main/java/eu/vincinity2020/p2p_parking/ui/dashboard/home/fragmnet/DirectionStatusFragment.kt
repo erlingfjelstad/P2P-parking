@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.afollestad.materialdialogs.MaterialDialog
 import eu.vincinity2020.p2p_parking.R
 import eu.vincinity2020.p2p_parking.data.entities.directions.UserStop
 import eu.vincinity2020.p2p_parking.data.repositories.UserStopRepository
@@ -18,6 +19,8 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.layout_pre_parking_status.*
+import org.jetbrains.anko.runOnUiThread
+import org.jetbrains.anko.support.v4.runOnUiThread
 
 
 /**
@@ -53,19 +56,27 @@ class DirectionStatusFragment : Fragment() {
     }
 
     private fun initViews() {
-
+        showNextStopDoneButton()
     }
 
     fun updateArrivalTime(duration: String) {
-        allDisposables.add(
-                onViewCreatedObservable.subscribeOn(Schedulers.computation())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe { isViewCreated ->
-                            if (isViewCreated) {
-                                txtMinuteArrivalETA?.text = duration
+        if (isAdded) {
+            runOnUiThread {
+                txtMinuteArrivalETA?.text = duration
+            }
+        } else {
+            allDisposables.add(
+                    onViewCreatedObservable.subscribeOn(Schedulers.computation())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe { isViewCreated ->
+                                if (isViewCreated) {
+                                    runOnUiThread {
+                                        txtMinuteArrivalETA?.text = duration
+                                    }
+                                }
                             }
-                        }
-        )
+            )
+        }
     }
 
     fun showTimerButton() {
@@ -75,7 +86,7 @@ class DirectionStatusFragment : Fragment() {
                         .subscribe { isViewCreated ->
                             if (isViewCreated) {
                                 crdTimerStatus.show()
-                                crdTimerStatus.setOnClickListener{
+                                crdTimerStatus.setOnClickListener {
                                     TimerDialog(requireContext()).show()
                                 }
                             }
@@ -102,16 +113,54 @@ class DirectionStatusFragment : Fragment() {
         )
     }
 
-    fun showCloseButton(){
+    fun showCloseButton() {
         allDisposables.add(
                 onViewCreatedObservable.subscribeOn(Schedulers.computation())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe{isViewCreated ->
-                            if(isViewCreated){
+                        .subscribe { isViewCreated ->
+                            if (isViewCreated) {
                                 crdCloseStatus.show()
-                                crdCloseStatus.setOnClickListener{
-                                    listener.onCloseDirections()
-                                    UserStopRepository.deleteAll()
+                                crdCloseStatus.setOnClickListener {
+                                    MaterialDialog(requireContext()).show {
+                                        title(text = "Close directions")
+                                        message(text = "Are you sure you want to close directions?")
+                                        positiveButton(text = "Yes", click = {
+                                            listener.onCloseDirections()
+                                            UserStopRepository.deleteAll()
+                                        })
+                                        negativeButton(text = "No", click = {
+                                            dismiss()
+                                        })
+                                    }
+                                }
+                            }
+                        }
+        )
+    }
+
+    fun showNextStopDoneButton() {
+        allDisposables.addAll(
+                UserStopRepository.getAllUserStops()
+                        .subscribe { stops ->
+                            crdMarkNextStopDone.show()
+                            crdMarkNextStopDone.setOnClickListener {
+                                MaterialDialog(requireContext()).show {
+                                    title(text = "Mark stop done")
+                                    message(text = "Are you sure you want to mark the next stop as done?")
+                                    positiveButton(text = "Yes", click = {
+
+                                        val nextStop = stops.find { !it.isStopDone }
+                                        if (nextStop != null) {
+                                            nextStop.isStopDone = true
+                                            UserStopRepository.updateUserStop(nextStop)
+                                        } else {
+                                            listener.onCloseDirections()
+                                            UserStopRepository.deleteAll()
+                                        }
+                                    })
+                                    negativeButton(text = "No", click = {
+                                        dismiss()
+                                    })
                                 }
                             }
                         }
@@ -123,8 +172,16 @@ class DirectionStatusFragment : Fragment() {
         allDisposables.dispose()
     }
 
+    fun showNextStop(name: String?) {
+        if (name != null) {
+            context?.runOnUiThread {
+                txtNextStopStatus.text = "Next stop: ${name.substringBefore(',')}"
+            }
+        }
+    }
+
 }
 
-interface DirectionStatusListener{
+interface DirectionStatusListener {
     fun onCloseDirections()
 }

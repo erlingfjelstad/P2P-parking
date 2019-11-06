@@ -18,6 +18,9 @@ class AppConstants {
         const val IsLoggedOut = "loggedOut"
         const val DB_NAME = "p2p_parking.db"
 
+        const val INTENT_FLAG_SHOW_DESTINATIONS = "intent_flag_show_destinations"
+        const val INTENT_FLAG_SHOW_ROUTES = "intent_flag_show_routes"
+
         const val PREF_FR_ALERT = "pref_fr_alert"
 
         const val SEARCHACTIVITYCODE = 1001

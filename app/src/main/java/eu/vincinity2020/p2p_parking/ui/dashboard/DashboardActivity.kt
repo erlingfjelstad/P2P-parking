@@ -163,21 +163,27 @@ class DashboardActivity : AppCompatActivity(), StartPageListener, PlacesListList
     override fun onSetDestination(places: List<UserStop>) {
         homeFragment.setListener(this)
         supportFragmentManager.replaceFragmentIfNotAlreadyVisible(R.id.frlFragmentContainerDashboard, homeFragment, true)
-        homeFragment.showDestinations(ArrayList(places))
+        homeFragment.setOnMapReadyAction {
+            homeFragment.showDestinations(ArrayList(places))
+        }
     }
 
     override fun onShowRoute(places: List<UserStop>) {
         homeFragment.setListener(this)
         supportFragmentManager.replaceFragmentIfNotAlreadyVisible(R.id.frlFragmentContainerDashboard, homeFragment, true)
         UserStopRepository.insertUserStop(ArrayList(places))
-        homeFragment.showRoute()
+        homeFragment.setOnMapReadyAction {
+            homeFragment.showRoute()
+        }
     }
 
     override fun onMapViewSelected(places: List<UserStop>) {
         homeFragment.setListener(this)
         supportFragmentManager.replaceFragmentIfNotAlreadyVisible(R.id.frlFragmentContainerDashboard, homeFragment)
         UserStopRepository.insertUserStop(ArrayList(places))
-        homeFragment.showRoute()
+        homeFragment.setOnMapReadyAction {
+            homeFragment.showRoute()
+        }
     }
 
     override fun onListViewSelected(places: List<UserStop>) {
@@ -218,7 +224,9 @@ class DashboardActivity : AppCompatActivity(), StartPageListener, PlacesListList
         supportFragmentManager.replaceFragmentIfNotAlreadyVisible(R.id.frlFragmentContainerDashboard, homeFragment)
         val alertDialog = FirstResponderAlertDialog(this, alert) {
             UserStopRepository.insertUserStop(arrayListOf(UserStop(alert.locationName, LatLng(alert.lat, alert.long))))
-            homeFragment.showRoute()
+            homeFragment.setOnMapReadyAction {
+                homeFragment.showRoute()
+            }
         }
         alertDialog.show()
     }

@@ -9,13 +9,13 @@
         android:id="@+id/crdTimerStatus"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="16dp"
         android:visibility="gone"
-        tools:visibility="visible"
         app:cardBackgroundColor="@color/colorNavDrawerBackground"
         app:layout_constraintBottom_toBottomOf="@+id/crdDirectionStatus"
         app:layout_constraintEnd_toStartOf="@+id/crdDirectionStatus"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="match_parent"
@@ -41,6 +41,22 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/crdMarkNextStopDone"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="16dp"
+        app:cardBackgroundColor="@color/colorNavDrawerBackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/ic_done_white"/>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
         android:id="@+id/crdCloseStatus"
         android:layout_width="30dp"
         android:layout_height="30dp"
@@ -48,7 +64,7 @@
         android:visibility="gone"
         tools:visibility="visible"
         app:cardBackgroundColor="@color/colorNavDrawerBackground"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/crdMarkNextStopDone"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -65,6 +81,21 @@
         app:layout_constraintTop_toBottomOf="@+id/crdDirectionStatus"
         tools:layout_editor_absoluteX="0dp">
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtNextStopStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="250dp"
+            app:autoSizeTextType="uniform"
+            android:fontFamily="@font/lato_bold"
+            tools:text="Next stop: Oslo"
+            android:textColor="@color/colorWhite"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/textView8"
             android:layout_width="wrap_content"
@@ -75,23 +106,24 @@
             android:text="Estimated arrival in:"
             android:textColor="@color/colorWhite"
             android:textSize="16sp"
+            android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="@+id/txtMinuteArrivalETA"
             app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtNextStopStatus" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtMinuteArrivalETA"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:maxWidth="120dp"
             android:maxHeight="45dp"
-            app:autoSizeTextType="uniform"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
             android:textColor="@color/colorGrayText"
             android:textSize="30sp"
+            app:autoSizeTextType="uniform"
             app:layout_constraintEnd_toStartOf="@+id/textView9"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtNextStopStatus"
             tools:text="10" />
 
         <TextView
