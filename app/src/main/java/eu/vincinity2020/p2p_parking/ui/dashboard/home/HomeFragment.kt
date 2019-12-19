@@ -10,6 +10,7 @@ import android.os.SystemClock
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.animation.LinearInterpolator
 import androidx.fragment.app.Fragment
 import com.afollestad.materialdialogs.MaterialDialog
@@ -41,6 +42,7 @@ import io.nlopez.smartlocation.SmartLocation
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.support.v4.runOnUiThread
 import org.jetbrains.anko.uiThread
 import java.util.concurrent.TimeUnit
 
@@ -145,78 +147,79 @@ class HomeFragment : Fragment(), OnMapReadyCallback, DirectionStatusListener {
     }
 
     private fun showDirectionsOnMap(stops: ArrayList<UserStop>) {
-        if(stops.isEmpty()){
+        if (stops.isEmpty()) {
             activity?.onBackPressed()
             return
         }
-        doAsync {
-            SmartLocation.with(context)
-                    .location()
-                    .continuous()
-                    .start { currentLocation ->
-                        mapInstance?.clear()
-                        currentLocationMarker = null
-                        val currentLatLng = currentLocation?.let { com.google.maps.model.LatLng(it.latitude, it.longitude) }
+        mapInstance?.clear()
+        doAsync({
+            runOnUiThread {
+                P2PDialog.errorDialog(requireContext(), it.message?:it.localizedMessage).show()
+            }
+        }) {
+            val currentLocation = SmartLocation.with(requireContext()).location().lastLocation
+            currentLocationMarker = null
+            val currentLatLng = currentLocation?.let { com.google.maps.model.LatLng(it.latitude, it.longitude) }
 
-                        if (currentLatLng != null) {
-                            val totalStops = stops.size
+            if (currentLatLng != null) {
+                val totalStops = stops.size
 
-                            val directionResult = if (totalStops >= 2) {
-                                val waypoints = stops.map { DirectionsApiRequest.Waypoint(it.location) }
-                                DirectionsApi.newRequest(getGeoContext())
-                                        .mode(TravelMode.DRIVING)
-                                        .origin(currentLatLng)
-                                        .waypoints(*(waypoints.toTypedArray()))
-                                        .destination(stops.lastOrNull()?.location)
-                                        .units(Unit.METRIC)
-                                        .await()
-                            } else {
-                                DirectionsApi.newRequest(getGeoContext())
-                                        .mode(TravelMode.DRIVING)
-                                        .origin(currentLatLng)
-                                        .destination(stops.lastOrNull()?.location)
-                                        .units(Unit.METRIC)
-                                        .await()
-                            }
+                val directionResult = if (totalStops >= 2) {
+                    val waypoints = stops.map { DirectionsApiRequest.Waypoint(it.location) }
+                    DirectionsApi.newRequest(getGeoContext())
+                            .mode(TravelMode.DRIVING)
+                            .origin(currentLatLng)
+                            .waypoints(*(waypoints.toTypedArray()))
+                            .destination(stops.lastOrNull()?.location)
+                            .units(Unit.METRIC)
+                            .await()
+                } else {
+                    DirectionsApi.newRequest(getGeoContext())
+                            .mode(TravelMode.DRIVING)
+                            .origin(currentLatLng)
+                            .destination(stops.lastOrNull()?.location)
+                            .units(Unit.METRIC)
+                            .await()
+                }
 
 
-                            if (directionResult?.routes?.isEmpty() == true) {
-                                activity?.onBackPressed()
-                                return@start
-                            }
-                            val cameraUpdateFactory = if (stops.size > 2) {
-                                val path = stops.subList(0, 2).map { LatLng(it.location.lat, it.location.lng) }.toMutableList()
-                                path.add(0, LatLng(currentLatLng.lat, currentLatLng.lng))
-                                CameraUpdateFactory.newLatLngBounds(getLatLngBounds(path), 40.px)
+                if (directionResult?.routes?.isEmpty() == true) {
+                    activity?.onBackPressed()
+                    return@doAsync
+                }
+                val cameraUpdateFactory = if (stops.size > 2) {
+                    val path = stops.subList(0, 2).map { LatLng(it.location.lat, it.location.lng) }.toMutableList()
+                    path.add(0, LatLng(currentLatLng.lat, currentLatLng.lng))
+                    CameraUpdateFactory.newLatLngBounds(getLatLngBounds(path), 40.px)
 
-                            } else {
-                                val path = stops.map { LatLng(it.location.lat, it.location.lng) }.toMutableList()
-                                path.add(0, LatLng(currentLatLng.lat, currentLatLng.lng))
-                                CameraUpdateFactory.newLatLngBounds(getLatLngBounds(path), 100.px)
-                            }
-                            val decodedPath = PolyUtil.decode(directionResult?.routes?.get(0)?.overviewPolyline?.encodedPath)
-                            uiThread {
-                                mapInstance?.addPolyline(PolylineOptions().color(Color.BLUE).addAll(decodedPath))
-                                mapInstance?.animateCamera(cameraUpdateFactory, 1000, null)
-                                addStopMarkersOnMap(stops)
-                                //show directions in progress ui
-                                val statusFragment = DirectionStatusFragment(this@HomeFragment)
-                                childFragmentManager.addFragmentIfNotAlreadyAdded(R.id.frlStatusContainerHome, statusFragment)
+                } else {
+                    val path = stops.map { LatLng(it.location.lat, it.location.lng) }.toMutableList()
+                    path.add(0, LatLng(currentLatLng.lat, currentLatLng.lng))
+                    CameraUpdateFactory.newLatLngBounds(getLatLngBounds(path), 100.px)
+                }
+                val decodedPath = PolyUtil.decode(directionResult?.routes?.get(0)?.overviewPolyline?.encodedPath)
+                uiThread {
+                    mapInstance?.addPolyline(PolylineOptions().color(Color.BLUE).addAll(decodedPath))
+                    mapInstance?.animateCamera(cameraUpdateFactory, 1000, null)
+                    addStopMarkersOnMap(stops)
+                    //show directions in progress ui
+                    val statusFragment = DirectionStatusFragment(this@HomeFragment)
+                    childFragmentManager.addFragmentIfNotAlreadyAdded(R.id.frlStatusContainerHome, statusFragment)
 
-                                var totalSeconds: Long = 0
-                                directionResult?.routes?.get(0)?.legs?.forEach {
-                                    totalSeconds += it.duration.inSeconds
-                                }
-                                statusFragment.updateArrivalTime(totalSeconds.toCompoundDuration())
-                                statusFragment.showDirectionsButton(stops)
-                                statusFragment.showTimerButton()
-                                statusFragment.showCloseButton()
-
-                                updateMarker(currentLocation)
-                                updateEta(currentLocation)
-                            }
-                        }
+                    var totalSeconds: Long = 0
+                    directionResult?.routes?.get(0)?.legs?.forEach {
+                        totalSeconds += it.duration.inSeconds
                     }
+                    statusFragment.updateArrivalTime(totalSeconds.toCompoundDuration())
+                    statusFragment.showDirectionsButton(stops)
+                    statusFragment.showTimerButton()
+                    statusFragment.showCloseButton()
+
+                    updateMarker(currentLocation)
+                    updateEta(currentLocation)
+                    activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+                }
+            }
         }
     }
 
@@ -246,31 +249,34 @@ class HomeFragment : Fragment(), OnMapReadyCallback, DirectionStatusListener {
                                                 .units(Unit.METRIC)
                                                 .await()
 
-                                        var totalSeconds: Long = 0
-                                        directionResult?.routes?.get(0)?.legs?.forEach {
-                                            totalSeconds += it.duration.inSeconds
-                                        }
-                                        statusFragment.showNextStop(nextStop?.name)
-                                        statusFragment.updateArrivalTime(totalSeconds.toCompoundDuration())
-                                        uiThread {
-                                            removeDoneStopMarkers(currentStops)
-                                        }
-
-                                        if (totalSeconds * 1000 < AppConstants.ONE_MINUTE_MILLIS) {
+                                        if (isAdded) {
+                                            var totalSeconds: Long = 0
+                                            directionResult?.routes?.get(0)?.legs?.forEach {
+                                                totalSeconds += it.duration.inSeconds
+                                            }
                                             uiThread {
-                                                MaterialDialog(requireContext())
-                                                        .title(text = "Arrived")
-                                                        .message(text = "Do you wanna mark the current stop as done?")
-                                                        .positiveButton(text = "Yes", click = {
-                                                            val userStop = currentStops[currentStops.indexOfFirst { stop -> !stop.isStopDone }]
-                                                            userStop.isStopDone = true
-                                                            UserStopRepository.updateUserStop(userStop)
-                                                            it.dismiss()
-                                                        })
-                                                        .negativeButton(text = "No", click = {
-                                                            it.dismiss()
-                                                        })
-                                                        .show()
+                                                removeDoneStopMarkers(currentStops)
+                                                txtNextStopHome?.text = nextStop?.name ?: ""
+                                                statusFragment.showNextStop(nextStop?.name)
+                                                statusFragment.updateArrivalTime(totalSeconds.toCompoundDuration())
+                                            }
+
+                                            if (totalSeconds * 1000 < AppConstants.ONE_MINUTE_MILLIS) {
+                                                uiThread {
+                                                    MaterialDialog(requireContext())
+                                                            .title(text = "Arrived")
+                                                            .message(text = "Do you wanna mark the current stop as done?")
+                                                            .positiveButton(text = "Yes", click = {
+                                                                val userStop = currentStops[currentStops.indexOfFirst { stop -> !stop.isStopDone }]
+                                                                userStop.isStopDone = true
+                                                                UserStopRepository.updateUserStop(userStop)
+                                                                it.dismiss()
+                                                            })
+                                                            .negativeButton(text = "No", click = {
+                                                                it.dismiss()
+                                                            })
+                                                            .show()
+                                                }
                                             }
                                         }
                                     }
@@ -361,7 +367,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, DirectionStatusListener {
             allDisposables.add(
                     UserStopRepository.getAllUserStops()
                             .subscribe {
-                                initViewSwitcher(it)
+                                initViewSwitcher(ArrayList(it.filter { stop -> !stop.isStopDone }))
                                 mapInstance?.stopAnimation()
                                 showDirectionsOnMap(ArrayList(it.filter { stop -> !stop.isStopDone }))
                             }

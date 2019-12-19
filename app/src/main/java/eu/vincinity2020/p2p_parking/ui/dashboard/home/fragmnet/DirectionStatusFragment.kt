@@ -9,11 +9,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.afollestad.materialdialogs.MaterialDialog
+import com.google.maps.model.LatLng
 import eu.vincinity2020.p2p_parking.R
 import eu.vincinity2020.p2p_parking.data.entities.directions.UserStop
 import eu.vincinity2020.p2p_parking.data.repositories.UserStopRepository
 import eu.vincinity2020.p2p_parking.ui.customviews.dialog.timer.TimerDialog
+import eu.vincinity2020.p2p_parking.utils.P2PDialog
+import eu.vincinity2020.p2p_parking.utils.getDirectionsUrl
 import eu.vincinity2020.p2p_parking.utils.show
+import io.nlopez.smartlocation.SmartLocation
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -102,11 +106,18 @@ class DirectionStatusFragment : Fragment() {
                             if (isViewCreated) {
                                 crdDirectionStatus.show()
                                 crdDirectionStatus.setOnClickListener {
-                                    val locations = stops.map { it.location }
-                                    val gmmIntentUri = Uri.parse("google.navigation:q=${locations[1].lat},${locations[1].lng}")
-                                    val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-                                    mapIntent.setPackage("com.google.android.apps.maps")
-                                    startActivity(mapIntent)
+                                    val lastLocation = SmartLocation.with(requireContext()).location().lastLocation
+                                    if (lastLocation != null) {
+                                        stops.add(0, UserStop("Current location", LatLng(lastLocation.latitude, lastLocation.longitude)))
+                                        val locations = stops.map { it.location }
+                                        val mapsIntentUri = Uri.parse(locations.getDirectionsUrl())
+                                        val mapIntent = Intent(Intent.ACTION_VIEW, mapsIntentUri)
+                                        mapIntent.setPackage("com.google.android.apps.maps")
+                                        startActivity(mapIntent)
+                                    }else{
+                                        P2PDialog.errorDialog(requireContext(), "Could not find last location, please turn on location services").show()
+                                    }
+
                                 }
                             }
                         }
@@ -165,6 +176,11 @@ class DirectionStatusFragment : Fragment() {
                             }
                         }
         )
+    }
+
+    override fun onStop() {
+        super.onStop()
+        allDisposables.clear()
     }
 
     override fun onDestroy() {

@@ -9,6 +9,7 @@ import eu.vincinity2020.p2p_parking.ui.bookings.ViewBookingComponent
 import eu.vincinity2020.p2p_parking.ui.map.MapComponent
 import eu.vincinity2020.p2p_parking.ui.mylocations.addlocation.AddLocationComponent
 import eu.vincinity2020.p2p_parking.ui.mylocations.locationlist.MyLocationListComponent
+import eu.vincinity2020.p2p_parking.ui.parking.SelectParkingComponet
 import eu.vincinity2020.p2p_parking.ui.places.addplaces.AddPlacesComponent
 import eu.vincinity2020.p2p_parking.ui.places.listplaces.PlacesListComponent
 import eu.vincinity2020.p2p_parking.ui.profile.edit.part1.EditProfile1Component
@@ -61,6 +62,8 @@ interface AppComponent/*: AndroidInjector<App>*/ {
     fun myPlacesComponentBuilder(): AddPlacesComponent.Builder
 
     fun placeListComponentBuilder(): PlacesListComponent.Builder
+
+    fun selectParkingSpotComponentBuilder(): SelectParkingComponet.Builder
 
     fun roleComponentBuilder(): RoleComponent.Builder
 

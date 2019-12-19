@@ -1,14 +1,17 @@
 package eu.vincinity2020.p2p_parking.ui.places.listplaces
 
+import android.location.Location
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import eu.vincinity2020.p2p_parking.R
+import eu.vincinity2020.p2p_parking.app.App
 import eu.vincinity2020.p2p_parking.data.entities.locations.PlaceRequest
 import eu.vincinity2020.p2p_parking.utils.gone
 import eu.vincinity2020.p2p_parking.utils.show
+import io.nlopez.smartlocation.SmartLocation
 import kotlinx.android.synthetic.main.item_layout_place_list.view.*
 
 class PlacesListAdapter(private val dataSource: ArrayList<PlaceRequest>,
@@ -18,9 +21,15 @@ class PlacesListAdapter(private val dataSource: ArrayList<PlaceRequest>,
     val selectedPlaces = arrayListOf<Int>()
     var isEditing = false
     var shouldHideProgressBars = false
+    var currentLocation: Location? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlacesListViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_layout_place_list, parent, false)
+        SmartLocation.with(parent.context)
+                .location()
+                .start { location ->
+                    currentLocation = location
+                }
         return PlacesListViewHolder(view)
     }
 
@@ -90,7 +99,16 @@ class PlacesListAdapter(private val dataSource: ArrayList<PlaceRequest>,
     }
 
     fun getSelectedPlaceObjects(): List<PlaceRequest> {
-        return selectedPlaces.map { dataSource[it] }
+        val selectedPlaceObjects = selectedPlaces.map { dataSource[it] }
+        if(currentLocation == null){
+            currentLocation = SmartLocation.with(App.applicationContext()).location().lastLocation
+        }
+        return selectedPlaceObjects.sortedBy {
+            val location = Location(it.description)
+            location.latitude = it.lat
+            location.longitude = it.long
+            currentLocation?.distanceTo(location)
+        }
     }
 
     inner class PlacesListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)

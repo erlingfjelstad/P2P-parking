@@ -63,6 +63,6 @@ class AddPlacesPresenter(private val networkService: NetworkService) : AddPlaces
     }
 
     override fun detach() {
-        allDisposables.dispose()
+        allDisposables.clear()
     }
 }

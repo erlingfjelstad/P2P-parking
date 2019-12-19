@@ -40,6 +40,8 @@ import eu.vincinity2020.p2p_parking.ui.dashboard.home.HomeFragment
 import eu.vincinity2020.p2p_parking.ui.dashboard.home.HomeListener
 import eu.vincinity2020.p2p_parking.ui.logs.LogsFragment
 import eu.vincinity2020.p2p_parking.ui.logs.LogsListener
+import eu.vincinity2020.p2p_parking.ui.parking.SelectParkingSpotListener
+import eu.vincinity2020.p2p_parking.ui.parking.SelectParkingSpotsFragment
 import eu.vincinity2020.p2p_parking.ui.places.addplaces.AddPlacesFragment
 import eu.vincinity2020.p2p_parking.ui.places.listplaces.PlacesListFragment
 import eu.vincinity2020.p2p_parking.ui.places.listplaces.PlacesListListener
@@ -51,6 +53,8 @@ import eu.vincinity2020.p2p_parking.ui.startpage.StartPageFragment
 import eu.vincinity2020.p2p_parking.ui.startpage.StartPageListener
 import eu.vincinity2020.p2p_parking.ui.vehiclelist.VehicleListFragment
 import eu.vincinity2020.p2p_parking.utils.*
+import io.nlopez.smartlocation.SmartLocation
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import kotlinx.android.synthetic.main.layout_dashboard.*
 import org.greenrobot.eventbus.EventBus
@@ -60,10 +64,11 @@ import org.jetbrains.anko.toast
 
 @SuppressLint("WrongConstant")
 class DashboardActivity : AppCompatActivity(), StartPageListener, PlacesListListener,
-        ProgressListener, HomeListener, EditFinishListener, LogsListener {
+        ProgressListener, HomeListener, EditFinishListener, LogsListener, SelectParkingSpotListener {
 
     private val homeFragment by lazy { HomeFragment() }
     private val startPageFragment by lazy { StartPageFragment() }
+    private val allDisposables = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,8 +90,35 @@ class DashboardActivity : AppCompatActivity(), StartPageListener, PlacesListList
         }
 
         checkForFirstResponderAlerts()
+        checkForIncompleteRoutes()
         txtVersionDashboard.text = "v${BuildConfig.VERSION_NAME}"
 
+    }
+
+    private fun checkForIncompleteRoutes() {
+        UserStopRepository.getBlocking { stops ->
+            runOnUiThread {
+                if (stops.isNotEmpty() && stops.any { !it.isStopDone }) {
+                    homeFragment.setListener(this)
+                    homeFragment.setOnMapReadyAction {
+                        homeFragment.showRoute()
+                    }
+
+                    supportFragmentManager.beginTransaction()
+                            .add(R.id.frlFragmentContainerDashboard, PlacesListFragment.newInstance(this))
+                            .addToBackStack(null)
+                            .commit()
+
+                    Handler().postDelayed({
+                        supportFragmentManager.beginTransaction()
+                                .add(R.id.frlFragmentContainerDashboard, homeFragment)
+                                .addToBackStack(null)
+                                .commit()
+                    }, 100)
+
+                }
+            }
+        }
     }
 
     private fun checkForFirstResponderAlerts() {
@@ -166,6 +198,16 @@ class DashboardActivity : AppCompatActivity(), StartPageListener, PlacesListList
         homeFragment.setOnMapReadyAction {
             homeFragment.showDestinations(ArrayList(places))
         }
+    }
+
+    override fun onShowParkingSpot(place: UserStop) {
+        supportFragmentManager.popBackStack()
+        supportFragmentManager.replaceFragmentIfNotAlreadyVisible(R.id.frlFragmentContainerDashboard, SelectParkingSpotsFragment.newInstance(this, place), true)
+    }
+
+    override fun onParkingSpotSelected(location: UserStop) {
+        supportFragmentManager.popBackStack()
+        onShowRoute(listOf(location))
     }
 
     override fun onShowRoute(places: List<UserStop>) {
@@ -255,7 +297,9 @@ class DashboardActivity : AppCompatActivity(), StartPageListener, PlacesListList
                 ).withListener(object : MultiplePermissionsListener {
                     override fun onPermissionsChecked(report: MultiplePermissionsReport) {
                         if (report.areAllPermissionsGranted()) {
+                            SmartLocation.with(this@DashboardActivity).location().oneFix().start {
 
+                            }
                         } else {
                             handlePermissions()
                         }
@@ -291,7 +335,14 @@ class DashboardActivity : AppCompatActivity(), StartPageListener, PlacesListList
     override fun onStop() {
         super.onStop()
         EventBus.getDefault().unregister(this);
+        allDisposables.clear()
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        SmartLocation.with(this).location().stop()
+    }
+
 }
 
 

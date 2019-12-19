@@ -87,17 +87,19 @@ class ProgressFragment : Fragment() {
                     .units(Unit.METRIC)
                     .await()
 
-            val stopEtas = directionResults?.routes?.get(0)?.legs?.map { it.duration.humanReadable }
-            val stopDistances = directionResults?.routes?.get(0)?.legs?.map { it.distance.humanReadable }
-            userStops.forEachIndexed { index, userStop ->
-                userStop.eta = stopEtas?.getOrNull(index) ?: "-"
-                userStop.distance = stopDistances?.getOrNull(index) ?: "-"
-            }
+            if (isAdded) {
+                val stopEtas = directionResults?.routes?.get(0)?.legs?.map { it.duration.humanReadable }
+                val stopDistances = directionResults?.routes?.get(0)?.legs?.map { it.distance.humanReadable }
+                userStops.forEachIndexed { index, userStop ->
+                    userStop.eta = stopEtas?.getOrNull(index) ?: "-"
+                    userStop.distance = stopDistances?.getOrNull(index) ?: "-"
+                }
 
-            uiThread {
-                hideProgress()
-                txtNextStopProgress.text = userStops.first { !it.isStopDone }.name
-                initStops(userStops)
+                uiThread {
+                    hideProgress()
+                    txtNextStopProgress?.text = userStops.first { !it.isStopDone }.name
+                    initStops(userStops)
+                }
             }
         }
 
@@ -118,14 +120,18 @@ class ProgressFragment : Fragment() {
             .build()
 
     private fun showProgress() {
-        runOnUiThread {
-            pbProgress?.show()
+        if (isAdded) {
+            runOnUiThread {
+                pbProgress?.show()
+            }
         }
     }
 
     private fun hideProgress() {
-        runOnUiThread {
-            pbProgress?.gone()
+        if (isAdded) {
+            runOnUiThread {
+                pbProgress?.gone()
+            }
         }
     }
 

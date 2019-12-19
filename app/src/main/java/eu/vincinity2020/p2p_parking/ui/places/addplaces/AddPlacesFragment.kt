@@ -75,14 +75,14 @@ class AddPlacesFragment : Fragment(), FragmentOnBackInterface, AddPlacesContract
                         .debounce(500, TimeUnit.MILLISECONDS)
                         .subscribe { searchQuery ->
                             val country = if (BuildConfig.DEBUG) {
-                                "CA"
+                                "NO"
                             } else {
                                 "NO"
                             }
                             val autoCompleteSessionToken = AutocompleteSessionToken.newInstance()
                             val predictionsRequest = FindAutocompletePredictionsRequest.builder()
                                     .setCountry(country)
-                                    .setTypeFilter(TypeFilter.ADDRESS)
+                                    .setTypeFilter(TypeFilter.ESTABLISHMENT)
                                     .setSessionToken(autoCompleteSessionToken)
                                     .setQuery(searchQuery)
                                     .build()

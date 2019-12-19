@@ -7,6 +7,7 @@ import eu.vincinity2020.p2p_parking.data.entities.RegisterRequest
 import eu.vincinity2020.p2p_parking.data.entities.SaveFcmTokenRequest
 import eu.vincinity2020.p2p_parking.data.entities.locations.PlaceRequest
 import eu.vincinity2020.p2p_parking.data.entities.locations.PlacesResponse
+import eu.vincinity2020.p2p_parking.data.entities.parking.ParkingSpotResponse
 import eu.vincinity2020.p2p_parking.data.entities.user.EditUserRequest
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -100,5 +101,9 @@ interface NetworkService {
     @POST("/vehicle/addNewVehicle")
     fun saveNewVehicle(@Header("Authorization") basicAuth: String, @Body vehicleObject: JsonObject): Observable<JsonObject>
 
-
+    @Headers("ContainType: application/json")
+    @GET("/booking/getNearByParkingSensor")
+    fun getParkingSpots(@Query("lat") lat: Double,
+                        @Query("lng") lng:Double,
+                        @Query("limit") limit:Int = 25): Observable<ParkingSpotResponse>
 }

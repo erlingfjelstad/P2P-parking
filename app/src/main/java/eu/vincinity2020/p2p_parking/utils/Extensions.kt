@@ -28,6 +28,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import com.google.maps.model.LatLng
 import eu.vincinity2020.p2p_parking.R
 import eu.vincinity2020.p2p_parking.app.App
 import retrofit2.HttpException
@@ -151,7 +152,7 @@ fun String.isValidMobile(): Boolean {
 val EditText.value get() = text.toString()
 
 
-fun <T: Any> T.TAG() = this::class.java.simpleName
+fun <T : Any> T.TAG() = this::class.java.simpleName
 
 
 fun String.ellipsize(at: Int): String {
@@ -586,34 +587,51 @@ fun Context.hideKeyboard(view: View) {
 fun Long.toCompoundDuration(): String {
     if (this < 0L) return "" // task doesn't ask for negative integers to be converted
     if (this == 0L) return "0 seconds"
-    val weeks  : Long
-    val days   : Long
-    val hours  : Long
+    val weeks: Long
+    val days: Long
+    val hours: Long
     val minutes: Long
     val seconds: Long
     var divisor: Long = 7 * 24 * 60 * 60
-    var rem    : Long
+    var rem: Long
     var result = ""
 
     weeks = this / divisor
-    rem   = this % divisor
+    rem = this % divisor
     divisor /= 7
-    days  = rem / divisor
-    rem  %= divisor
+    days = rem / divisor
+    rem %= divisor
     divisor /= 24
     hours = rem / divisor
-    rem  %= divisor
+    rem %= divisor
     divisor /= 60
     minutes = rem / divisor
     seconds = rem % divisor
 
-    if (weeks > 0)   result += "$weeks weeks, "
-    if (days > 0)    result += "$days days, "
-    if (hours > 0)   result += "$hours hours, "
+    if (weeks > 0) result += "$weeks weeks, "
+    if (days > 0) result += "$days days, "
+    if (hours > 0) result += "$hours hours, "
     if (minutes > 0) result += "$minutes minutes, "
     if (seconds > 0)
         result += "$seconds sec"
     else
         result = result.substring(0, result.length - 2)
     return result
+}
+
+fun List<LatLng>.getDirectionsUrl(): String {
+    val directionsUrl = StringBuilder("")
+    if (size > 1) {
+        directionsUrl.append("https://www.google.com/maps?")
+        forEachIndexed { index, latLng ->
+            when (index) {
+                0 -> directionsUrl.append("saddr=${latLng.lat},${latLng.lng}")
+                1 -> directionsUrl.append("&daddr=${latLng.lat},${latLng.lng}")
+                else -> {
+                    directionsUrl.append("+to:${latLng.lat},${latLng.lng}")
+                }
+            }
+        }
+    }
+    return directionsUrl.toString()
 }

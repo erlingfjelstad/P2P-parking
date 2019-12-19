@@ -78,7 +78,8 @@ class PlacesListFragment : Fragment(), PlacesListContract.View {
                         .subscribe {
                             val adapter = revPlacesList.adapter as PlacesListAdapter?
                             if (adapter != null) {
-                                listener?.onShowRoute(adapter.getSelectedPlaceObjects().map { UserStop(it.description, LatLng(it.lat, it.long)) })
+                                showAvailableParkingSpots(adapter.getSelectedPlaceObjects()[0])
+                                //listener?.onShowRoute(adapter.getSelectedPlaceObjects().map { UserStop(it.description, LatLng(it.lat, it.long)) })
                             }
                         },
                 btnEditPlaces.clicks()
@@ -88,6 +89,10 @@ class PlacesListFragment : Fragment(), PlacesListContract.View {
                             adapter?.toggleEditing()
                         }
         )
+    }
+
+    private fun showAvailableParkingSpots(placeRequest: PlaceRequest) {
+        listener?.onShowParkingSpot(UserStop(placeRequest.description, LatLng(placeRequest.lat, placeRequest.long)))
     }
 
     override fun handleFetchPlacesSuccess(places: ArrayList<PlaceRequest>) {
@@ -134,4 +139,6 @@ interface PlacesListListener {
     fun onSetDestination(places: List<UserStop>)
 
     fun onShowRoute(places: List<UserStop>)
+
+    fun onShowParkingSpot(place:UserStop)
 }
