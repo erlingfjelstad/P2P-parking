@@ -41,25 +41,20 @@ class SelectParkingSpotsFragment : Fragment(), SelectParkingContract.View, OnMap
     private lateinit var parkingSpots: ArrayList<ParkingSpot>
     private lateinit var listener: SelectParkingSpotListener
     private var allMarkers: ArrayList<Marker> = arrayListOf()
+    private var placeQueryIndex = 0
 
 
     companion object {
-        fun newInstance(listener: SelectParkingSpotListener, location: UserStop): SelectParkingSpotsFragment {
+        fun newInstance(listener: SelectParkingSpotListener, places: List<UserStop>): SelectParkingSpotsFragment {
             val fragment = SelectParkingSpotsFragment()
             fragment.attachListener(listener)
             val args = Bundle()
-            args.putDouble(INTENT_KEY_LAT, location.location.lat)
-            args.putDouble(INTENT_KEY_LNG, location.location.lng)
-            //args.putDouble(INTENT_KEY_LAT, 69.641738)
-            //args.putDouble(INTENT_KEY_LNG, 18.942624)
-            args.putString(INTENT_KEY_DESCRIPTION, location.name)
+            args.putParcelableArray(INTENT_KEY_PLACES, places.toTypedArray())
             fragment.arguments = args
             return fragment
         }
 
-        const val INTENT_KEY_LAT = "intent_key_lat"
-        const val INTENT_KEY_LNG = "intent_key_lng"
-        const val INTENT_KEY_DESCRIPTION = "intent_key_description"
+        const val INTENT_KEY_PLACES = "intent_key_places"
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -114,10 +109,9 @@ class SelectParkingSpotsFragment : Fragment(), SelectParkingContract.View, OnMap
     override fun onMapReady(googleMap: GoogleMap?) {
         if (googleMap != null) {
             mapInstance = googleMap
-            val lat = arguments?.getDouble(INTENT_KEY_LAT)
-            val lng = arguments?.getDouble(INTENT_KEY_LNG)
-            if (lat != null && lng != null) {
-                presenter.getParkingSpots(this, LatLng(lat, lng))
+            val places = arguments?.getParcelableArray(INTENT_KEY_PLACES) as Array<UserStop>?
+            if (places != null) {
+                presenter.getParkingSpots(this, places[placeQueryIndex].location)
             }
             googleMap.setOnMarkerClickListener { marker ->
                 selectedMarkerLocation = LatLng(marker.position.latitude, marker.position.longitude)
@@ -129,14 +123,20 @@ class SelectParkingSpotsFragment : Fragment(), SelectParkingContract.View, OnMap
     }
 
     private fun navigateTo(position: LatLng?) {
-        val name = arguments?.getString(INTENT_KEY_DESCRIPTION)
-        if (name != null && position != null) {
-            listener.onParkingSpotSelected(UserStop(name, position))
+        val places = arguments?.getParcelableArray(INTENT_KEY_PLACES) as Array<UserStop>?
+        if (places != null) {
+            if (placeQueryIndex <= places.lastIndex) {
+                presenter.getParkingSpots(this, places[placeQueryIndex].location)
+            } else {
+                listener.onParkingSpotSelected(places.toList())
+            }
         }
     }
 
     override fun handleGetParkingSuccess(parkingSpots: ArrayList<ParkingSpot>) {
+        placeQueryIndex++
         if (parkingSpots.isNotEmpty()) {
+            mapInstance.clear()
             this.parkingSpots = parkingSpots
             populateListView(parkingSpots)
             populateMapMarkers(parkingSpots)
@@ -146,8 +146,16 @@ class SelectParkingSpotsFragment : Fragment(), SelectParkingContract.View, OnMap
     }
 
     private fun showNoParkingSpotsAvailableDialog() {
-        P2PDialog.infoDialog(requireContext(), "No parking spots available for the selected location") {
-            activity?.onBackPressed()
+        val places = arguments?.getParcelableArray(INTENT_KEY_PLACES) as Array<UserStop>?
+        P2PDialog.infoDialog(requireContext(), "No parking spots available for the selected location: " +
+                (places?.getOrNull(placeQueryIndex - 1)?.name ?: "")) {
+            if (places != null) {
+                if (placeQueryIndex <= places.lastIndex) {
+                    presenter.getParkingSpots(this, places[placeQueryIndex].location)
+                } else {
+                    listener.onParkingSpotSelected(places.toList())
+                }
+            }
         }.apply {
             show()
             cancelable(false)
@@ -214,7 +222,17 @@ class SelectParkingSpotsFragment : Fragment(), SelectParkingContract.View, OnMap
     }
 
     override fun handleGetParkingFailure(e: Throwable) {
-        P2PDialog.errorDialog(requireContext(), e.getErrorMessage()).show()
+        placeQueryIndex++
+        P2PDialog.errorDialog(requireContext(), e.getErrorMessage()) {
+            val places = arguments?.getParcelableArray(INTENT_KEY_PLACES) as Array<UserStop>?
+            if (places != null) {
+                if (placeQueryIndex <= places.lastIndex) {
+                    presenter.getParkingSpots(this, places[placeQueryIndex].location)
+                } else {
+                    listener.onParkingSpotSelected(places.toList())
+                }
+            }
+        }.show()
     }
 
     override fun showProgress() {
@@ -233,5 +251,5 @@ class SelectParkingSpotsFragment : Fragment(), SelectParkingContract.View, OnMap
 }
 
 interface SelectParkingSpotListener {
-    fun onParkingSpotSelected(location: UserStop)
+    fun onParkingSpotSelected(places: List<UserStop>)
 }

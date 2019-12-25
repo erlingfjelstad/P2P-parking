@@ -15,8 +15,8 @@ android {
         applicationId "eu.vincinity2020.p2p_parking"
         minSdkVersion 22
         targetSdkVersion 28
-        versionCode 114
-        versionName "1.14"
+        versionCode 116
+        versionName "1.16"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 

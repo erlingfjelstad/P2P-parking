@@ -200,14 +200,14 @@ class DashboardActivity : AppCompatActivity(), StartPageListener, PlacesListList
         }
     }
 
-    override fun onShowParkingSpot(place: UserStop) {
+    override fun onShowParkingSpot(places: List<UserStop>) {
         supportFragmentManager.popBackStack()
-        supportFragmentManager.replaceFragmentIfNotAlreadyVisible(R.id.frlFragmentContainerDashboard, SelectParkingSpotsFragment.newInstance(this, place), true)
+        supportFragmentManager.replaceFragmentIfNotAlreadyVisible(R.id.frlFragmentContainerDashboard, SelectParkingSpotsFragment.newInstance(this, places), true)
     }
 
-    override fun onParkingSpotSelected(location: UserStop) {
+    override fun onParkingSpotSelected(places: List<UserStop>) {
         supportFragmentManager.popBackStack()
-        onShowRoute(listOf(location))
+        onShowRoute(places)
     }
 
     override fun onShowRoute(places: List<UserStop>) {
